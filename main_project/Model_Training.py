@@ -46,6 +46,7 @@ def FFT_PSD_string_convertor(data):
 def All_is_float(data):
     for i in data:
        print(i[1])
+       print(len(i[0]))
        for j in i[0]:
           if type(j) is not float:
              return False
