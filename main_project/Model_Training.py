@@ -20,6 +20,7 @@ def Initialize():
     return 0
 def FFT_PSD_string_convertor(data):
    data_features=[]
+   k=1
    for i in range(0,len(data)):
      print(f"Pas i={i}")
      converted_data=[[i] for i in data[i] if i!="['-']"]
@@ -30,23 +31,26 @@ def FFT_PSD_string_convertor(data):
           for l in converted_data[j]:
              if l != '[' and l != ']' and l != "'" and l != '"' and l!=' ':
                all_data+=l
-     converted_data=all_data[2:len(all_data)-3].split(",")
+     converted_data=all_data[2:len(all_data)-2].split(",")
      vector=[]
      for j in range(0,len(converted_data)-1):
        try:
         vector.append(float(converted_data[j]))
-       except:
+       except ValueError:
           print("Exceptie")
+          print(converted_data[j])
+          k+=1
      data_features.append([vector,instance])
    print(data_features[1][0])
    print(len(data))
+   print(f"Number of exceptions k={k}")
    return data_features
 
 
 def All_is_float(data):
     for i in data:
-       print(i[1])
-       print(len(i[0]))
+       #print(i[1])
+       #print(len(i[0]))
        for j in i[0]:
           if type(j) is not float:
              return False
