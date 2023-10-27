@@ -44,13 +44,12 @@ def FFT_PSD_string_convertor(data):
 
 
 def All_is_float(data):
-    elemente_nefloat = []
-    for i, rand in enumerate(data):
-        for j, element in enumerate(rand):
-            if not isinstance(element, float):
-                elemente_nefloat.append((i, j, element))
-    print(elemente_nefloat)
-    return True
+    for i in data:
+       print(i[1])
+       for j in i[0]:
+          if type(j) is not float:
+             return False
+    return True          
 def MFCC_string_convertor(data):
   print(data)
 
