@@ -1,0 +1,132 @@
+## O sa am asa  functii de  adaugare sunete eleiminare sunete marire volul scadere volum , extragere a futer pentru o instanat (3 functii)
+import common_library
+class Features_Augmentation:
+    # Constructor care sa contina un obiect de tip Manipulation data_set
+    
+    def read_data(self,vehicle_audio):
+        sample_rate , audio_data=common_library.read(vehicle_audio)
+        audio_data=self.normelized_data(audio_data)
+        return sample_rate,audio_data 
+    
+    def normelized_data(self,data): #Merge
+      if data.shape==(data.shape[0],):
+        max=common_library.np.max(data)
+        data=data/max 
+        return common_library.np.array(data)
+      if data.shape[1]==2:
+        first_channel=[i[0] for i in  data]
+        second_channel=[i[1] for i in  data]
+        first_channel_norm=first_channel/common_library.np.max(common_library.np.abs(first_channel))
+        second_channel_norm=second_channel/common_library.np.max(common_library.np.abs(second_channel))
+        data=(first_channel_norm+second_channel_norm)/2
+        return common_library.np.array(data)
+    def hot_encoding(self,data):
+       only_class={data[i][1][j] for i in range(0,len(data)) for j in range(0,len(data[i][1]))}
+       only_class=list(only_class)
+       only_class_index=[(only_class[i-1],i) for i in range(1,len(only_class)+1)]
+       m=len(only_class_index)
+       only_class_index={ only_class_index[i][0]:only_class_index[i][1] for i in range(0,len(only_class_index))}
+       print(f"Set of classes :{only_class} \n")  
+       print(f"Set of clases whit indexes {only_class_index}\n")
+       new_data=data
+       n=len(data)
+       for i in range(0,n):
+          new_content=[0 for i in range(0,m+1)]
+          for  j  in data[i][1]:
+             print(j)
+             new_content[only_class_index[j]]=1
+             print(f" Value for line {i} is {j}\n")
+          new_data[i][1]=new_content
+       return new_data,only_class_index
+    def DR_MaxInt_Var(self,vehicle_audio):
+      vehicle_audio = common_library.np.abs(vehicle_audio)
+      vehicle_audio = sorted(vehicle_audio)
+      background = common_library.np.mean(vehicle_audio[1:1000])
+      max_intensity = common_library.np.mean(vehicle_audio[-20000:-1])
+      dynamic_range = max_intensity - background
+      variance = common_library.np.var(vehicle_audio)
+      return dynamic_range, max_intensity * 10, variance * 100
+    def FFT_Matrix(self,freq, spectrum):
+        spectrum = common_library.np.abs(spectrum)
+        chunk_spectrum = common_library.np.zeros(25)
+        chunk_matrix = common_library.np.zeros([25, 25])
+        i = 0
+        while i < len(chunk_spectrum):
+            begin_value = i / 50
+            end_value = (i + 1) / 50
+            begin_index = min(range(len(freq)), key=lambda i: abs(freq[i] - begin_value))
+            end_index = min(range(len(freq)), key=lambda i: abs(freq[i] - end_value))
+            sorted_chunk = sorted(spectrum[begin_index:end_index])
+            sorted_chunk = common_library.np.asarray(sorted_chunk)
+            chunk_value = common_library.np.mean(sorted_chunk[-200:-1])
+            chunk_spectrum[i] = chunk_value
+            i += 1
+        for i in range(len(chunk_spectrum)):
+            for j in range(len(chunk_spectrum)):
+                chunk_matrix[i, j] = chunk_spectrum[i] / chunk_spectrum[j]
+        chunk_matrix = chunk_matrix.reshape(25 * 25)
+        return chunk_matrix
+    def padding_data(self,data,max_row,max_colum):
+        ## new matricx
+        new_data=[]
+        if data.shape==(data.shape[0],):
+           print("Vector")
+           new_data=[0 for i in range(0,max_row)]
+           for i in range(0,len(data)):
+               new_data[i]=data[i]
+               
+        else:
+            new_data=[[0 for i in range(0,max_colum)] for j in range(0,max_row)]
+            for i in range(0,len(data)):
+               for j in range(0,len(data[0])):
+                 new_data[i][j]=data[i][j]
+            
+        return common_library.np.array(new_data)
+    def addNoise(self,vehicle_audio, noise_factor):
+        noise = common_library.np.random.randn(len(vehicle_audio))
+        print(noise)
+        augmented_data = vehicle_audio + noise_factor * noise
+        # Cast back to same data type
+        augmented_data = augmented_data.astype(type(vehicle_audio[0]))
+        return augmented_data
+
+
+    def changePitch(self,vehicle_audio,sample_rate,pitch_factor):
+       return common_library.librosa.effects.pitch_shift(vehicle_audio.astype('float'), sr=sample_rate, n_steps=pitch_factor)
+     
+    def MFFC_Features(self,vehicle_audio,sample_rate):
+        mffc=common_library.librosa.feature.mfcc(y=vehicle_audio,sr=sample_rate,n_mfcc=40)
+        mffc=common_library.librosa.util.normalize(mffc,axis=None)
+        print(mffc)
+        return common_library.np.array(mffc)
+    
+    def PSD_Features(self,vehicle_audio,sample_rate):
+        spectrogram=common_library.librosa.feature.melspectrogram(y=vehicle_audio,sr=sample_rate)
+        #print(f" Spectrograma {spectrogram}")
+        PSD1=common_library.np.sum(spectrogram,axis=0)
+        PSD1=self.normelized_data(PSD1)
+        print(PSD1)
+        return common_library.np.array(PSD1)
+    def FFT_Futures(self,vehicle_audio,sample_rate):     # Merge 
+        spect=common_library.np.fft.fft(vehicle_audio, n=sample_rate)
+        freq = common_library.np.abs(common_library.np.fft.fftfreq(len(spect)))
+        print(freq,spect)
+        data=self.FFT_Matrix(freq,spect)
+        return common_library.np.array(data)
+    
+        
+
+
+'''
+example=Features_Augmentation()
+
+root_="./wav_"
+for root,dir,file in common_library.os.walk(root_):
+    for files in file:
+       print(f"File path {root_+'/'+files} and FFT structure:{example.FFT_Futures(root_+'/'+files)}")
+'''
+#File path ./wav_/SUV,Suzuki,good,3.wav   
+#print(example.FFT_Futures("./wav_/SUV,Suzuki,good,3.wav"))     
+    
+
+     
