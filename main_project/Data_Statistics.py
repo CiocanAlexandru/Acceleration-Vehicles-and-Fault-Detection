@@ -6,27 +6,29 @@ import common_library
 
 class Data_Statistic:
     def __init__(self,data=None):
-        self.data=data ## Data Manipulation object 
+        if(data!=None):
+          self.data_frame=data.Get_DataFrame()
+          self.exel=data  ## Data Manipulation object
+        else:
+           print("For models Diagrams") 
     def Number_of_Instance(self,info):
         if (self.data!=None):
-            data=self.data.Get_Instances()
-            k=0
-            for i in range(0,len(data)):
-                for j in data[i]:
-                    if j==info:
-                        k=k+1
-            print("Instances whit number of:",k)
+            print(f" Number of instances {info}= {self.data[info].count()}")
         else:
-            print("Operation not working")
+            print("Operation Not working")
     def Dsitribution_Data_Base(self,info):
         if (self.data!=None):
-            print(common_library.sns.displot(self.data.Get_DataFrame(),x=info))
+            print(common_library.sns.displot(self.data_frame,x=info))
         else:
             print("Operation not working")
-    def Data_Frame_Diagram(self,data_frame,sample_rate):
+    def Data_Frame_Diagram_WAV(self,data_frame,sample_rate):
         if (self.data!=None):
             print(common_library.librosa.waveplot(data_frame,sr=sample_rate))
         else:
             print("Operation not working")
+    def Accuracy_Model(info,Nkfold=False,function_number=False,function=None):
+        return 0
+    def Loss_Digrams(info,Nkfold=False,function_number=False,function=None):
+        return 0
         
 

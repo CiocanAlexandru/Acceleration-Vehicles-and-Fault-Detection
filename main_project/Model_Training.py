@@ -40,19 +40,14 @@ def FFT_PSD_string_convertor(data):
           print("Exceptie")
           print(converted_data[j])
           k+=1
+     vector=header.common_library.np.array(vector)
      data_features.append([vector,instance])
    print(data_features[1][0])
    print(len(data))
    print(f"Number of exceptions k={k}")
+   data_features=header.common_library.np.array(data_features,dtype=object)
    return data_features
-
-
-def All_is_float(data):
-    for i in data:
-       for j in i[0]:
-          if type(j) is not float:
-             return False
-    return True          
+         
 def MFCC_string_convertor(data):
    data_features=[]
    k=1
@@ -78,10 +73,13 @@ def MFCC_string_convertor(data):
               except ValueError:
                  k+=1
                  print("Exception")
-          matrix.append(new_line)  
+          new_line=header.common_library.np.array(new_line)
+          matrix.append(new_line)
+     matrix=header.common_library.np.array(matrix)  
      data_features.append([matrix,instance])
    print(len(data_features))
    print(f"Number of exeception k={k}")
+   data_features=header.common_library.np.array(data_features,dtype=object)
    return data_features
 
 Initialize()
@@ -94,14 +92,12 @@ PSD_ok=input("USE PSD features?(Yes/No)")
 if FFT_ok.lower()=="yes":
     data1=FFT_exel.Get_Instances()
     data=FFT_PSD_string_convertor(data1)
-    print(f"Are all element float ? {All_is_float(data)}")
 elif MFFC_ok.lower()=="yes":
     data1=MFCC_exel.Get_Instances()
     data=MFCC_string_convertor(data1)
 elif PSD_ok.lower()=="yes":
      data1=PSD_exel.Get_Instances()
      data=FFT_PSD_string_convertor(data1)
-     print(f"Are all element float ? {All_is_float(data)}")
 Model_CNN_ok=input("Use CNN model?(Yes/No)")
 Model_SVN_ok=input("Use SVM model?(Yes/No)")
 Model_FCNN_ok=input("USE FCNN model?(Yes/No)")
@@ -112,6 +108,10 @@ elif Model_SVN_ok.lower()=="yes":
    print("Model_SVN")
 elif Model_FCNN_ok.lower()=="yes":
    print("Model_FCNN")
+
+data,class_encoder=Extractor.hot_encoding(data)
+print(len(class_encoder))
+print(class_encoder)
 
 
 
