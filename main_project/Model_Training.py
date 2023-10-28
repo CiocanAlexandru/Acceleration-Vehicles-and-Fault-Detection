@@ -14,7 +14,7 @@ def Initialize():
     data_set=header.Dataset_Function_Manipulation.Manipulation_Data_set("./exel/data_set.xlsx")
     FFT_exel=header.Dataset_Function_Manipulation.Manipulation_Data_set("./exel/FTT.xlsx")
     PSD_exel=header.Dataset_Function_Manipulation.Manipulation_Data_set("./exel/PST.xlsx") 
-    #MFCC_exel=header.Dataset_Function_Manipulation.Manipulation_Data_set("./exel/MFCC.xlsx")
+    MFCC_exel=header.Dataset_Function_Manipulation.Manipulation_Data_set("./exel/MFCC.xlsx")
     Extractor=header.Extract_Features_Augmentation.Features_Augmentation()
     Diagrams_analisys=header.Data_Statistics.Data_Statistic()
     return 0
@@ -49,15 +49,40 @@ def FFT_PSD_string_convertor(data):
 
 def All_is_float(data):
     for i in data:
-       #print(i[1])
-       #print(len(i[0]))
        for j in i[0]:
           if type(j) is not float:
              return False
     return True          
 def MFCC_string_convertor(data):
-  print(data)
-
+   data_features=[]
+   k=1
+   for i in range(0,len(data)):
+     print(f"Pas i={i}")
+     converted_data=[[i] for i in data[i] if i!="['-']"]
+     etichet=converted_data[len(converted_data)-1][0][1:len(converted_data[len(converted_data)-1][0])-1]
+     instance=eval(etichet)
+     print(instance)
+     all_data=""
+     for j in range(0 ,len(converted_data)-1):
+          for l in converted_data[j]:
+             if l != '[' and l != ']' and l != "'" and l != '"' and l!=' ':
+               all_data+=l
+     converted_data=all_data[2:len(all_data)-2].split("|")
+     matrix=[]
+     for j in range (0,len(converted_data)):
+          one_line=converted_data[j].split(",")
+          new_line=[]
+          for l in one_line[0:len(one_line)-1]:
+              try:
+               new_line.append(float(l))
+              except ValueError:
+                 k+=1
+                 print("Exception")
+          matrix.append(new_line)  
+     data_features.append([matrix,instance])
+   print(len(data_features))
+   print(f"Number of exeception k={k}")
+   return data_features
 
 Initialize()
 
