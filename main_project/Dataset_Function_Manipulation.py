@@ -89,7 +89,7 @@ class Manipulation_Data_set:
                  print(f"k={k}")
                  print("---------------")
                  for i in range(k):
-                     new_Info.append([new_form[(max_number_of_caracters*i):(max_number_of_caracters*(i+1)+1)]])
+                     new_Info.append(new_form[(max_number_of_caracters*i):(max_number_of_caracters*(i+1)+1)])
                  if (len(new_Info)-1)<11:
                      for i in range(len(new_Info)-1,9):
                          new_Info.append(['-'])
@@ -111,7 +111,7 @@ class Manipulation_Data_set:
                  else :
                      k=(len(new_form)-1)//max_number_of_caracters+1
                  for i in range(k):
-                     new_Info.append([new_form[(max_number_of_caracters*i):(max_number_of_caracters*(i+1)+1)]])
+                     new_Info.append(new_form[(max_number_of_caracters*i):(max_number_of_caracters*(i+1)+1)])
                  if len(new_Info)-1<101:
                      for i in range(len(new_Info)-1,99):
                          new_Info.append(['-'])
