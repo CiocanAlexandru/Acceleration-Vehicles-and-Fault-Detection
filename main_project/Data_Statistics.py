@@ -26,9 +26,47 @@ class Data_Statistic:
             print(common_library.librosa.waveplot(data_frame,sr=sample_rate))
         else:
             print("Operation not working")
-    def Accuracy_Model(info,Nkfold=False,function_number=False,function=None):
+    def Accuracy_Model(history,function,Nkfold=False,function_number=False):
+      print(function)
+      if Nkfold==False:
+        if function_number==False :
+         common_library.plot.style('seaborn')
+         common_library.plt.plot(history.history['accuracy'])
+         common_library.plt.plot(history.history['val_accuracy'])
+         common_library.plt.title('model accuracy')
+         common_library.plt.ylabel('accuracy')
+         common_library.plt.xlabel('epoch')
+         common_library.plt.legend(['train', 'test'], loc='upper left')
+         common_library.plt.show()
+        else:
+            print("More loss functions")
+            ## Doar digrama de validare
+      else:
+        if function_number==False:
+            print("Only one function for nkfold")
+        else:
+           print("More functionfor nkfold function")
         return 0
-    def Loss_Digrams(info,Nkfold=False,function_number=False,function=None):
+    def Loss_Digrams(history,function,Nkfold=False,function_number=False):
+      print(function)
+      if Nkfold==False:
+        if function_number==False :
+         common_library.plot.style('seaborn')
+         common_library.plt.plot(history.history['loss'])
+         common_library.plt.plot(history.history['val_loss'])
+         common_library.plt.title('model accuracy')
+         common_library.plt.ylabel('accuracy')
+         common_library.plt.xlabel('epoch')
+         common_library.plt.legend(['train', 'test'], loc='upper left')
+         common_library.plt.show()
+        else:
+            print("More loss functions")
+            ## Doar digrama de validare
+      else:
+        if function_number==False:
+            print("Only one function for nkfold")
+        else:
+           print("More functionfor nkfold function")
         return 0
         
 
