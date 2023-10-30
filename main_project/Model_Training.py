@@ -90,23 +90,22 @@ features_extraction_method=''
 if FFT_ok.lower()=="yes":
     data1=FFT_exel.Get_Instances()
     data=FFT_PSD_string_convertor(data1)
-    features_extraction_method.append("FFT features extraction method")
+    features_extraction_method="FFT features extraction method"
 elif MFFC_ok.lower()=="yes":
     data1=MFCC_exel.Get_Instances()
     data=MFCC_string_convertor(data1)
     MFFC_ok="MFFC fueatures extraction method"
-    features_extraction_method.append("MFFC features extraction method")
+    features_extraction_method="MFFC features extraction method"
 elif PSD_ok.lower()=="yes":
      data1=PSD_exel.Get_Instances()
      data=FFT_PSD_string_convertor(data1)
-     features_extraction_method.append("PSD features extraction method")
-features_extraction_method=features_extraction_method[0]
+     features_extraction_method="PSD features extraction method"
+
 Model_CNN_ok=input("Use CNN model?(Yes/No)")
 Model_SVN_ok=input("Use SVM model?(Yes/No)")
 Model_FCNN_ok=input("USE FCNN model?(Yes/No)")
 
 encoded_data,class_index=Extractor.hot_encoding(data)
-
 normal_traing=input("Do you want normal training or nk-fold training?(Yes/No)")
 if normal_traing.lower()=="yes":
    normal_traing=True
@@ -127,7 +126,7 @@ elif Model_FCNN_ok.lower()=="yes":
       Exemplu.Training(number_of_function) 
    else: 
       Exemplu.Nk_Fold_Traning(number_of_function)
-   Exemplu.Test(number_of_function,normal_traing)
+   Exemplu.Test()
    print(f"Model_FCNN whit {features_extraction_method}")
 
 

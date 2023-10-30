@@ -9,46 +9,94 @@ class FCNN:
         self.transformed_labels=common_library.np.array([i[1] for i in  self.encoded_data])
         print("FCNN model initialiezed ")
     def Model(self):
-        self.model = common_library.tf.keras.Sequential([common_library.tf.keras.layers.Flatten(input_shape=(self.features, self.features.shape)),  # Aplatizează intrarea
+        self.model = common_library.tf.keras.Sequential([common_library.tf.keras.layers.Flatten(input_shape=self.features[0].shape),  # Aplatizează intrarea
         common_library.tf.keras.layers.Dense(128, activation='linear'),  # Stratul ascuns cu 128 de neuroni și activare liniară
         common_library.tf.keras.layers.Dense(64, activation='relu'),  # Al doilea strat ascuns cu 64 de neuroni și activare ReLU
         common_library.tf.keras.layers.Dense(len(self.class_index), activation='softmax')])
         return self.model  # Stratul de ieșire cu 3 neuroni și activare Softmax])
     def Training(self,number_loss=False):
         if number_loss==False:
-          self.X_train, self.X_test, self.y_train, self.y_test = common_library.train_test_split(self.features, self.transformed_labels, test_size=0.2, random_state=42)
+          X_train, X_test, y_train, y_test = common_library.train_test_split(self.features, self.transformed_labels, test_size=0.2, random_state=42)
           loss_function='categorical_crossentropy'
           self.model=self.Model()
           self.model.compile(optimizer='adam', loss=loss_function, metrics=['accuracy'])
-          history=self.model.fit(self.X_train, self.y_train, epochs=10, batch_size=32, validation_split=0.2)
+          history=self.model.fit(X_train,y_train, epochs=10, batch_size=32, validation_split=0.2)
+          predictions = self.model.predict(X_test)
+         # Calculați acuratețea modelului
+          self.accuracy = common_library.accuracy_score(common_library.np.argmax(y_test, axis=1), common_library.np.argmax(predictions, axis=1))
           print(history.history.keys())
           self.diagrams.Accuracy_Model(history,loss_function,False,False)
           self.diagrams.Loss_Digrams(history,loss_function,False,False)
         else:
           loss_function=['categorical_crossentropy','binary_crossentropy','sparse_categorical_crossentropy']
-          self.diagrams.Accuracy_Model(history,loss_function,False,True)
-          self.diagrams.Loss_Digrams(history,loss_function,False,True)
+          historys=[]
+          accuracys=[]
+          for i in loss_function:
+             X_train, X_test, y_train, y_test = common_library.train_test_split(self.features, self.transformed_labels, test_size=0.2, random_state=42)
+             loss_function='categorical_crossentropy'
+             self.model=self.Model()
+             self.model.compile(optimizer='adam', loss=i, metrics=['accuracy'])
+             history=self.model.fit(X_train,y_train, epochs=10, batch_size=32, validation_split=0.2)
+             historys.append(history)
+             predictions = self.model.predict(X_test)
+             accuracy = common_library.accuracy_score(common_library.np.argmax(y_test, axis=1), common_library.np.argmax(predictions, axis=1))
+             accuracys.append(accuracy)
+          self.accuracy=common_library.np.mean(accuracys)
+          self.diagrams.Accuracy_Model(historys,loss_function,False,True)
+          self.diagrams.Loss_Digrams(historys,loss_function,False,True)
           print("Training whit more loss functions")
         return 0
     # def Accuracy_Model(history,function,Nkfold=False,function_number=False):
-    def Test(self,number_loss=False,Nk_fold=False):
-     if Nk_fold==False:
-        if (number_loss==False):
-         predictions = self.model.predict(self.X_test)
-         # Calculați acuratețea modelului
-         accuracy = common_library.accuracy_score(common_library.np.argmax(self.y_test, axis=1), common_library.np.argmax(predictions, axis=1))
-         print("Acuratețea modelului neural:", accuracy)
-        else:
-          print("")
-     else:
-        print("")
-        return 0
+    def Test(self):
+         print("Acuratețea modelului neural:", self.accuracy)
+         return 0
     
     def Nk_Fold_Traning(self,number_loss=False):
         if number_loss==False:
-           print("yes")
+            n_splits=10
+            loss_function='categorical_crossentropy'
+            skf = common_library.StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=42)
+            fold_accuracies = []
+            historys=[]
+            models=[]
+            for train_index, val_index in skf.split(self.features, self.transformed_labels):
+              X_train, X_val = self.features[train_index], self.features[val_index]
+              y_train, y_val = self.transformed_labels[train_index], self.transformed_labels[val_index]
+              model = self.Model()
+              loss_function = 'categorical_crossentropy'
+              model.compile(optimizer='adam', loss=loss_function, metrics=['accuracy'])
+              history = model.fit(X_train, y_train, epochs=10, batch_size=32, validation_data=(X_val, y_val))
+              accuracy = model.evaluate(X_val, y_val, verbose=0)[1]
+              fold_accuracies.append(accuracy)
+              historys.append(history)
+              models.append(model)
+            self.accuracy = common_library.np.mean(fold_accuracies)
+            self.diagrams.Accuracy_Model(historys,loss_function,True,True)
+            self.diagrams.Loss_Digrams(historys,loss_function,True,True)
         else:
            loss_function=['categorical_crossentropy','binary_crossentropy','sparse_categorical_crossentropy']
+           n_splits = 10
+           skf = common_library.StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=42)
+           fold_accuracies = []
+           historys = []
+           models = []
+           for loss_function in loss_function:
+             fold_accuracies_for_loss = []
+             historys_for_loss = []
+             for train_index, val_index in skf.split(self.features, self.transformed_labels):
+               X_train, X_val = self.features[train_index], self.features[val_index]
+               y_train, y_val = self.transformed_labels[train_index], self.transformed_labels[val_index]
+
+               model = self.Model()
+               model.compile(optimizer='adam', loss=loss_function, metrics=['accuracy'])
+               history = model.fit(X_train, y_train, epochs=10, batch_size=32, validation_data=(X_val, y_val))
+               accuracy = model.evaluate(X_val, y_val, verbose=0)[1]
+               fold_accuracies_for_loss.append(accuracy)
+               fold_accuracies_for_loss.append(accuracy)
+               historys_for_loss.append(history) 
+           fold_accuracies.append(fold_accuracies_for_loss)
+           historys.append(historys_for_loss)
+           self.accuracy= [common_library.np.mean(accuracies) for accuracies in fold_accuracies]
            print("no")
         return 0
 
