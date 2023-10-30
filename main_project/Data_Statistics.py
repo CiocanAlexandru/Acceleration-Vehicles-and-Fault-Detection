@@ -26,11 +26,11 @@ class Data_Statistic:
             print(common_library.librosa.waveplot(data_frame,sr=sample_rate))
         else:
             print("Operation not working")
-    def Accuracy_Model(history,function,Nkfold=False,function_number=False):
+    def Accuracy_Model(self,history,function,Nkfold=False,function_number=False):
       print(function)
       if Nkfold==False:
         if function_number==False :
-         common_library.plot.style('seaborn')
+         common_library.plt.style.use('seaborn')
          common_library.plt.plot(history.history['accuracy'],label=function)
          common_library.plt.plot(history.history['val_accuracy'],label=function)
          common_library.plt.title('model accuracy normal training')
@@ -40,7 +40,7 @@ class Data_Statistic:
          common_library.plt.show()
         else:
             print("More loss functions")
-            common_library.plot.style('seaborn')
+            common_library.plt.style.use('seaborn')
             k=0
             for i in history:
               common_library.plt.plot(i.history['accuracy'],label=function[k])
@@ -54,7 +54,7 @@ class Data_Statistic:
             ## Doar digrama de validare
       else:
         if function_number==False:
-           common_library.plot.style('seaborn')
+           common_library.plt.style.use('seaborn')
            k=0
            for i in history:
               common_library.plt.plot(i.history['accuracy'],label=function[k])
@@ -67,7 +67,7 @@ class Data_Statistic:
            common_library.plt.show()
         else:
            print("More functionfor nkfold function")
-           common_library.plot.style('seaborn')
+           common_library.plt.style.use('seaborn')
            k=0
            for i in history:
               common_library.plt.plot(i.history['accuracy'],label=function[k])
@@ -79,26 +79,26 @@ class Data_Statistic:
               k+=1
            common_library.plt.show()
         return 0
-    def Loss_Digrams(history,function,Nkfold=False,function_number=False):
+    def Loss_Digrams(self,history,function,Nkfold=False,function_number=False):
       print(function)
       if Nkfold==False:
         if function_number==False :
-         common_library.plot.style('seaborn')
+         common_library.plt.style.use('seaborn')
          common_library.plt.plot(history.history['loss'],label=function)
          common_library.plt.plot(history.history['val_loss'],label=function)
-         common_library.plt.title('model accuracy')
+         common_library.plt.title('model loss')
          common_library.plt.ylabel('loss')
          common_library.plt.xlabel('epoch')
          common_library.plt.legend(['train', 'test'], loc='upper left')
          common_library.plt.show()
         else:
             print("More loss functions")
-            common_library.plot.style('seaborn')
+            common_library.plt.style.use('seaborn')
             k=0
             for i in history:
               common_library.plt.plot(i.history['loss'],label=function[k])
               common_library.plt.plot(i.history['val_loss'],label=function[k])
-              common_library.plt.title('model accuracy normal training')
+              common_library.plt.title('model loss')
               common_library.plt.ylabel('loss')
               common_library.plt.xlabel('epoch')
               common_library.plt.legend(['train', 'test'], loc='upper left')
@@ -107,12 +107,12 @@ class Data_Statistic:
       else:
         if function_number==False:
             print("Only one function for nkfold")
-            common_library.plot.style('seaborn')
+            common_library.plt.style.use('seaborn')
             k=0
             for i in history:
               common_library.plt.plot(i.history['loss'],label=function[k])
               common_library.plt.plot(i.history['val_loss'],label=function[k])
-              common_library.plt.title('model accuracy normal training')
+              common_library.plt.title('model loss')
               common_library.plt.ylabel('loss')
               common_library.plt.xlabel('epoch')
               common_library.plt.legend(['train', 'test'], loc='upper left')
@@ -120,12 +120,12 @@ class Data_Statistic:
             common_library.plt.show()
         else:
            print("More functionfor nkfold function")
-           common_library.plot.style('seaborn')
+           common_library.plt.style.use('seaborn')
            k=0
            for i in history:
               common_library.plt.plot(i.history['loss'],label=function[k])
               common_library.plt.plot(i.history['val_loss'],label=function[k])
-              common_library.plt.title('model accuracy normal training')
+              common_library.plt.title('model loss')
               common_library.plt.ylabel('loss')
               common_library.plt.xlabel('epoch')
               common_library.plt.legend(['train', 'test'], loc='upper left')
