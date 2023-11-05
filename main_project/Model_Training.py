@@ -125,6 +125,12 @@ if number_of_function.lower()=="yes":
 else:
    number_of_function=False
 if Model_CNN_ok.lower()=="yes":
+   Exemplu=header.CNN.CNN(class_index,encoded_data,Diagrams_analisys)
+   if normal_traing==True : 
+      Exemplu.Training(number_of_function) 
+   else: 
+      Exemplu.Nk_Fold_Traning(number_of_function)
+   Exemplu.Test()
    print(f"Model_CNN whit {features_extraction_method}")
 elif Model_SVN_ok.lower()=="yes":
    print(f"Model_SVN whit {features_extraction_method}")
