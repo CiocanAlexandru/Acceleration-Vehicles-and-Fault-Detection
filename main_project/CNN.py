@@ -11,17 +11,33 @@ class CNN:
         print(class_index)
         print("CNN model initialiezed ")
     def Model(self):
-        self.model=common_library.tf.keras.Sequential([
-         common_library.tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=self.features[0].shape),
-        common_library.tf.keras.layers.MaxPooling2D((2, 2)),
-        common_library.tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
-        common_library.tf.keras.layers.MaxPooling2D((2, 2)),
-        common_library.tf.keras.layers.Flatten(),
-        common_library.tf.keras.layers.Dense(64, activation='relu'),
-        common_library.tf.keras.layers.Dense(128, activation='linear'),
-        common_library.tf.keras.layers.Dense(64, activation='relu'),
-         common_library.tf.keras.layers.Dense(len(self.class_index) + 1, activation='sigmoid')
-         ]) 
+        print(self.features[0].shape)
+        if self.features[0].shape==(self.features[0].shape[0],):
+         self.model=common_library.tf.keras.Sequential([
+          common_library.tf.keras.layers.Reshape((self.features[0].shape[0],1)),
+          common_library.tf.keras.layers.Conv1D(32,3, activation='relu', input_shape=self.features[0].shape),
+          common_library.tf.keras.layers.MaxPooling1D(2),
+          common_library.tf.keras.layers.Conv1D(64,3, activation='relu'),
+          common_library.tf.keras.layers.MaxPooling1D(2),
+          common_library.tf.keras.layers.Flatten(),
+          common_library.tf.keras.layers.Dense(64, activation='relu'),
+          common_library.tf.keras.layers.Dense(128, activation='linear'),
+          common_library.tf.keras.layers.Dense(64, activation='relu'),
+          common_library.tf.keras.layers.Dense(len(self.class_index) + 1, activation='sigmoid')
+          ])
+        else:
+           self.model=common_library.tf.keras.Sequential([
+          common_library.tf.keras.layers.Conv1D(32,3, activation='relu', input_shape=self.features[0].shape),
+          common_library.tf.keras.layers.MaxPooling1D(2),
+          common_library.tf.keras.layers.Conv1D(64,3, activation='relu'),
+          common_library.tf.keras.layers.MaxPooling1D(2),
+          common_library.tf.keras.layers.Flatten(),
+          common_library.tf.keras.layers.Dense(64, activation='relu'),
+          common_library.tf.keras.layers.Dense(128, activation='linear'),
+          common_library.tf.keras.layers.Dense(64, activation='relu'),
+          common_library.tf.keras.layers.Dense(len(self.class_index) + 1, activation='sigmoid')
+          ])
+            
         return self.model
     def Training(self,number_loss=False):
         if number_loss==False:
