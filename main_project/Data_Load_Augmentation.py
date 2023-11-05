@@ -58,7 +58,7 @@ def Load_FFT_exel():
              FFT_data_augmanted.append(content)
              k=0
              print(Feature.shape)
-             for j in range(0,5):
+             for j in range(0,15):
                  k+=0.1
                  vehicle_audio_aug=Extractor.addNoise(vehicle_audio,k)
                  Feature=Extractor.FFT_Futures(vehicle_audio_aug,sample_rate)

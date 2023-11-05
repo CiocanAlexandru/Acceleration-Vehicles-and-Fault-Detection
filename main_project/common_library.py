@@ -12,3 +12,4 @@ from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import KFold

@@ -71,9 +71,16 @@ def MFCC_string_convertor(data):
               except ValueError:
                  k+=1
                  print("Exception")
-          new_line=header.common_library.np.array(new_line)
+          if (j==len(converted_data)-1):
+            new_line.append(0)
+            new_line=header.common_library.np.array(new_line)
+            #print(new_line.shape)
+          else:
+            new_line=header.common_library.np.array(new_line)
+           # print(new_line.shape)   
           matrix.append(new_line)
-     matrix=header.common_library.np.array(matrix)  
+     matrix=header.common_library.np.array(matrix) 
+     print(matrix.shape)
      data_features.append([matrix,instance])
    print(len(data_features))
    print(f"Number of exeception k={k}")
@@ -94,6 +101,7 @@ if FFT_ok.lower()=="yes":
 elif MFFC_ok.lower()=="yes":
     data1=MFCC_exel.Get_Instances()
     data=MFCC_string_convertor(data1)
+    print(data[0].shape)
     MFFC_ok="MFFC fueatures extraction method"
     features_extraction_method="MFFC features extraction method"
 elif PSD_ok.lower()=="yes":

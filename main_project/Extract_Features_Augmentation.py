@@ -33,9 +33,7 @@ class Features_Augmentation:
        for i in range(0,n):
           new_content=[0 for i in range(0,m+1)]
           for  j  in data[i][1]:
-             print(j)
              new_content[only_class_index[j]]=1
-             print(f" Value for line {i} is {j}\n")
           new_data[i][1]=new_content
        return new_data,only_class_index
     def DR_MaxInt_Var(self,vehicle_audio):
