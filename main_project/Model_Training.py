@@ -88,7 +88,6 @@ def MFCC_string_convertor(data):
    return data_features
 
 Initialize()
-
 FFT_ok=input("Use FFT features?(Yes/No)")
 MFFC_ok=input("Use MFFC features?(Yes/No)")
 PSD_ok=input("USE PSD features?(Yes/No)")
@@ -97,17 +96,17 @@ features_extraction_method=''
 if FFT_ok.lower()=="yes":
     data1=FFT_exel.Get_Instances()
     data=FFT_PSD_string_convertor(data1)
-    features_extraction_method="FFT features extraction method"
+    features_extraction_method="FFT"
 elif MFFC_ok.lower()=="yes":
     data1=MFCC_exel.Get_Instances()
     data=MFCC_string_convertor(data1)
     print(data[0].shape)
     MFFC_ok="MFFC fueatures extraction method"
-    features_extraction_method="MFFC features extraction method"
+    features_extraction_method="MFFC"
 elif PSD_ok.lower()=="yes":
      data1=PSD_exel.Get_Instances()
      data=FFT_PSD_string_convertor(data1)
-     features_extraction_method="PSD features extraction method"
+     features_extraction_method="PSD"
 
 Model_CNN_ok=input("Use CNN model?(Yes/No)")
 Model_SVN_ok=input("Use SVM model?(Yes/No)")
@@ -125,17 +124,17 @@ if number_of_function.lower()=="yes":
 else:
    number_of_function=False
 if Model_CNN_ok.lower()=="yes":
-   Exemplu=header.CNN.CNN(class_index,encoded_data,Diagrams_analisys)
+   Exemplu=header.CNN.CNN(class_index,encoded_data,Diagrams_analisys,features_extraction_method)
    if normal_traing==True : 
       Exemplu.Training(number_of_function) 
    else: 
       Exemplu.Nk_Fold_Traning(number_of_function)
    Exemplu.Test()
-   print(f"Model_CNN whit {features_extraction_method}")
+   print(f"Model_CNN whit {features_extraction_method} features extraction method")
 elif Model_SVN_ok.lower()=="yes":
-   print(f"Model_SVN whit {features_extraction_method}")
+   print(f"Model_SVN whit {features_extraction_method} features extraction method")
 elif Model_FCNN_ok.lower()=="yes":
-   Exemplu=header.FCNN.FCNN(class_index,encoded_data,Diagrams_analisys)
+   Exemplu=header.FCNN.FCNN(class_index,encoded_data,Diagrams_analisys,features_extraction_method)
    if normal_traing==True : 
       Exemplu.Training(number_of_function) 
    else: 
