@@ -132,6 +132,12 @@ if Model_CNN_ok.lower()=="yes":
    Exemplu.Test()
    print(f"Model_CNN whit {features_extraction_method} features extraction method")
 elif Model_SVN_ok.lower()=="yes":
+   Exemplu=header.SVN.SVN(class_index,encoded_data,Diagrams_analisys,features_extraction_method)
+   if normal_traing==True : 
+      Exemplu.Training(number_of_function) 
+   else: 
+      Exemplu.Nk_Fold_Traning(number_of_function)
+   Exemplu.Test()
    print(f"Model_SVN whit {features_extraction_method} features extraction method")
 elif Model_FCNN_ok.lower()=="yes":
    Exemplu=header.FCNN.FCNN(class_index,encoded_data,Diagrams_analisys,features_extraction_method)

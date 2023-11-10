@@ -13,11 +13,7 @@ class SVN:
         self.name="SVN"
     def Model(self):
         print(self.features[0].shape)
-        self.model = common_library.tf.keras.Sequential([common_library.tf.keras.layers.Flatten(input_shape=self.features[0].shape),  # Aplatizează intrarea
-         common_library.tf.keras.layers.Dense(64, activation='relu'),
-        common_library.tf.keras.layers.Dense(128, activation='linear'),  # Stratul ascuns cu 128 de neuroni și activare liniară
-        common_library.tf.keras.layers.Dense(64, activation='relu'),  # Al doilea strat ascuns cu 64 de neuroni și activare ReLU
-        common_library.tf.keras.layers.Dense(len(self.class_index)+1, activation='sigmoid')])
+        self.model = common_library.SVC(kernel='rbf', C=1.0, gamma='scale')
         return self.model  # Stratul de ieșire cu 3 neuroni și activare Softmax])
     def Training(self,number_loss=False):
         path="./Models/"
@@ -31,8 +27,7 @@ class SVN:
           print(y_train.shape)
           loss_function='binary_crossentropy'
           self.model=self.Model()
-          self.model.compile(optimizer='adam', loss=loss_function, metrics=['binary_accuracy'])
-          history=self.model.fit(X_train,y_train, epochs=100, batch_size=10, validation_split=0.5)
+          history=self.model.fit(X_train,y_train)
          # Calculați acuratețea modelului
          # threshold = 0.5
          # binary_predictions = (predictions >= threshold).astype(int)
@@ -76,7 +71,6 @@ class SVN:
              print(i)
              X_train, X_test, y_train, y_test = common_library.train_test_split(self.features, self.transformed_labels, test_size=0.2, random_state=42)
              self.model=self.Model()
-             self.model.compile(optimizer='adam', loss=i, metrics=['binary_accuracy'])
              history=self.model.fit(X_train,y_train, epochs=100, batch_size=32, validation_split=0.5)
              historys.append(history)
              predictions = self.model.predict(X_test)
@@ -112,7 +106,6 @@ class SVN:
               X_train, X_val = self.features[train_index], self.features[val_index]
               y_train, y_val = self.transformed_labels[train_index], self.transformed_labels[val_index]
               model = self.Model()
-              model.compile(optimizer='adam', loss=loss_function, metrics=['binary_accuracy'])
               history = model.fit(X_train, y_train, epochs=100, batch_size=32, validation_data=(X_val, y_val))
               accuracy = model.evaluate(X_val, y_val, verbose=0)[1]
               fold_accuracies.append(accuracy)
@@ -144,7 +137,6 @@ class SVN:
                model_name+=loss_function
                model_name+=".h5"
                model = self.Model()
-               model.compile(optimizer='adam', loss=loss_function, metrics=['binary_accuracy'])
                history = model.fit(X_train, y_train, epochs=100, batch_size=32, validation_data=(X_val, y_val))
                accuracy = model.evaluate(X_val, y_val, verbose=0)[1]
                fold_accuracies_for_loss.append(accuracy)
