@@ -8,18 +8,26 @@ class Data_Statistic:
     def __init__(self,data=None):
         if(data!=None):
           self.data_frame=data.Get_DataFrame()
-          self.exel=data  ## Data Manipulation object
+          self.data=data  ## Data Manipulation object
         else:
            print("For models Diagrams") 
     def Number_of_Instance(self,info):
         if (self.data!=None):
-            print(f" Number of instances {info}= {self.data[info].count()}")
+            print(f"Number of instances {info}= {self.data_frame[info].count()}")
+            print("Now for every instance in particular base on classes:")
+            unique_class={i:0 for i in self.data_frame[info]}
+            for i in self.data_frame[info]:
+               unique_class[i]+=1
+            for key,value in unique_class.items():
+               print(f"For key= {key} we have: {value} of instances")
         else:
             print("Operation Not working")
     def Dsitribution_Data_Base(self,info):
         if (self.data!=None):
             common_library.sns.displot(self.data_frame,x=info)
-            common_library.plt.title('Distribution Plot')
+            common_library.plt.title('Distribution Plot '+info)
+            common_library.plt.xticks(rotation=45)
+            common_library.plt.subplots_adjust(bottom=0.2)
             common_library.plt.show()
         else:
             print("Operation not working")
@@ -39,9 +47,19 @@ class Data_Statistic:
              common_library.plt.show()  
         else:
             print("Operation not working")
+    def Wav_Frame(self,audio_data=None,sample_rate=None,name=None):
+        if (self.data!=None):
+           common_library.librosa.display.waveshow(audio_data, sr=sample_rate)
+           common_library.plt.title(name)
+           common_library.plt.xlabel('Time (s)')
+           common_library.plt.ylabel('Amplitude')
+           common_library.plt.savefig('./DiagramsWav/'+name+".jpg",format='jpg')
+           common_library.plt.show()
+        else:
+           print("Operation not working!!")
     def Accuracy_Model(self,history,function,Nkfold=False,function_number=False,features_name=None,model_name=None):
       print(function)
-      path="./Diagrams/"
+      path="./Diagrams_Accuracy_Loss/"
       date=common_library.datetime.now().strftime('%Y-%m-%d %I-%M-%S %p')
       full_name_diagram=path+"Accuracy_"+model_name+"_"+date+"_"+features_name+".jpg"
       if Nkfold==False:
@@ -105,7 +123,7 @@ class Data_Statistic:
         return 0
     def Loss_Digrams(self,history,function,Nkfold=False,function_number=False,features_name=None,model_name=None):
       print(function)
-      path="./Diagrams/"
+      path="./Diagrams_Accuracy_Loss/"
       date=common_library.datetime.now().strftime('%Y-%m-%d %I-%M-%S %p')
       full_name_diagram=path+"Loss_"+model_name+"_"+date+"_"+features_name+".jpg"
       if Nkfold==False:
