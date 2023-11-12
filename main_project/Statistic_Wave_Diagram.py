@@ -44,7 +44,6 @@ ok_number_of_instance=input("Do you want who many instance are for every class?(
 ok_wav_frame=input("Do you want to show you some audio wave diagrams ?(Yes/No)")
 ok_distribution_graf=input("Doy you want some distribution ghaps?(Yes/No)")
 
-
 if ok_number_of_instance.lower()=="yes":
    Number_of_Instances()
    ok_wav_frame="no"
