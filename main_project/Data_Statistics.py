@@ -18,12 +18,25 @@ class Data_Statistic:
             print("Operation Not working")
     def Dsitribution_Data_Base(self,info):
         if (self.data!=None):
-            print(common_library.sns.displot(self.data_frame,x=info))
+            common_library.sns.displot(self.data_frame,x=info)
+            common_library.plt.title('Distribution Plot')
+            common_library.plt.show()
         else:
             print("Operation not working")
-    def Data_Frame_Diagram_WAV(self,data_frame,sample_rate):
+    def Data_Frame_Diagram_WAV(self,data_frame,sample_rate,file_name,modified=None):
         if (self.data!=None):
-            print(common_library.librosa.waveplot(data_frame,sr=sample_rate))
+            if (modified==None):
+             common_library.librosa.display.waveshow(data_frame, sr=sample_rate)
+             common_library.plt.title('Waveform for '+file_name)
+             common_library.plt.xlabel('Time (s)')
+             common_library.plt.ylabel('Amplitude')
+             common_library.plt.show()
+            else:
+             common_library.librosa.display.waveshow(data_frame, sr=sample_rate)
+             common_library.plt.title('Waveform for '+file_name+' modified')
+             common_library.plt.xlabel('Time (s)')
+             common_library.plt.ylabel('Amplitude')
+             common_library.plt.show()  
         else:
             print("Operation not working")
     def Accuracy_Model(self,history,function,Nkfold=False,function_number=False,features_name=None,model_name=None):
