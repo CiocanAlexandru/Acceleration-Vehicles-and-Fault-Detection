@@ -24,11 +24,14 @@ class Data_Statistic:
             print("Operation Not working")
     def Dsitribution_Data_Base(self,info):
         if (self.data!=None):
+            common_library.plt.style.use('seaborn')
             common_library.sns.displot(self.data_frame,x=info)
             common_library.plt.title('Distribution Plot '+info)
             common_library.plt.xticks(rotation=45)
             common_library.plt.subplots_adjust(bottom=0.2)
+            common_library.plt.savefig("./DiagramsWav/Distribution dataset by "+info+".jpg",format='jpg')
             common_library.plt.show()
+            
         else:
             print("Operation not working")
     def Data_Frame_Diagram_WAV(self,data_frame,sample_rate,file_name,modified=None):

@@ -35,6 +35,12 @@ class Features_Augmentation:
           for  j  in data[i][1]:
              new_content[only_class_index[j]]=1
           new_data[i][1]=new_content
+       try:
+          open("./exel/index.txt","w").close()
+          f=open("./exel/index.txt","w")
+          f.write(str(only_class_index))       
+       except ValueError:
+          print("File dosen't exist")
        return new_data,only_class_index
     def DR_MaxInt_Var(self,vehicle_audio):
       vehicle_audio = common_library.np.abs(vehicle_audio)
