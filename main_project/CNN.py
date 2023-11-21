@@ -117,9 +117,9 @@ class CNN:
          print("Acuratețea modelului neural:", self.accuracy)
          return 0
     
-    def Nk_Fold_Traning(self,number_loss=False):
+    def Nk_Fold_Traning(self,number_loss=False,cycles_nkfold=False):
         path="./Models/"
-        if number_loss==False:
+        if number_loss==False and cycles_nkfold==False:
             print("Training nkfold only whit one lost function")
             n_splits=5
             loss_function='binary_crossentropy'
@@ -148,7 +148,7 @@ class CNN:
             #def Accuracy_Model(self,history,function,Nkfold=False,function_number=False):
             self.diagrams.Accuracy_Model(historys,loss_function,True,False,self.features_name,self.name)
             self.diagrams.Loss_Digrams(historys,loss_function,True,False,self.features_name,self.name)
-        else:
+        if number_loss==True and cycles_nkfold==False:
            loss_function=['categorical_crossentropy','binary_crossentropy']
            n_splits = 10
            skf = common_library.KFold(n_splits=n_splits, shuffle=True, random_state=42)
@@ -180,6 +180,10 @@ class CNN:
            self.diagrams.Accuracy_Model(historys,loss_function,True,True,self.features_name,self.name)
            self.diagrams.Loss_Digrams(historys,loss_function,True,True,self.features_name,self.name)
            print("no")
+        if number_loss==False and cycles_nkfold==True:
+            print("One lost function multiple cycles")
+        if number_loss==True and cycles_nkfold==True:
+           print("More lost function multiple cycles")
         return 0
     
 
