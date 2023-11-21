@@ -188,6 +188,11 @@ class Data_Statistic:
            common_library.plt.legend(labels,loc='lower right')
            common_library.plt.savefig(full_name_diagram,format='jpg')
            common_library.plt.show()
-        return 0
+           return 0
+    def Accuracy_Model_Nkfold(self,history,function,function_number=False,features_name=None,model_name=None):
+           return 0
+    def Loss_Digrams_Nkfold(self,history,function,function_number=False,features_name=None,model_name=None):
+           return 0
+          
         
 

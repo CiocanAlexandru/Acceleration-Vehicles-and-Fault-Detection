@@ -89,7 +89,7 @@ class SVN:
          print("Acuratețea modelului neural:", self.accuracy)
          return 0
     
-    def Nk_Fold_Traning(self,number_loss=False):
+    def Nk_Fold_Traning(self,number_loss=False,cycles_nkfold=False):
         path="./Models/"
         if number_loss==False:
             print("Training nkfold only whit one lost function")

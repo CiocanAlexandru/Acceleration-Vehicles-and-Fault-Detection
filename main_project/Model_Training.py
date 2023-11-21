@@ -114,10 +114,16 @@ Model_FCNN_ok=input("USE FCNN model?(Yes/No)")
 
 encoded_data,class_index=Extractor.hot_encoding(data)
 normal_traing=input("Do you want normal training or nk-fold training?(Yes/No)")
+cycles_nkfold=""
 if normal_traing.lower()=="yes":
    normal_traing=True
 else:
    normal_traing=False
+   cycles_nkfold=input("Do you want cycles in nkfold?(Yes/No)")
+   if cycles_nkfold.lower()=="yes":
+      cycles_nkfold=True
+   if cycles_nkfold.lower()=="no":
+      cycles_nkfold=False
 number_of_function=input("Do you want one lost function or more?(Yes/No)")
 if number_of_function.lower()=="yes":
    number_of_function=True
