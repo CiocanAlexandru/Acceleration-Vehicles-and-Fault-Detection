@@ -124,7 +124,7 @@ class FCNN:
               model.save(path+"kFold_train_one_lossFunc_"+"k="+str(k)+"_"+model_name)
               k+=1
             self.accuracy = common_library.np.mean(fold_accuracies)
-            #def Accuracy_Model(self,history,function,Nkfold=False,function_number=False):
+            # def Accuracy_Model_Nkfold(self,history,function,function_number=False,features_name=None,model_name=None,cycles_nkfold=False):
             self.diagrams.Accuracy_Model(historys,loss_function,True,False,self.features_name,self.name)
             self.diagrams.Loss_Digrams(historys,loss_function,True,False,self.features_name,self.name)
         if number_loss==True and cycles_nkfold==False:
