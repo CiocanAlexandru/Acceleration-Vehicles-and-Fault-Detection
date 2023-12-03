@@ -100,8 +100,6 @@ if FFT_ok.lower()=="yes":
 elif MFFC_ok.lower()=="yes":
     data1=MFCC_exel.Get_Instances()
     data=MFCC_string_convertor(data1)
-    print(data[0].shape)
-    MFFC_ok="MFFC fueatures extraction method"
     features_extraction_method="MFFC"
 elif PSD_ok.lower()=="yes":
      data1=PSD_exel.Get_Instances()
@@ -113,44 +111,47 @@ Model_SVN_ok=input("Use SVM model?(Yes/No)")
 Model_FCNN_ok=input("USE FCNN model?(Yes/No)")
 
 encoded_data,class_index=Extractor.hot_encoding(data)
-normal_traing=input("Do you want normal training or nk-fold training?(Yes/No)")
+normal_traing=input("Do you want normal training or nk-fold training?(Yes normal traing /No kfold traning)")
 cycles_nkfold=""
+ok_normal_traing=False
+ok_cycles_nkfold=False
+ok_number_of_function=False
 if normal_traing.lower()=="yes":
-   normal_traing=True
-else:
-   normal_traing=False
-   cycles_nkfold=input("Do you want cycles in nkfold?(Yes/No)")
+   ok_normal_traing=True
+if normal_traing.lower()=="no":
+   ok_normal_traing=False
+   cycles_nkfold=input("Do you want cycles in nkfold?(Yes whit more cycles/No no cycles) ")
    if cycles_nkfold.lower()=="yes":
-      cycles_nkfold=True
+      ok_cycles_nkfold=True
    if cycles_nkfold.lower()=="no":
-      cycles_nkfold=False
-number_of_function=input("Do you want one lost function or more?(Yes/No)")
+      ok_cycles_nkfold=False
+number_of_function=input("Do you want one lost function or more?(Yes whit multi function/No one function)")
 if number_of_function.lower()=="yes":
-   number_of_function=True
-else:
-   number_of_function=False
+   ok_number_of_function=True
+if number_of_function.lower()=="no":
+   ok_number_of_function=False
 if Model_CNN_ok.lower()=="yes":
    Exemplu=header.CNN.CNN(class_index,encoded_data,Diagrams_analisys,features_extraction_method)
-   if normal_traing==True : 
-      Exemplu.Training(number_of_function) 
-   else: 
-      Exemplu.Nk_Fold_Traning(number_of_function)
+   if ok_normal_traing==True : 
+      Exemplu.Training(ok_number_of_function) 
+   if ok_normal_traing==False:
+      Exemplu.Nk_Fold_Traning(ok_number_of_function,ok_cycles_nkfold)
    Exemplu.Test()
    print(f"Model_CNN whit {features_extraction_method} features extraction method")
 elif Model_SVN_ok.lower()=="yes":
    Exemplu=header.SVN.SVN(class_index,encoded_data,Diagrams_analisys,features_extraction_method)
-   if normal_traing==True : 
-      Exemplu.Training(number_of_function) 
+   if ok_normal_traing==True : 
+      Exemplu.Training(ok_number_of_function) 
    else: 
-      Exemplu.Nk_Fold_Traning(number_of_function)
+      Exemplu.Nk_Fold_Traning(ok_number_of_function,ok_cycles_nkfold)
    Exemplu.Test()
    print(f"Model_SVN whit {features_extraction_method} features extraction method")
 elif Model_FCNN_ok.lower()=="yes":
    Exemplu=header.FCNN.FCNN(class_index,encoded_data,Diagrams_analisys,features_extraction_method)
-   if normal_traing==True : 
-      Exemplu.Training(number_of_function) 
+   if ok_normal_traing==True : 
+      Exemplu.Training(ok_number_of_function) 
    else: 
-      Exemplu.Nk_Fold_Traning(number_of_function)
+      Exemplu.Nk_Fold_Traning(ok_number_of_function,ok_cycles_nkfold)
    Exemplu.Test()
    print(f"Model_FCNN whit {features_extraction_method}")
 

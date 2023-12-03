@@ -60,7 +60,166 @@ class Data_Statistic:
            common_library.plt.show()
         else:
            print("Operation not working!!")
-    def Accuracy_Model(self,history,function,Nkfold=False,function_number=False,features_name=None,model_name=None):
+    def Accuracy_Diagrams(self,history,function,function_number=False,features_name=None,model_name=None):
+        if function_number==False:
+           print(f"Accuracy diagrams for the normal_training whit one lost function")
+           print(f"history={history}\nmodel={model_name}\nfunctions={function}\nfeatures={features_name}\nmodel_name={model_name}")
+           common_library.plt.style.use('seaborn')
+           common_library.plt.figure(figsize=(10,5))
+           common_library.plt.plot(history.history['binary_accuracy'],label=function)
+           common_library.plt.plot(history.history['val_binary_accuracy'],label=function)
+           common_library.plt.title('model accuracy normal training whit one lost func and'+features_name)
+           common_library.plt.ylabel('accuracy')
+           common_library.plt.xlabel('epoch')
+           common_library.plt.legend(['train', 'test'], loc='upper left')   
+           common_library.plt.show()     
+        if function_number==True:
+           print(f"Accuracy diagrams for the normal_training whit multi lost function")
+           print(f"history={history}\nmodel={model_name}\nfunctions={function}\nfeatures={features_name}\nmodel_name={model_name}")
+           common_library.plt.style.use('seaborn')
+           common_library.plt.figure(figsize=(10,5))
+           k=0
+           for i in history:
+             common_library.plt.plot(i.history['binary_accuracy'],label=function[k])
+             common_library.plt.plot(i.history['val_binary_accuracy'],label=function[k])
+             k+=1
+           common_library.plt.title('model accuracy normal training whit multy lost func and'+features_name)
+           common_library.plt.ylabel('accuracy')
+           common_library.plt.xlabel('epoch')
+           common_library.plt.legend(loc='upper left')   
+           common_library.plt.show()  
+        return 0
+    def Loss_Diagrams(self,history,function,function_number=False,features_name=None,model_name=None):
+        if function_number==False:
+           print(f"Loss diagrams for the normal_training whit one lost function")
+           print(f"history={history}\nmodel={model_name}\nfunctions={function}\nfeatures={features_name}\nmodel_name={model_name}")
+           common_library.plt.style.use('seaborn')
+           common_library.plt.figure(figsize=(10,5))
+           common_library.plt.plot(history.history['loss'],label=function)
+           common_library.plt.plot(history.history['val_loss'],label=function)
+           common_library.plt.title('model accuracy normal training whit one lost func and'+features_name)
+           common_library.plt.ylabel('loss')
+           common_library.plt.xlabel('epoch')
+           common_library.plt.legend(['train', 'test'], loc='upper left')   
+           common_library.plt.show()          
+        if function_number==True:
+           print(f"Loss diagrams for the normal_training whit multi lost function")
+           print(f"history={history}\nmodel={model_name}\nfunctions={function}\nfeatures={features_name}\nmodel_name={model_name}")
+           common_library.plt.style.use('seaborn')
+           common_library.plt.figure(figsize=(10,5))
+           k=0
+           for i in history:
+             common_library.plt.plot(i.history['loss'],label=function[k])
+             common_library.plt.plot(i.history['val_loss'],label=function[k])
+             k+=1
+           common_library.plt.title('model accuracy normal training whit multy lost func and'+features_name)
+           common_library.plt.ylabel('loss')
+           common_library.plt.xlabel('epoch')
+           common_library.plt.legend(loc='upper left')   
+           common_library.plt.show() 
+        return 0
+    def Accuracy_Diagrams_Nkfold(self,history,function,function_number=False,features_name=None,model_name=None,cycles_nkfold=False):
+        if function_number==True and cycles_nkfold==False:   
+           print(f"Accuracy diagrams for the nkfold training whit multi lost function and no cycles")
+           print(f"Diagram for every fold")
+           print(f"history={history}\nfunctions={function}\nfeatures={features_name}\nmodel={model_name}\ncycles={cycles_nkfold}")
+           common_library.plt.style.use('seaborn')
+           num_datasets = len(function)
+           num_cols = int(common_library.np.ceil(common_library.np.sqrt(num_datasets)))
+           num_rows = int(common_library.np.ceil(num_datasets / num_cols))
+           common_library.plt.figure(figsize=(15, 5 * num_rows))
+           k=1
+           labels=[]
+           for i in history:
+              p=0
+              common_library.plt.subplot(num_rows, num_cols, k)
+              for j in i:
+                 common_library.plt.plot(j.history["val_binary_accuracy"],label=f"K-fold={p} function={function[k-1]}")
+                 p+=1
+              common_library.plt.legend(loc='upper left')
+              common_library.plt.ylabel('accuracy')
+              common_library.plt.xlabel('epoch')
+              common_library.plt.title('model accuracy kfold whit '+features_name[k-1]+' func and '+features_name)
+              k+=1  
+           common_library.plt.show() 
+        if function_number==False and cycles_nkfold==False:
+           print(f"Accuracy diagrams for the nkfold training whit one lost function and no cycles")
+           print(f"Diagram for every fold")
+           print(f"history={history}\nfunctions={function}\nfeatures={features_name}\nmodel={model_name}\ncycles={cycles_nkfold}")
+           common_library.plt.style.use('seaborn')
+           common_library.plt.figure(figsize=(10,5))
+           k=0
+           labels=[]
+           for i in history:
+             label=("K-Fold="+str(k))
+             common_library.plt.plot(i.history['val_binary_accuracy'],label=label)
+             labels.append(label)
+             k+=1
+           common_library.plt.title('model accuracy kfold whit one lost func and '+features_name)
+           common_library.plt.ylabel('accuracy')
+           common_library.plt.xlabel('epoch')
+           common_library.plt.legend(labels,loc='upper left')   
+           common_library.plt.show() 
+
+        if function_number==True and cycles_nkfold==True:
+           print(f"Accuracy diagrams for the nkfold training whit multi lost function and cycles")
+           print(f"history={history}\nfunctions={function}\nfeatures={features_name}\nmodel={model_name}\ncycles={cycles_nkfold}")
+        if function_number==False and cycles_nkfold==True:
+           print(f"Accuracy diagrams for the nkfold training whit one lost function and cycles")
+           print(f"history={history}\nfunctions={function}\nfeatures={features_name}\nmodel={model_name}\ncycles={cycles_nkfold}")
+        return 0
+    def Loss_Diagrams_Nkfold(self,history,function,function_number=False,features_name=None,model_name=None,cycles_nkfold=False):
+        if function_number==True and cycles_nkfold==False:   
+           print(f"Loss diagrams for the nkfold training whit multi lost function and no cycles")
+           print(f"Diagram for every fold")
+           print(f"history={history}\nfunctions={function}\nfeatures={features_name}\nmodel={model_name}\ncycles={cycles_nkfold}")
+           common_library.plt.style.use('seaborn')
+           num_datasets = len(function)
+           num_cols = int(common_library.np.ceil(common_library.np.sqrt(num_datasets)))
+           num_rows = int(common_library.np.ceil(num_datasets / num_cols))
+           common_library.plt.figure(figsize=(15, 5 * num_rows))
+           k=1
+           labels=[]
+           for i in history:
+              p=0
+              common_library.plt.subplot(num_rows, num_cols, k)
+              for j in i:
+                 common_library.plt.plot(j.history["val_loss"],label=f"K-fold={p} function={function[k-1]}")
+                 p+=1
+              common_library.plt.legend(loc='upper left')
+              common_library.plt.ylabel('loss')
+              common_library.plt.xlabel('epoch')
+              common_library.plt.title('model loss kfold whit '+features_name[k-1]+' func and '+features_name)
+              k+=1  
+           common_library.plt.show()         
+        if function_number==False and cycles_nkfold==False:
+           print(f"Loss diagrams for the nkfold training whit one lost function and no cycles")
+           print(f"Diagram for every fold")
+           print(f"history={history}\nfunctions={function}\nfeatures={features_name}\nmodel={model_name}\ncycles={cycles_nkfold}")
+           common_library.plt.style.use('seaborn')
+           common_library.plt.figure(figsize=(10,5))
+           k=0
+           labels=[]
+           for i in history:
+             label=("K-Fold="+str(k))
+             common_library.plt.plot(i.history['val_loss'],label=label)
+             labels.append(label)
+             k+=1
+           common_library.plt.title('model loss kfold whit one lost func and '+features_name)
+           common_library.plt.ylabel('loss')
+           common_library.plt.xlabel('epoch')
+           common_library.plt.legend(labels,loc='upper left')   
+           common_library.plt.show() 
+        if function_number==True and cycles_nkfold==True:
+           print(f"Loss diagrams for the nkfold training whit multi lost function and cycles")
+           print(f"history={history}\nfunctions={function}\nfeatures={features_name}\nmodel={model_name}\ncycles={cycles_nkfold}")
+        if function_number==False and cycles_nkfold==True:
+           print(f"Loss diagrams for the nkfold training whit one lost function and cycles")
+           print(f"history={history}\nfunctions={function}\nfeatures={features_name}\nmodel={model_name}\ncycles={cycles_nkfold}")
+        return 0
+          
+'''
+ def Accuracy_Model(self,history,function,Nkfold=False,function_number=False,features_name=None,model_name=None):
       print(function)
       path="./Diagrams_Accuracy_Loss/"
       date=common_library.datetime.now().strftime('%Y-%m-%d %I-%M-%S %p')
@@ -193,6 +352,5 @@ class Data_Statistic:
            return 0
     def Loss_Digrams_Nkfold(self,history,function,function_number=False,features_name=None,model_name=None,cycles_nkfold=False):
            return 0
-          
-        
+'''       
 
