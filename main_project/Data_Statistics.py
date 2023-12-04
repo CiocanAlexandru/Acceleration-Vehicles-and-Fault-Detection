@@ -118,7 +118,7 @@ class Data_Statistic:
            common_library.plt.legend(loc='upper left')   
            common_library.plt.show() 
         return 0
-    def Accuracy_Diagrams_Nkfold(self,history,function,function_number=False,features_name=None,model_name=None,cycles_nkfold=False):
+    def Accuracy_Diagrams_Nkfold(self,history,function,function_number=False,features_name=None,model_name=None,cycles_nkfold=False,accuracy=None):
         if function_number==True and cycles_nkfold==False:   
            print(f"Accuracy diagrams for the nkfold training whit multi lost function and no cycles")
            print(f"Diagram for every fold")
@@ -168,7 +168,7 @@ class Data_Statistic:
            print(f"Accuracy diagrams for the nkfold training whit one lost function and cycles")
            print(f"history={history}\nfunctions={function}\nfeatures={features_name}\nmodel={model_name}\ncycles={cycles_nkfold}")
         return 0
-    def Loss_Diagrams_Nkfold(self,history,function,function_number=False,features_name=None,model_name=None,cycles_nkfold=False):
+    def Loss_Diagrams_Nkfold(self,history,function,function_number=False,features_name=None,model_name=None,cycles_nkfold=False,accuracy=None):
         if function_number==True and cycles_nkfold==False:   
            print(f"Loss diagrams for the nkfold training whit multi lost function and no cycles")
            print(f"Diagram for every fold")

@@ -1,4 +1,6 @@
 import common_library
+import tensorflow as tf
+from keras import backend as K
 class FCNN:
     ## Trebuie un constructor in care sa specific bach size  numarul de neuroni si o instanta de Extract_Fueatures_Augmentation pentru fiecare  
     def __init__(self,class_index,encoded_data=None,diagrams=None,features_name=None):
@@ -14,11 +16,12 @@ class FCNN:
         self.model_name="FCNN"
     def Model(self):
         print(self.features[0].shape)
+        num_classes=len(self.class_index)+1
         self.model = common_library.tf.keras.Sequential([common_library.tf.keras.layers.Flatten(input_shape=self.features[0].shape),  # Aplatizează intrarea
          common_library.tf.keras.layers.Dense(64, activation='relu'),
         common_library.tf.keras.layers.Dense(128, activation='linear'),  # Stratul ascuns cu 128 de neuroni și activare liniară
         common_library.tf.keras.layers.Dense(64, activation='relu'),  # Al doilea strat ascuns cu 64 de neuroni și activare ReLU
-        common_library.tf.keras.layers.Dense(len(self.class_index)+1, activation='sigmoid')])
+        common_library.tf.keras.layers.Dense(num_classes, activation='sigmoid')])
         return self.model  # Stratul de ieșire cu 3 neuroni și activare Softmax])
     def Training(self,number_loss=False):
         # def Accuracy_Diagrams(self,history,function,function_number=False,features_name=None,model_name=None):
@@ -50,8 +53,8 @@ class FCNN:
            self.diagrams.Loss_Diagrams(history,loss_function,False,self.features_name,self.model_name)
         return 0
     def Nk_Fold_Traning(self,number_loss=False,cycles_nkfold=False):
-        #def Accuracy_Diagrams_Nkfold(self,history,function,function_number=False,features_name=None,model_name=None,cycles_nkfold=False):
-        #def Loss_Diagrams_Nkfold(self,history,function,function_number=False,features_name=None,model_name=None,cycles_nkfold=False):
+        #def Accuracy_Diagrams_Nkfold(self,history,function,function_number=False,features_name=None,model_name=None,cycles_nkfold=False,accuracy=None):
+        #def Loss_Diagrams_Nkfold(self,history,function,function_number=False,features_name=None,model_name=None,cycles_nkfold=False,accuracy=None):
         loss_functions=['categorical_crossentropy','binary_crossentropy']
         loss_function='binary_crossentropy'
         if number_loss==False and cycles_nkfold==False:     ## Diagrams for every fold  each 
@@ -98,15 +101,80 @@ class FCNN:
         if number_loss==False and cycles_nkfold==True:      ## Diagrams for more cycles each [1,3,5,7]
             print("Nkfold whit one lost function and cycles")
             cycles=[1,3,5,7]
+            n_splits=5
+            skf = common_library.KFold(n_splits=n_splits, shuffle=True)
+            history_mean=[]
+            accuracy_mean=[]
             for cycle in cycles:
-                print(f"Number of cycles {cycle}")
+                print("----------------------------")
+                print(f"Number of the cycle {cycle}")
+                print("-----------------------------")
+                history_list=[]
+                accuracy_list=[]
+                for i in range(cycle):
+                 print("----------------------------")
+                 print(f"Number kfold {i} for cycle {cycle}")
+                 print("-----------------------------")
+                 for train_index, val_index in skf.split(self.features, self.transformed_labels):
+                  X_train, X_val = self.features[train_index], self.features[val_index]
+                  y_train, y_val = self.transformed_labels[train_index], self.transformed_labels[val_index]
+                  model = self.Model()
+                  model.compile(optimizer='adam', loss=loss_function, metrics=['binary_accuracy'])
+                  history = model.fit(X_train, y_train, epochs=100, batch_size=32, validation_data=(X_val, y_val))
+                  accuracy = model.evaluate(X_val, y_val, verbose=0)[1]
+                  history_list.append(history)
+                  accuracy_list.append(accuracy)
+                history_mean.append({
+                 'loss': common_library.np.mean([h.history['loss'] for h in history_list], axis=0),
+                 'val_loss': common_library.np.mean([h.history['val_loss'] for h in history_list], axis=0),
+                 'binary_accuracy': common_library.np.mean([h.history['binary_accuracy'] for h in history_list], axis=0),
+                 'val_binary_accuracy': common_library.np.mean([h.history['val_binary_accuracy'] for h in history_list], axis=0)
+                 })
+                accuracy_mean.append(common_library.np.mean(accuracy_list,axis=0))
+                self.accuracy=common_library.np.mean(accuracy_mean,axis=0)    
             self.diagrams.Accuracy_Diagrams_Nkfold([1,2,3],loss_function,False,self.features_name,self.model_name,True)
             self.diagrams.Loss_Diagrams_Nkfold([1,2,3],loss_function,False,self.features_name,self.model_name,True)
         if number_loss==True and cycles_nkfold==True:       ## Diagram for more cycles each [1,3,5,7]
             print("Nkfold whit multi lost function and cycles") 
             cycles=[1,3,5,7]
-            for cycle in cycles:
-                print(f"Number of cycles {cycle}") 
+            n_splits=5
+            skf = common_library.KFold(n_splits=n_splits, shuffle=True)
+            history_all=[]
+            accuracy_all=[]
+            for iloss_function in loss_functions:
+             print("-----------------------------")
+             print(f"Function is {iloss_function}")
+             print("-----------------------------")
+             history_mean=[]
+             accuracy_mean=[]
+             for cycle in cycles:
+                 print("----------------------------")
+                 print(f"Number of the cycle {cycle}")
+                 print("-----------------------------")
+                 history_list=[]
+                 accuracy_list=[]
+                 for i in range(cycle):
+                  print("----------------------------")
+                  print(f"Number kfold {i} for cycle {cycle}")
+                  print("-----------------------------")
+                  for train_index, val_index in skf.split(self.features, self.transformed_labels):
+                   X_train, X_val = self.features[train_index], self.features[val_index]
+                   y_train, y_val = self.transformed_labels[train_index], self.transformed_labels[val_index]
+                   model = self.Model()
+                   model.compile(optimizer='adam', loss=iloss_function, metrics=['binary_accuracy'])
+                   history = model.fit(X_train, y_train, epochs=100, batch_size=32, validation_data=(X_val, y_val))
+                   accuracy = model.evaluate(X_val, y_val, verbose=0)[1]
+                   history_list.append(history)
+                   accuracy_list.append(accuracy)
+                 history_mean.append({
+                  'loss': common_library.np.mean([h.history['loss'] for h in history_list], axis=0),
+                  'val_loss': common_library.np.mean([h.history['val_loss'] for h in history_list], axis=0),
+                  'binary_accuracy': common_library.np.mean([h.history['binary_accuracy'] for h in history_list], axis=0),
+                  'val_binary_accuracy': common_library.np.mean([h.history['val_binary_accuracy'] for h in history_list], axis=0)
+                  })
+                 accuracy_mean.append(common_library.np.mean(accuracy_list,axis=0))
+                 history_all.append(history_mean)
+                 accuracy_all.append(common_library.np.mean(accuracy_mean,axis=0))
             self.diagrams.Accuracy_Diagrams_Nkfold([1,2,3],loss_functions,True,self.features_name,self.model_name,True)
             self.diagrams.Loss_Diagrams_Nkfold([1,2,3],loss_functions,True,self.features_name,self.model_name,True)
         return 0
