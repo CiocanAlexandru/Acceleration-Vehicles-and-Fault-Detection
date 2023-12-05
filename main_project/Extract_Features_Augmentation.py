@@ -1,14 +1,11 @@
-## O sa am asa  functii de  adaugare sunete eleiminare sunete marire volul scadere volum , extragere a futer pentru o instanat (3 functii)
 import common_library
 class Features_Augmentation:
-    # Constructor care sa contina un obiect de tip Manipulation data_set
-    
     def read_data(self,vehicle_audio):
         sample_rate , audio_data=common_library.read(vehicle_audio)
         audio_data=self.normelized_data(audio_data)
         return sample_rate,audio_data 
     
-    def normelized_data(self,data): #Merge
+    def normelized_data(self,data): 
       if data.shape==(data.shape[0],):
         max=common_library.np.max(data)
         data=data/max 
@@ -106,12 +103,11 @@ class Features_Augmentation:
     
     def PSD_Features(self,vehicle_audio,sample_rate):
         spectrogram=common_library.librosa.feature.melspectrogram(y=vehicle_audio,sr=sample_rate)
-        #print(f" Spectrograma {spectrogram}")
         PSD1=common_library.np.sum(spectrogram,axis=0)
         PSD1=self.normelized_data(PSD1)
         print(PSD1)
         return common_library.np.array(PSD1)
-    def FFT_Futures(self,vehicle_audio,sample_rate):     # Merge 
+    def FFT_Futures(self,vehicle_audio,sample_rate):     
         spect=common_library.np.fft.fft(vehicle_audio, n=sample_rate)
         freq = common_library.np.abs(common_library.np.fft.fftfreq(len(spect)))
         print(freq,spect)
@@ -121,16 +117,7 @@ class Features_Augmentation:
         
 
 
-'''
-example=Features_Augmentation()
-
-root_="./wav_"
-for root,dir,file in common_library.os.walk(root_):
-    for files in file:
-       print(f"File path {root_+'/'+files} and FFT structure:{example.FFT_Futures(root_+'/'+files)}")
-'''
-#File path ./wav_/SUV,Suzuki,good,3.wav   
-#print(example.FFT_Futures("./wav_/SUV,Suzuki,good,3.wav"))     
+ 
     
 
      

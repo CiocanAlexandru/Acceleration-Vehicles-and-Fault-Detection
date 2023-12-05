@@ -29,7 +29,6 @@ def Initialize():
     return 0
 def Load_data_set_exel():
      global data_set,FFT_exel,MFCC_exel,PSD_exel,Extractor
-     print("Load data ...")
      wav_root="./wav_"
      for root,dir,files in header.common_library.os.walk(wav_root):
         for  file in files :
@@ -43,10 +42,8 @@ def Load_data_set_exel():
             content=[wav_root+'/'+file,file_name_split[0],'-',file_name_split[1]]
             data_set.Add_Instance(content)
      data_set.Show_Content()
-     print("\n-----------------------------------------------\n")
 def Load_FFT_exel():
      global data_set,FFT_exel,MFCC_exel,PSD_exel,Extractor
-     print("\n-----------------------------------------------\n")
      FFT_data_augmanted=[]
      data=data_set.Get_Instances()
      data_only_good_instance=[data[i][1:4] for i in range (0,data_set.Get_number_of_instance()) if data[i][3]=='good']
@@ -87,22 +84,13 @@ def Load_FFT_exel():
                       Feature=Extractor.FFT_Futures(vehicle_audio_aug,sample_rate)
                       content=[Feature,state]
                       FFT_data_augmanted.append(content)
-     print(FFT_data_augmanted)
-     print(len(FFT_data_augmanted))
      FFT_data_augmanted=header.common_library.np.array(FFT_data_augmanted)   
-     ## Add in exel 
-     print("------------------------------------")
-     print(f"Exemplu care contine state-ul :{FFT_data_augmanted[0][1]}")   
-     print("------------------------------------")
      k=1
      for i in FFT_data_augmanted:
          FFT_exel.Add_Instance(i)
          print(f"Pas k={k}")
          k+=1
      print("Finish adding element")
-     data_frame=FFT_exel.Get_DataFrame()
-     print(data_frame["Tip/Brand/State"])
-     
      return 0
 def Load_MFCC_exel():
      global data_set,FFT_exel,MFCC_exel,PSD_exel,Extractor
@@ -119,12 +107,9 @@ def Load_MFCC_exel():
              content=[Feature,i[1:4]]
              MFCC_data_augmanted.append(content)
              k=0
-             print("--------------------")
-             print(Feature.shape)
-             print("--------------------")
              if colum<Feature.shape[1]:
                  colum=Feature.shape[1]
-             for j in range(0,5):
+             for j in range(0,15):
                  k+=0.1
                  vehicle_audio_aug=Extractor.addNoise(vehicle_audio,k)
                  Feature=Extractor.MFFC_Features(vehicle_audio_aug,sample_rate)
@@ -137,12 +122,8 @@ def Load_MFCC_exel():
          if i[3]=='bad':
              sample_rate,vehicle_audio=Extractor.read_data(i[0])
              Feature=Extractor.MFFC_Features(vehicle_audio,sample_rate)
-             print("----------------------------")
-             print(Feature.shape)
-             print("----------------------------")
              if colum<Feature.shape[1]:
                  colum=Feature.shape[1]
-             #print(f"row={row} and colum={colum}")
              ok=1
              k=0.02
              for j in data_only_good_instance[0:20]:
@@ -162,7 +143,6 @@ def Load_MFCC_exel():
      MFCC_data_augmanted=header.common_library.np.array(MFCC_data_augmanted)
      print(len(MFCC_data_augmanted))
      print(f"row={row} and colum={colum}")
-     ## Add in exel
      k=1 
      for i in MFCC_data_augmanted:
          i[0]=Extractor.padding_data(i[0],row,colum)
@@ -171,12 +151,10 @@ def Load_MFCC_exel():
          if(k==500):
             break
          MFCC_exel.Add_Instance(i)
-  
      print("Finish adding element")
      return 0
 def Load_PSD_exel():
      global data_set,FFT_exel,MFCC_exel,PSD_exel,Extractor
-     print("\n-----------------------------------------------\n")
      PSD_data_augmanted=[]
      data=data_set.Get_Instances()
      data_only_good_instance=[data[i][1:4] for i in range (0,data_set.Get_number_of_instance()) if data[i][3]=='good']
@@ -188,13 +166,7 @@ def Load_PSD_exel():
              Feature=Extractor.PSD_Features(vehicle_audio,sample_rate)
              content=[Feature,i[1:4]]
              PSD_data_augmanted.append(content)
-             print("AI AICI CE ESTE IMPOTANT AC ARE CONTINUT")
-             print(Feature[50:70])
-             print("AI AICI CE ESTE IMPOTANT AC ARE CONTINUT")
              k=0
-             print("--------------------")
-             print(Feature.shape)
-             print("--------------------")
              if row<Feature.shape[0]:
                  row=Feature.shape[0]
              for j in range(0,5):
@@ -210,10 +182,6 @@ def Load_PSD_exel():
          if i[3]=='bad':
              sample_rate,vehicle_audio=Extractor.read_data(i[0])
              Feature=Extractor.PSD_Features(vehicle_audio,sample_rate)
-             print("----------------------------")
-             print(Feature.shape)
-             print("----------------------------")
-             #print(f"row={row} and colum={colum}")
              if row<Feature.shape[0]:
                  row=Feature.shape[0]
              ok=1
@@ -296,10 +264,6 @@ if ok_model.lower()=="no":
                Load_PSD_exel()
     else:
         print("No i do somethig diffrente")
-    
-#Initialize()
-#Delete_All_Content()
-#Load_data_set_exel()
-#Load_FFT_exel()
+
 
 

@@ -74,10 +74,8 @@ def MFCC_string_convertor(data):
           if (j==len(converted_data)-1):
             new_line.append(0)
             new_line=header.common_library.np.array(new_line)
-            #print(new_line.shape)
           else:
-            new_line=header.common_library.np.array(new_line)
-           # print(new_line.shape)   
+            new_line=header.common_library.np.array(new_line)  
           matrix.append(new_line)
      matrix=header.common_library.np.array(matrix) 
      print(matrix.shape)

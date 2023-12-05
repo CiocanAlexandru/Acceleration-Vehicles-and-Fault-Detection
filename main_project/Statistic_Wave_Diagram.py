@@ -11,9 +11,7 @@ def Distribution_Graf():
 def Number_of_Instances():
    global data_set_exel,data_statistics,colums_name
    for i in colums_name:
-    print("----------------------------")
     data_statistics.Number_of_Instance(i)
-    print("---------------------------")
 def Print_Waw_And_Augmanted():
     global data_set_exel,data_statistics,colums_name,extractor
     random_number=header.common_library.np.random.randint(1,data_set_exel.Get_number_of_instance()-1)
@@ -32,13 +30,6 @@ def Print_Waw_And_Augmanted():
     audio_data_modified=extractor.changePitch(audio_data,sample_rate,0.05)
     data_statistics.Wav_Frame(audio_data_modified,sample_rate,name2)
     print(f"Instance whit number={random_number}and row content is {one_row}")
-
-#Print_Waw_And_Augmanted()
-#data_statistics.Wav_Frame(audio_data,sample_rate,name)
-#data_statistics.Wav_Frame(audio_data,sample_rate,name)
-#Number_of_Instances()
-#Distribution_For_Colums()
-
 
 ok_number_of_instance=input("Do you want who many instance are for every class?(Yes/No)")
 ok_wav_frame=input("Do you want to show you some audio wave diagrams ?(Yes/No)")

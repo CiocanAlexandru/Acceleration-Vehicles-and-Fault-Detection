@@ -15,9 +15,6 @@ class Manipulation_Data_set:
         if self.ok==1:
             self.file_name=file_name
             self.info=common_library.pd.read_excel(file_name,engine="openpyxl")
-        print("--------------------------------------")
-        print(len(self.info))    
-        print("---------------------------------------")
         if (self.ok==1 and self.file_name=="./exel/data_set.xlsx"):
             print(f"\n File is empty :{file_name}")
             print(common_library.os.path.getsize(self.file_name))
@@ -85,9 +82,6 @@ class Manipulation_Data_set:
                      k=(len(new_form)-1)//max_number_of_caracters
                  else :
                      k=(len(new_form)-1)//max_number_of_caracters+1
-                 print("--------------")
-                 print(f"k={k}")
-                 print("---------------")
                  for i in range(k):
                      new_Info.append(new_form[(max_number_of_caracters*i):(max_number_of_caracters*(i+1)+1)])
                  if (len(new_Info)-1)<11:
@@ -116,11 +110,6 @@ class Manipulation_Data_set:
                      for i in range(len(new_Info)-1,99):
                          new_Info.append(['-'])
                  new_Info.append(Info[1])
-                 print("--------------")
-                 print(f"k={k}")
-                 print("---------------")
-                 print(new_Info)
-                 print(len(new_Info))
                  self.info.loc[len(self.info)] = new_Info
                  self.info.to_excel(self.file_name, index=False, engine="openpyxl", header=True)
         else:
