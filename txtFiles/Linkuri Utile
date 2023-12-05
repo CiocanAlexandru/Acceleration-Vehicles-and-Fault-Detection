@@ -1,0 +1,162 @@
+Linkuri Utile :
+Hyper parameters SVM https://www.geeksforgeeks.org/svm-hyperparameter-tuning-using-gridsearchcv-ml/
+
+
+//GridShearc(parameri gama c si tipul de nuclue) PSD FFT
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_multilabel_classification
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.svm import SVC
+from sklearn.multiclass import OneVsRestClassifier
+from sklearn.metrics import accuracy_score, classification_report
+import seaborn as sns
+from sklearn.metrics import multilabel_confusion_matrix
+import matplotlib.pyplot as plt
+
+# Generate synthetic multi-label dataset
+X, y = make_multilabel_classification(n_samples=1000, n_features=20, n_classes=3, n_labels=2, random_state=42)
+print(f"X content:{X[:5]}")
+print(f"Y content:{y[:5]}")
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Define the SVM model (wrapped in OneVsRestClassifier)
+svm_model = OneVsRestClassifier(SVC())
+
+# Define the hyperparameters and their possible values for tuning
+param_grid = {
+    'estimator__C': [0.1, 1, 10, 100],         # Regularization parameter
+    'estimator__kernel': ['linear', 'rbf'],   # Kernel type
+    'estimator__gamma': [1, 0.1, 0.01, 0.001, 0.0001] # Kernel coefficient for 'rbf' kernel
+}
+
+# Create GridSearchCV with the SVM model and hyperparameter grid
+grid_search = GridSearchCV(svm_model, param_grid, cv=5, scoring='accuracy', n_jobs=-1)
+
+# Fit the grid search to the data
+grid_search.fit(X_train, y_train)
+
+# Get the best hyperparameters from the grid search
+best_params = grid_search.best_params_
+print("Best Hyperparameters:", best_params)
+
+# Get the best SVM model with the tuned hyperparameters
+best_svm_model = grid_search.best_estimator_
+
+# Make predictions on the test set
+y_pred = best_svm_model.predict(X_test)
+
+# Calculate accuracy on the test set
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy on Test Set:", accuracy)
+
+# Print classification report
+print("Classification Report:\n", classification_report(y_test, y_pred))
+
+# Calculate and print average precision, recall, and F1-score
+num_classes = y.shape[1]
+avg_precision = np.mean([classification_report(y_test[:, i], y_pred[:, i], output_dict=True)['weighted avg']['precision'] for i in range(num_classes)])
+avg_recall = np.mean([classification_report(y_test[:, i], y_pred[:, i], output_dict=True)['weighted avg']['recall'] for i in range(num_classes)])
+avg_f1 = np.mean([classification_report(y_test[:, i], y_pred[:, i], output_dict=True)['weighted avg']['f1-score'] for i in range(num_classes)])
+
+print("Average Precision:", avg_precision)
+print("Average Recall:", avg_recall)
+print("Average F1-Score:", avg_f1)
+conf_matrices=multilabel_confusion_matrix(y_test, y_pred)
+# Calculate and plot average confusion matrix
+avg_conf_matrix = np.mean(conf_matrices, axis=0)
+avg_conf_matrix = np.mean(conf_matrices, axis=0)
+plt.figure(figsize=(5, 5))
+sns.heatmap(avg_conf_matrix, annot=True, fmt=".2f", cmap="Blues", xticklabels=['0', '1'], yticklabels=['0', '1'])
+plt.title('Average Confusion Matrix')
+plt.show()
+
+print(f"Your best parameter for svm are:\nbest_C={best_params['estimator__C']}\nbest_kernel={best_params['estimator__kernel']}\nbest_gamma={best_params['estimator__gamma']}")
+//GridShearc(parameri gama c si tipul de nuclue) MFCC
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_multilabel_classification
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.svm import SVC
+from sklearn.multiclass import OneVsRestClassifier
+from sklearn.metrics import accuracy_score, classification_report
+import seaborn as sns
+from sklearn.metrics import multilabel_confusion_matrix
+import matplotlib.pyplot as plt
+
+# Generate synthetic multi-label dataset with X having 40 rows and 3050 columns
+X, y = make_multilabel_classification(
+    n_samples=1000, n_features=3050, n_classes=3, n_labels=2, random_state=42
+)
+
+# Take the first 40 rows from X and y
+X = X[:40, :]
+y = y[:40, :]
+
+print(f"X shape: {X.shape}")
+print(f"Y shape: {y.shape}")
+
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Define the SVM model (wrapped in OneVsRestClassifier)
+svm_model = OneVsRestClassifier(SVC())
+
+# Define the hyperparameters and their possible values for tuning
+param_grid = {
+    'estimator__C': [0.1, 1, 10, 100],         # Regularization parameter
+    'estimator__kernel': ['linear', 'rbf'],   # Kernel type
+    'estimator__gamma': [1, 0.1, 0.01, 0.001, 0.0001] # Kernel coefficient for 'rbf' kernel
+}
+
+# Create GridSearchCV with the SVM model and hyperparameter grid
+grid_search = GridSearchCV(svm_model, param_grid, cv=5, scoring='accuracy', n_jobs=-1)
+
+# Fit the grid search to the data
+grid_search.fit(X_train, y_train)
+
+# Get the best hyperparameters from the grid search
+best_params = grid_search.best_params_
+print("Best Hyperparameters:", best_params)
+
+# Get the best SVM model with the tuned hyperparameters
+best_svm_model = grid_search.best_estimator_
+
+# Make predictions on the test set
+y_pred = best_svm_model.predict(X_test)
+
+# Calculate accuracy on the test set
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy on Test Set:", accuracy)
+
+# Print classification report
+report = classification_report(y_test, y_pred, output_dict=True)
+print("Classification Report:\n", classification_report(y_test, y_pred))
+
+# Calculate and print average precision, recall, and F1-score
+num_classes = y.shape[1]  # Add this line to initialize num_classes
+avg_precision = np.mean([report[str(i)]['precision'] for i in range(num_classes)])
+avg_recall = np.mean([report[str(i)]['recall'] for i in range(num_classes)])
+avg_f1 = np.mean([report[str(i)]['f1-score'] for i in range(num_classes)])
+
+print("Average Precision:", avg_precision)
+print("Average Recall:", avg_recall)
+print("Average F1-Score:", avg_f1)
+
+# Plot average confusion matrix heatmap
+avg_conf_matrix = np.mean(multilabel_confusion_matrix(y_test, y_pred), axis=0)
+
+# Convert the float values in the matrix to integers for formatting
+avg_conf_matrix = avg_conf_matrix.astype(int)
+
+plt.figure(figsize=(5, 5))
+sns.heatmap(avg_conf_matrix, annot=True, fmt="d", cmap="Blues", xticklabels=['0', '1'], yticklabels=['0', '1'])
+plt.title('Average Confusion Matrix')
+
+plt.show()
+print(f"Your best parameter for svm are:\nbest_C={best_params['estimator__C']}\nbest_kernel={best_params['estimator__kernel']}\nbest_gamma={best_params['estimator__gamma']}")
+
+
+
