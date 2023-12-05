@@ -11,13 +11,18 @@ class SVN:
         print("SVN model initialiezed ")
         self.features_name=features_name
         self.name="SVN"
+        best_setings=self.GridShearch()
+        self.C=None
+        self.Gamma=None
+        self.Kernel=None
+    def GridShearch(self):
+        return 0
     def Model(self):
         return 0
-    def Training(self,number_loss=False):
+    def Training(self):
         return 0
     def Test(self):
          return 0
-    
-    def Nk_Fold_Traning(self,number_loss=False,cycles_nkfold=False):
+    def Nk_Fold_Traning(self):
         return 0
     

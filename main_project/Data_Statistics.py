@@ -56,6 +56,12 @@ class Data_Statistic:
            common_library.plt.show()
         else:
            print("Operation not working!!")
+    def GridShearch_conf_matrix():
+       return 0
+    def Accuracy_Kfold_SVM():
+       return 0
+    def Loss_Kfold_SVM():
+       return 0
     def Accuracy_Diagrams(self,history,function,function_number=False,features_name=None,model_name=None,accuracy=None):
         path="./Diagrams_Accuracy_Loss/"
         if function_number==False:
@@ -315,4 +321,5 @@ class Data_Statistic:
            common_library.plt.savefig(full_name,format='jpg')
            common_library.plt.show()
         return 0
+    
 
