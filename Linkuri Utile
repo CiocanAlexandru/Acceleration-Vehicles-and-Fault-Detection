@@ -2,7 +2,7 @@ Linkuri Utile :
 Hyper parameters SVM https://www.geeksforgeeks.org/svm-hyperparameter-tuning-using-gridsearchcv-ml/
 
 
-//Implementare startegie one to rest pentru SVM 
+//GridShearc(parameri gama c si tipul de nuclue) PSD FFT
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import make_multilabel_classification
@@ -54,22 +54,26 @@ print("Accuracy on Test Set:", accuracy)
 # Print classification report
 print("Classification Report:\n", classification_report(y_test, y_pred))
 
-conf_matrices = multilabel_confusion_matrix(y_test, y_pred)
-
-# Number of classes
+# Calculate and print average precision, recall, and F1-score
 num_classes = y.shape[1]
+avg_precision = np.mean([classification_report(y_test[:, i], y_pred[:, i], output_dict=True)['weighted avg']['precision'] for i in range(num_classes)])
+avg_recall = np.mean([classification_report(y_test[:, i], y_pred[:, i], output_dict=True)['weighted avg']['recall'] for i in range(num_classes)])
+avg_f1 = np.mean([classification_report(y_test[:, i], y_pred[:, i], output_dict=True)['weighted avg']['f1-score'] for i in range(num_classes)])
 
-# Plot confusion matrix heatmaps
-plt.figure(figsize=(15, 5))
-
-for i in range(num_classes):
-    plt.subplot(1, num_classes, i + 1)
-    sns.heatmap(conf_matrices[i], annot=True, fmt="d", cmap="Blues", xticklabels=['0', '1'], yticklabels=['0', '1'])
-    plt.title(f'Confusion Matrix Class {i + 1}')
-
+print("Average Precision:", avg_precision)
+print("Average Recall:", avg_recall)
+print("Average F1-Score:", avg_f1)
+conf_matrices=multilabel_confusion_matrix(y_test, y_pred)
+# Calculate and plot average confusion matrix
+avg_conf_matrix = np.mean(conf_matrices, axis=0)
+avg_conf_matrix = np.mean(conf_matrices, axis=0)
+plt.figure(figsize=(5, 5))
+sns.heatmap(avg_conf_matrix, annot=True, fmt=".2f", cmap="Blues", xticklabels=['0', '1'], yticklabels=['0', '1'])
+plt.title('Average Confusion Matrix')
 plt.show()
-print(f"Your best parameter for svm are:\nbest_C={best_params['estimator__C']}\nbest_kernel={best_params['estimator__kernel']}\nbest_gamma={best_params['estimator__gamma']}")
 
-//Implementare SVM fara one to rest 
+print(f"Your best parameter for svm are:\nbest_C={best_params['estimator__C']}\nbest_kernel={best_params['estimator__kernel']}\nbest_gamma={best_params['estimator__gamma']}")
+//GridShearc(parameri gama c si tipul de nuclue) MFCC
+
 
 
