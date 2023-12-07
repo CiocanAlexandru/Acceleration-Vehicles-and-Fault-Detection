@@ -34,3 +34,36 @@ De asemenea planuies sa mai fac un algorit de GridShearch pentru gama si C optim
 Cam atat vroiam sa va spun .
 
 Cu stima si respect,Ciocan Alexandru
+
+Linkuri formule functii de loss
+binary_cross_entropy https://towardsdatascience.com/understanding-binary-cross-entropy-log-loss-a-visual-explanation-a3ac6025181a
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
