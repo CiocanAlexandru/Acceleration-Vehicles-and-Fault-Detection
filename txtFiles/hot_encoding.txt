@@ -38,7 +38,7 @@ Cu stima si respect,Ciocan Alexandru
 Linkuri formule functii de loss
 binary_cross_entropy https://towardsdatascience.com/understanding-binary-cross-entropy-log-loss-a-visual-explanation-a3ac6025181a
 
-
+categorial_cross_entropy https://stats.stackexchange.com/questions/326065/cross-entropy-vs-sparse-cross-entropy-when-to-use-one-over-the-other
 
 
 
