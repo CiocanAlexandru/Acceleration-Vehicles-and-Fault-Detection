@@ -56,8 +56,16 @@ class Data_Statistic:
            common_library.plt.show()
         else:
            print("Operation not working!!")
-    def GridShearch_conf_matrix():
-       return 0
+    def Train_confusion_matrix(self,content,title,test):
+       common_library.plt.figure(figsize=(8, 6))
+       common_library.sns.heatmap(content, annot=True, fmt='g', cmap='Blues',
+                                       xticklabels=common_library.np.unique(test),
+                                       yticklabels=common_library.np.unique(test))
+       common_library.plt.xlabel('Predicted labels')
+       common_library.plt.ylabel('True labels')
+       common_library.plt.title(title)
+       common_library.plt.show()
+       print()
     def Accuracy_Kfold_SVM():
        return 0
     def Loss_Kfold_SVM():

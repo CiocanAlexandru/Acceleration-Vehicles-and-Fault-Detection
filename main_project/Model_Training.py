@@ -1,11 +1,11 @@
 import header
+header.common_library.warnings.filterwarnings("ignore")
 data_set=None
 FFT_exel=None
 MFCC_exel=None
 Extractor=None
 PSD_exel=None
 Diagrams_analisys=None
-
 def Initialize():
     global data_set,FFT_exel,MFCC_exel,PSD_exel,Extractor,Diagrams_analisys
     print("Initialize variabels")
@@ -139,9 +139,9 @@ if Model_CNN_ok.lower()=="yes":
 elif Model_SVN_ok.lower()=="yes":
    Exemplu=header.SVN.SVN(class_index,encoded_data,Diagrams_analisys,features_extraction_method)
    if ok_normal_traing==True : 
-      Exemplu.Training(ok_number_of_function) 
+      Exemplu.Training(features_extraction_method) 
    else: 
-      Exemplu.Nk_Fold_Traning(ok_number_of_function,ok_cycles_nkfold)
+      Exemplu.Nk_Fold_Traning(features_extraction_method)
    Exemplu.Test()
    print(f"Model_SVN whit {features_extraction_method} features extraction method")
 elif Model_FCNN_ok.lower()=="yes":
