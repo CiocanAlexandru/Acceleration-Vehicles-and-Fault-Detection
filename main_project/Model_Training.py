@@ -141,7 +141,7 @@ elif Model_SVN_ok.lower()=="yes":
    if ok_normal_traing==True : 
       Exemplu.Training(features_extraction_method) 
    else: 
-      Exemplu.Nk_Fold_Traning(features_extraction_method)
+      Exemplu.Nk_Fold_Traning(features_extraction_method,ok_cycles_nkfold)
    Exemplu.Test()
    print(f"Model_SVN whit {features_extraction_method} features extraction method")
 elif Model_FCNN_ok.lower()=="yes":

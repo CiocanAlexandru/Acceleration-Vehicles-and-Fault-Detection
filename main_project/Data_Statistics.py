@@ -65,7 +65,20 @@ class Data_Statistic:
        common_library.plt.ylabel('True labels')
        common_library.plt.title(title)
        common_library.plt.show()
-       print()
+    def Vizualize_GridShearch(self,gamma_values,C_values,cv_results):
+        
+        contour = common_library.plt.contour(common_library.np.log10(gamma_values), common_library.np.log10(C_values), cv_results.reshape(3, -1), cmap='viridis')
+        
+        # Adăugare bară de culoare
+        common_library.plt.colorbar(contour, label='Mean Test Score')
+        
+        # Etichete și titlu
+        common_library.plt.xlabel('log10(gamma)')
+        common_library.plt.ylabel('log10(C)')
+        common_library.plt.title('Efectul parametrului gamma în căutarea pe grilă')
+        common_library.plt.show()
+        # Afișare diagramă
+    
     def Accuracy_Kfold_SVM():
        return 0
     def Loss_Kfold_SVM():
