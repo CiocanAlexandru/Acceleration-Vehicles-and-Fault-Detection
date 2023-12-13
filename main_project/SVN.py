@@ -137,30 +137,104 @@ class SVN:
         return 0
         
     def Nk_Fold_Traning(self,features_extraction_method,cycles_nkfold=False):
+        #def NkFlold_train_SVM(cycles_nkfold=False,shape=None,accuracy=None):
         if cycles_nkfold==False:
             if self.features[0].shape[0]==40:
+                n_splits=5
+                skf = common_library.KFold(n_splits=n_splits, shuffle=True)
+                list_accuracy=[]
                 flattened_features = common_library.np.array(self.features)
-
                 num_samples, num_features, num_values = flattened_features.shape
-
                 flattened_features = flattened_features.reshape((num_samples * num_features, num_values))
-
                 adjusted_transformed_labels = common_library.np.repeat(self.transformed_labels, num_features, axis=0)
-                self.model=self.Model()
-                stratified_kfold = common_library.MultiLabelStratifiedKFold(n_splits=5, shuffle=True, random_state=42)
-
-                cross_val_scores = common_library.cross_val_score(self.model, flattened_features, adjusted_transformed_labels, cv=stratified_kfold, scoring='accuracy')
-                print("Cross-Validation Scores:", cross_val_scores)
-                print("Mean Accuracy:", common_library.np.mean(cross_val_scores))
-                self.accuracy=common_library.np.mean(cross_val_scores)
+                k=0
+                for train_index, val_index in skf.split(flattened_features[:20], adjusted_transformed_labels[:20]):
+                     print(f"Kfold pas {k}")
+                     X_train, X_test = flattened_features[train_index], flattened_features[val_index]
+                     y_train, y_test = adjusted_transformed_labels[train_index], adjusted_transformed_labels[val_index]
+                     self.model=self.Model()
+                     self.model.fit(X_train, y_train)
+                     y_pred = self.model.predict(X_test)
+                     accuracy = common_library.accuracy_score(y_test, y_pred)
+                     list_accuracy.append(accuracy)
+                     k+=1
+                print("My acyraces:",list_accuracy)
+                self.accuracy=common_library.np.mean(list_accuracy,axis=0)
+                self.diagrams.NkFlold_train_SVM(False,self.features.shape,list_accuracy)
             else:
-                print()
-
+                n_splits=5
+                skf = common_library.KFold(n_splits=n_splits, shuffle=True)
+                list_accuracy=[]
+                k=0
+                for train_index, val_index in skf.split(self.features[:20], self.transformed_labels[:20]):
+                     X_train, X_test = self.features[train_index], self.features[val_index]
+                     y_train, y_test = self.transformed_labels[train_index], self.transformed_labels[val_index]
+                     self.model=self.Model()
+                     self.model.fit(X_train, y_train)
+                     y_pred = self.model.predict(X_test)
+                     accuracy = common_library.accuracy_score(y_test, y_pred)
+                     list_accuracy.append(accuracy)
+                     k+=1
+                print("My acyraces:",list_accuracy)
+                self.accuracy=common_library.np.mean(list_accuracy,axis=0)
+                self.diagrams.NkFlold_train_SVM(False,self.features.shape,list_accuracy)
         if cycles_nkfold==True:
             if self.features[0].shape[0]==40:
-                print()
+                cycles=[1,3,5,7]
+                n_splits=5
+                skf = common_library.KFold(n_splits=n_splits, shuffle=True)
+                flattened_features = common_library.np.array(self.features)
+                num_samples, num_features, num_values = flattened_features.shape
+                flattened_features = flattened_features.reshape((num_samples * num_features, num_values))
+                adjusted_transformed_labels = common_library.np.repeat(self.transformed_labels, num_features, axis=0)
+                accuracy_mean=[]
+                for cycle in cycles:
+                    print("----------------------------")
+                    print(f"Number of the cycle {cycle}")
+                    print("-----------------------------")
+                    accuracy_list=[]
+                    for i in range(cycle):
+                     print("----------------------------")
+                     print(f"Number kfold {i} for cycle {cycle}")
+                     print("-----------------------------")
+                     for train_index, val_index in skf.split(flattened_features[:20], adjusted_transformed_labels[:20]):
+                      X_train, X_test = flattened_features[train_index], flattened_features[val_index]
+                      y_train, y_test = adjusted_transformed_labels[train_index], adjusted_transformed_labels[val_index]
+                      self.model = self.Model()
+                      self.model.fit(X_train, y_train)
+                      y_pred = self.model.predict(X_test)
+                      accuracy = common_library.accuracy_score(y_test, y_pred)
+                      accuracy_list.append(accuracy)
+                    accuracy_mean.append(common_library.np.mean(accuracy_list,axis=0))
+                self.accuracy=common_library.np.mean(accuracy_mean,axis=0)
+                print("My acyraces:",accuracy_mean)
+                self.diagrams.NkFlold_train_SVM(True,self.features.shape,accuracy_mean)
             else:
-                print()
+                cycles=[1,3,5,7]
+                n_splits=5
+                skf = common_library.KFold(n_splits=n_splits, shuffle=True)
+                accuracy_mean=[]
+                for cycle in cycles:
+                    print("----------------------------")
+                    print(f"Number of the cycle {cycle}")
+                    print("-----------------------------")
+                    accuracy_list=[]
+                    for i in range(cycle):
+                     print("----------------------------")
+                     print(f"Number kfold {i} for cycle {cycle}")
+                     print("-----------------------------")
+                     for train_index, val_index in skf.split(self.features[:20], self.transformed_labels[:20]):
+                      X_train, X_test = self.features[train_index], self.features[val_index]
+                      y_train, y_test = self.transformed_labels[train_index], self.transformed_labels[val_index]
+                      self.model = self.Model()
+                      self.model.fit(X_train, y_train)
+                      y_pred = self.model.predict(X_test)
+                      accuracy = common_library.accuracy_score(y_test, y_pred)
+                      accuracy_list.append(accuracy)
+                    accuracy_mean.append(common_library.np.mean(accuracy_list,axis=0))
+                self.accuracy=common_library.np.mean(accuracy_mean,axis=0)
+                print("My acyraces:",accuracy_mean)
+                self.diagrams.NkFlold_train_SVM(True,self.features.shape,accuracy_mean)
         
         return 0
     def Test(self):

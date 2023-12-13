@@ -79,9 +79,55 @@ class Data_Statistic:
         common_library.plt.show()
         # Afișare diagramă
     
-    def Accuracy_Kfold_SVM():
-       return 0
-    def Loss_Kfold_SVM():
+    def NkFlold_train_SVM(self,cycles_nkfold=False,shape=None,accuracy=None):
+       if cycles_nkfold==False:
+          if shape[0]==40:
+             print("MFCC")
+             common_library.plt.style.use('seaborn')
+             common_library.plt.figure(figsize=(10,5))
+             for i in range(0,len(accuracy)):
+                label="K-fold-"+str(i)
+                common_library.plt.plot(i,accuracy[i],label=label)
+             common_library.plt.ylabel('accuracy')
+             common_library.plt.xlabel('k-Fold')
+             common_library.plt.legend(loc='upper right') 
+             common_library.plt.show()
+          else :
+             print("FFT,PSD")
+             common_library.plt.style.use('seaborn')
+             common_library.plt.figure(figsize=(10,5))
+             for i in range(0,len(accuracy)):
+                label="K-fold-"+str(i)
+                common_library.plt.plot(i,accuracy[i],label=label)
+             common_library.plt.ylabel('accuracy')
+             common_library.plt.xlabel('k-Fold')
+             common_library.plt.legend(loc='upper right') 
+             common_library.plt.show()
+       if cycles_nkfold==True:
+          if shape[0]==40:
+             print("MFCC")
+             common_library.plt.style.use('seaborn')
+             common_library.plt.figure(figsize=(10,5))
+             labels=[]
+             for i in range(0,len(accuracy)):
+                labels.append("cycles-"+str(i+1)+" accuracy-"+str(accuracy[i]))
+             common_library.plt.plot([i*2+1 for i in range(0,7//2+1)],accuracy,label=labels)
+             common_library.plt.ylabel('accuracy')
+             common_library.plt.xlabel('k-Fold-cycles')
+             common_library.plt.legend(loc='upper right') 
+             common_library.plt.show()
+          else :
+             common_library.plt.style.use('seaborn')
+             common_library.plt.figure(figsize=(10,5))
+             labels=[]
+             for i in range(0,len(accuracy)):
+                labels.append("cycles-"+str(i+1)+" accuracy-"+str(accuracy[i]))
+             common_library.plt.plot([i*2+1 for i in range(0,7//2+1)],accuracy,label=labels)
+             common_library.plt.ylabel('accuracy')
+             common_library.plt.xlabel('k-Fold-cycles')
+             common_library.plt.legend(loc='upper right') 
+             common_library.plt.show()
+       print(accuracy)
        return 0
     def Accuracy_Diagrams(self,history,function,function_number=False,features_name=None,model_name=None,accuracy=None):
         path="./Diagrams_Accuracy_Loss/"
