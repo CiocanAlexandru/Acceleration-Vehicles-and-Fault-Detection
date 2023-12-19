@@ -48,14 +48,15 @@ class SVN:
         else:
            #FFT or PSD
            
-           X_train, X_test, y_train, y_test=common_library.train_test_split(self.features[0:500],self.transformed_labels[0:500],test_size=0.3)
+           X_train, X_test, y_train, y_test=common_library.train_test_split(self.features[0:10],self.transformed_labels[0:10],test_size=0.3)
            svm_model = common_library.OneVsRestClassifier(common_library.SVC())
            param_grid = {
            'estimator__C': [0.1, 1, 10, 100],         
            'estimator__kernel': ['linear', 'rbf'],   
            'estimator__gamma': [1, 0.1, 0.01, 0.001,0.0001] 
            }
-           grid_search = common_library.GridSearchCV(svm_model, param_grid, cv=2, scoring='accuracy', n_jobs=-1)
+           
+           grid_search = common_library.GridSearchCV(svm_model, param_grid, cv=None, scoring='accuracy', n_jobs=-1)
 
            grid_search.fit(X_train, y_train)
 
@@ -133,7 +134,8 @@ class SVN:
         gamma_values, C_values = common_library.np.meshgrid(gamma_values, C_values)
         
         # Plasare diagramă de contur în funcție de performanța modelului pentru fiecare combinație gamma-C
-        self.diagrams.Vizualize_GridShearch(gamma_values,C_values,cv_results['mean_test_score'])                              
+        title="GridShearch"+"SVM whit kerne="+str(self.Kernel)+' gamma='+str(self.Gamma)+' C='+str(self.C)
+        self.diagrams.Vizualize_GridShearch(gamma_values,C_values,cv_results['mean_test_score'],title)                              
         return 0
         
     def Nk_Fold_Traning(self,features_extraction_method,cycles_nkfold=False):
@@ -160,7 +162,8 @@ class SVN:
                      k+=1
                 print("My acyraces:",list_accuracy)
                 self.accuracy=common_library.np.mean(list_accuracy,axis=0)
-                self.diagrams.NkFlold_train_SVM(False,self.features.shape,list_accuracy)
+                title='SVM whit kfold no cycles'+features_extraction_method+' kerne='+str(self.Kernel)+' gamma='+str(self.Gamma)+' C='+str(self.C)
+                self.diagrams.NkFlold_train_SVM(False,self.features.shape,list_accuracy,title)
             else:
                 n_splits=5
                 skf = common_library.KFold(n_splits=n_splits, shuffle=True)
@@ -177,7 +180,8 @@ class SVN:
                      k+=1
                 print("My acyraces:",list_accuracy)
                 self.accuracy=common_library.np.mean(list_accuracy,axis=0)
-                self.diagrams.NkFlold_train_SVM(False,self.features.shape,list_accuracy)
+                title='SVM whit kfold no cycles'+features_extraction_method+' kerne='+str(self.Kernel)+' gamma='+str(self.Gamma)+' C='+str(self.C)
+                self.diagrams.NkFlold_train_SVM(False,self.features.shape,list_accuracy,title)
         if cycles_nkfold==True:
             if self.features[0].shape[0]==40:
                 cycles=[1,3,5,7]
@@ -208,7 +212,8 @@ class SVN:
                     accuracy_mean.append(common_library.np.mean(accuracy_list,axis=0))
                 self.accuracy=common_library.np.mean(accuracy_mean,axis=0)
                 print("My acyraces:",accuracy_mean)
-                self.diagrams.NkFlold_train_SVM(True,self.features.shape,accuracy_mean)
+                title='SVM whit kfold yes cycles'+features_extraction_method+' kerne='+str(self.Kernel)+' gamma='+str(self.Gamma)+' C='+str(self.C)
+                self.diagrams.NkFlold_train_SVM(True,self.features.shape,accuracy_mean,title)
             else:
                 cycles=[1,3,5,7]
                 n_splits=5
@@ -234,7 +239,8 @@ class SVN:
                     accuracy_mean.append(common_library.np.mean(accuracy_list,axis=0))
                 self.accuracy=common_library.np.mean(accuracy_mean,axis=0)
                 print("My acyraces:",accuracy_mean)
-                self.diagrams.NkFlold_train_SVM(True,self.features.shape,accuracy_mean)
+                title='SVM whit kfold yes cycles'+features_extraction_method+' kerne='+str(self.Kernel)+' gamma='+str(self.Gamma)+' C='+str(self.C)
+                self.diagrams.NkFlold_train_SVM(True,self.features.shape,accuracy_mean,title)
         
         return 0
     def Test(self):

@@ -137,7 +137,7 @@ class FCNN:
             self.diagrams.Loss_Diagrams_Nkfold(history_mean,loss_function,False,self.features_name,self.model_name,True,n_splits)
         if number_loss==True and cycles_nkfold==True:       ## Diagram for more cycles each [1,3,5,7]
             print("Nkfold whit multi lost function and cycles") 
-            cycles=[1]
+            cycles=[1,3,5,7]
             n_splits=5
             skf = common_library.KFold(n_splits=n_splits, shuffle=True)
             history_all=[]

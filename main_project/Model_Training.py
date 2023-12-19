@@ -114,6 +114,7 @@ cycles_nkfold=""
 ok_normal_traing=False
 ok_cycles_nkfold=False
 ok_number_of_function=False
+timer_start=header.common_library.time.time()
 if normal_traing.lower()=="yes":
    ok_normal_traing=True
 if normal_traing.lower()=="no":
@@ -152,6 +153,9 @@ elif Model_FCNN_ok.lower()=="yes":
       Exemplu.Nk_Fold_Traning(ok_number_of_function,ok_cycles_nkfold)
    Exemplu.Test()
    print(f"Model_FCNN whit {features_extraction_method}")
+timer_end=header.common_library.time.time()
+
+print(f"Time of execution is :{timer_end-timer_start}")
 
 
 

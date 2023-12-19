@@ -57,6 +57,7 @@ class Data_Statistic:
         else:
            print("Operation not working!!")
     def Train_confusion_matrix(self,content,title,test):
+       path="./Diagrams_Accuracy_Loss/"
        common_library.plt.figure(figsize=(8, 6))
        common_library.sns.heatmap(content, annot=True, fmt='g', cmap='Blues',
                                        xticklabels=common_library.np.unique(test),
@@ -64,9 +65,11 @@ class Data_Statistic:
        common_library.plt.xlabel('Predicted labels')
        common_library.plt.ylabel('True labels')
        common_library.plt.title(title)
+       save=path+"Normal Training "+title+".jpg"
+       common_library.plt.savefig(save,format="jpg")
        common_library.plt.show()
-    def Vizualize_GridShearch(self,gamma_values,C_values,cv_results):
-        
+    def Vizualize_GridShearch(self,gamma_values,C_values,cv_results,title):
+        path="./Diagrams_Accuracy_Loss/"
         contour = common_library.plt.contour(common_library.np.log10(gamma_values), common_library.np.log10(C_values), cv_results.reshape(3, -1), cmap='viridis')
         
         # Adăugare bară de culoare
@@ -76,10 +79,14 @@ class Data_Statistic:
         common_library.plt.xlabel('log10(gamma)')
         common_library.plt.ylabel('log10(C)')
         common_library.plt.title('Efectul parametrului gamma în căutarea pe grilă')
+        save=path+title+".jpg"
+        common_library.plt.savefig(save,format='jpg')
         common_library.plt.show()
         # Afișare diagramă
     
-    def NkFlold_train_SVM(self,cycles_nkfold=False,shape=None,accuracy=None):
+    def NkFlold_train_SVM(self,cycles_nkfold=False,shape=None,accuracy=None,title=None):
+       path="./Diagrams_Accuracy_Loss/"
+       save=path+title+".jpg"
        if cycles_nkfold==False:
           if shape[0]==40:
              print("MFCC")
@@ -91,6 +98,7 @@ class Data_Statistic:
              common_library.plt.ylabel('accuracy')
              common_library.plt.xlabel('k-Fold')
              common_library.plt.legend(loc='upper right') 
+             common_library.plt.savefig(save,format='jpg')
              common_library.plt.show()
           else :
              print("FFT,PSD")
@@ -102,6 +110,7 @@ class Data_Statistic:
              common_library.plt.ylabel('accuracy')
              common_library.plt.xlabel('k-Fold')
              common_library.plt.legend(loc='upper right') 
+             common_library.plt.savefig(save,format='jpg')
              common_library.plt.show()
        if cycles_nkfold==True:
           if shape[0]==40:
@@ -115,6 +124,7 @@ class Data_Statistic:
              common_library.plt.ylabel('accuracy')
              common_library.plt.xlabel('k-Fold-cycles')
              common_library.plt.legend(loc='upper right') 
+             common_library.plt.savefig(save,format='jpg')
              common_library.plt.show()
           else :
              common_library.plt.style.use('seaborn')
@@ -125,7 +135,8 @@ class Data_Statistic:
              common_library.plt.plot([i*2+1 for i in range(0,7//2+1)],accuracy,label=labels)
              common_library.plt.ylabel('accuracy')
              common_library.plt.xlabel('k-Fold-cycles')
-             common_library.plt.legend(loc='upper right') 
+             common_library.plt.legend(loc='upper right')
+             common_library.plt.savefig(save,format='jpg') 
              common_library.plt.show()
        print(accuracy)
        return 0
@@ -270,7 +281,7 @@ class Data_Statistic:
                 p+=1
                common_library.plt.plot([],[],' ',label='loss_function='+function[k-1])
                common_library.plt.plot([],[],' ',label='acc-'+str(common_library.np.mean(accuracy[k-1],axis=0)))
-               common_library.plt.title(model_name+' whit '+features_name+'acuracy for the '+nkfold+'-fold whit cycle')
+               common_library.plt.title(model_name+' whit '+features_name+'acuracy for the '+str(nkfold)+'-fold whit cycle')
                common_library.plt.ylabel('accuracy')
                common_library.plt.xlabel('epoch')
                common_library.plt.legend(loc='upper right') 
@@ -290,7 +301,7 @@ class Data_Statistic:
               k+=1
            common_library.plt.plot([],[],' ',label='loss_function='+function)
            common_library.plt.plot([],[],' ',label='acc_mean-'+str(common_library.np.mean(accuracy,axis=0)))
-           common_library.plt.title(model_name+' whit '+features_name+'acuracy for the '+nkfold+'-fold whit cycle')
+           common_library.plt.title(model_name+' whit '+features_name+'acuracy for the '+str(nkfold)+'-fold whit cycle')
            common_library.plt.ylabel('accuracy')
            common_library.plt.xlabel('epoch')
            common_library.plt.legend(loc='upper right')
@@ -361,7 +372,7 @@ class Data_Statistic:
                 common_library.plt.plot(j['val_binary_accuracy'],label=label) 
                 p+=1
                common_library.plt.plot([],[],' ',label='loss_function='+function[k-1])
-               common_library.plt.title(model_name+' whit '+features_name+'acuracy for the '+nkfold+'-fold whit cycle')
+               common_library.plt.title(model_name+' whit '+features_name+'acuracy for the '+str(nkfold)+'-fold whit cycle')
                common_library.plt.ylabel('accuracy')
                common_library.plt.xlabel('epoch')
                common_library.plt.legend(loc='upper right') 
@@ -380,7 +391,7 @@ class Data_Statistic:
               common_library.plt.plot(i['val_loss'],label=label)
               k+=1
            common_library.plt.plot([],[],' ',label='loss_function='+function)
-           common_library.plt.title(model_name+' whit '+features_name+'loss for the '+nkfold+'-fold whit cycle')
+           common_library.plt.title(model_name+' whit '+features_name+'loss for the '+str(nkfold)+'-fold whit cycle')
            common_library.plt.ylabel('accuracy')
            common_library.plt.xlabel('epoch')
            common_library.plt.legend(loc='upper right')
