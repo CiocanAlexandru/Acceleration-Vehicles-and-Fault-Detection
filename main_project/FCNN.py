@@ -13,14 +13,23 @@ class FCNN:
         print("FCNN model initialiezed ")
         self.features_name=features_name
         self.model_name="FCNN"
-    def Model(self):
+    def Model(self ,loss_function=None):
         print(self.features[0].shape)
         num_classes=len(self.class_index)+1
+        activation_function=''
+        other_function=''
+        if loss_function=='categorical_crossentropy':
+            activation_function='softmax'
+            other_function='tanh'
+        else:
+            activation_function='sigmoid'
+            other_function='relu'   
+            
         self.model = common_library.tf.keras.Sequential([common_library.tf.keras.layers.Flatten(input_shape=self.features[0].shape),  # Aplatizează intrarea
-         common_library.tf.keras.layers.Dense(64, activation='relu'),
+         common_library.tf.keras.layers.Dense(64, activation=other_function),
         common_library.tf.keras.layers.Dense(128, activation='linear'),  # Stratul ascuns cu 128 de neuroni și activare liniară
-        common_library.tf.keras.layers.Dense(64, activation='relu'),  # Al doilea strat ascuns cu 64 de neuroni și activare ReLU
-        common_library.tf.keras.layers.Dense(num_classes, activation='sigmoid')])
+        common_library.tf.keras.layers.Dense(64, activation=other_function    ),  # Al doilea strat ascuns cu 64 de neuroni și activare ReLU
+        common_library.tf.keras.layers.Dense(num_classes, activation=activation_function)])
         return self.model  # Stratul de ieșire cu 3 neuroni și activare Softmax])
     def Training(self,number_loss=False):
         # def Accuracy_Diagrams(self,history,function,function_number=False,features_name=None,model_name=None):
@@ -33,7 +42,7 @@ class FCNN:
            accuracy_list=[]
            for iloss_function in loss_functions:
                 X_train, X_test, y_train, y_test = common_library.train_test_split(self.features, self.transformed_labels, test_size=0.3)
-                self.model=self.Model()
+                self.model=self.Model(iloss_function)
                 self.model.compile(optimizer='adam', loss=iloss_function, metrics=['binary_accuracy'])
                 history=self.model.fit(X_train,y_train, epochs=100, batch_size=10, validation_split=0.3)
                 history_list.append(history)
@@ -46,7 +55,7 @@ class FCNN:
         if number_loss==False:
            print("Normal Traing whit one loss function ")
            X_train, X_test, y_train, y_test = common_library.train_test_split(self.features, self.transformed_labels, test_size=0.3)
-           self.model=self.Model()
+           self.model=self.Model(loss_function)
            self.model.compile(optimizer='adam', loss=loss_function, metrics=['binary_accuracy'])
            history=self.model.fit(X_train,y_train, epochs=100, batch_size=10, validation_split=0.3)
            self.accuracy=self.model.evaluate(X_test,y_test)[1]
@@ -67,7 +76,7 @@ class FCNN:
             for train_index, val_index in skf.split(self.features, self.transformed_labels):
               X_train, X_val = self.features[train_index], self.features[val_index]
               y_train, y_val = self.transformed_labels[train_index], self.transformed_labels[val_index]
-              model = self.Model()
+              model = self.Model(loss_function)
               model.compile(optimizer='adam', loss=loss_function, metrics=['binary_accuracy'])
               history = model.fit(X_train, y_train, epochs=100, batch_size=32, validation_data=(X_val, y_val))
               accuracy = model.evaluate(X_val, y_val, verbose=0)[1]
@@ -88,7 +97,7 @@ class FCNN:
                 for train_index, val_index in skf.split(self.features, self.transformed_labels):
                  X_train, X_val = self.features[train_index], self.features[val_index]
                  y_train, y_val = self.transformed_labels[train_index], self.transformed_labels[val_index]
-                 model = self.Model()
+                 model = self.Model(iloss_function)
                  model.compile(optimizer='adam', loss=iloss_function, metrics=['binary_accuracy'])
                  history = model.fit(X_train, y_train, epochs=100, batch_size=32, validation_data=(X_val, y_val))
                  accuracy = model.evaluate(X_val, y_val, verbose=0)[1]
@@ -119,7 +128,7 @@ class FCNN:
                  for train_index, val_index in skf.split(self.features, self.transformed_labels):
                   X_train, X_val = self.features[train_index], self.features[val_index]
                   y_train, y_val = self.transformed_labels[train_index], self.transformed_labels[val_index]
-                  model = self.Model()
+                  model = self.Model(loss_function)
                   model.compile(optimizer='adam', loss=loss_function, metrics=['binary_accuracy'])
                   history = model.fit(X_train, y_train, epochs=100, batch_size=32, validation_data=(X_val, y_val))
                   accuracy = model.evaluate(X_val, y_val, verbose=0)[1]
@@ -161,7 +170,7 @@ class FCNN:
                   for train_index, val_index in skf.split(self.features, self.transformed_labels):
                    X_train, X_val = self.features[train_index], self.features[val_index]
                    y_train, y_val = self.transformed_labels[train_index], self.transformed_labels[val_index]
-                   model = self.Model()
+                   model = self.Model(iloss_function)
                    model.compile(optimizer='adam', loss=iloss_function, metrics=['binary_accuracy'])
                    history = model.fit(X_train, y_train, epochs=100, batch_size=32, validation_data=(X_val, y_val))
                    accuracy = model.evaluate(X_val, y_val, verbose=0)[1]

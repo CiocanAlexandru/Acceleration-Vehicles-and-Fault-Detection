@@ -270,6 +270,7 @@ class Data_Statistic:
            num_datasets = len(function)
            num_cols = int(common_library.np.ceil(common_library.np.sqrt(num_datasets)))
            num_rows = int(common_library.np.ceil(num_datasets / num_cols))
+           common_library.plt.style.use('seaborn')
            common_library.plt.figure(figsize=(15, 5 * num_rows))
            k=1
            for i in history:
@@ -362,6 +363,7 @@ class Data_Statistic:
            num_datasets = len(function)
            num_cols = int(common_library.np.ceil(common_library.np.sqrt(num_datasets)))
            num_rows = int(common_library.np.ceil(num_datasets / num_cols))
+           common_library.plt.style.use('seaborn')
            common_library.plt.figure(figsize=(15, 5 * num_rows))
            k=1
            for i in history:

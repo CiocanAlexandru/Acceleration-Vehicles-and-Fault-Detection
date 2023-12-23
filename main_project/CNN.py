@@ -11,32 +11,40 @@ class CNN:
         print("CNN model initialiezed ")
         self.features_name=features_name
         self.model_name="CNN"
-    def Model(self):
+    def Model(self,loss_function):
         print(self.features[0].shape)
+        activation_function=''
+        other_function=''
+        if loss_function=='categorical_crossentropy':
+            activation_function='softmax'
+            other_function='tanh'
+        else:
+            activation_function='sigmoid'   
+            other_function='relu' 
         if self.features[0].shape==(self.features[0].shape[0],):
-         self.model=common_library.tf.keras.Sequential([
+         self.model=common_library.tf.keras.Sequential([ 
           common_library.tf.keras.layers.Reshape((self.features[0].shape[0],1)),
-          common_library.tf.keras.layers.Conv1D(32,3, activation='relu', input_shape=self.features[0].shape),
+          common_library.tf.keras.layers.Conv1D(32,3, activation=other_function, input_shape=self.features[0].shape),
           common_library.tf.keras.layers.MaxPooling1D(2),
-          common_library.tf.keras.layers.Conv1D(64,3, activation='relu'),
+          common_library.tf.keras.layers.Conv1D(64,3, activation=other_function),
           common_library.tf.keras.layers.MaxPooling1D(2),
           common_library.tf.keras.layers.Flatten(),
-          common_library.tf.keras.layers.Dense(64, activation='relu'),
+          common_library.tf.keras.layers.Dense(64, activation=other_function),
           common_library.tf.keras.layers.Dense(128, activation='linear'),
-          common_library.tf.keras.layers.Dense(64, activation='relu'),
-          common_library.tf.keras.layers.Dense(len(self.class_index) + 1, activation='sigmoid')
+          common_library.tf.keras.layers.Dense(64, activation=other_function),
+          common_library.tf.keras.layers.Dense(len(self.class_index) + 1, activation=activation_function)
           ])
         else:
            self.model=common_library.tf.keras.Sequential([
-          common_library.tf.keras.layers.Conv1D(32,3, activation='relu', input_shape=self.features[0].shape),
+          common_library.tf.keras.layers.Conv1D(32,3, activation=other_function, input_shape=self.features[0].shape),
           common_library.tf.keras.layers.MaxPooling1D(2),
-          common_library.tf.keras.layers.Conv1D(64,3, activation='relu'),
+          common_library.tf.keras.layers.Conv1D(64,3, activation=other_function),
           common_library.tf.keras.layers.MaxPooling1D(2),
           common_library.tf.keras.layers.Flatten(),
-          common_library.tf.keras.layers.Dense(64, activation='relu'),
+          common_library.tf.keras.layers.Dense(64, activation=other_function),
           common_library.tf.keras.layers.Dense(128, activation='linear'),
-          common_library.tf.keras.layers.Dense(64, activation='relu'),
-          common_library.tf.keras.layers.Dense(len(self.class_index) + 1, activation='sigmoid')
+          common_library.tf.keras.layers.Dense(64, activation=other_function),
+          common_library.tf.keras.layers.Dense(len(self.class_index) + 1, activation=activation_function)
           ])
             
         return self.model
@@ -51,7 +59,7 @@ class CNN:
            accuracy_list=[]
            for iloss_function in loss_functions:
                 X_train, X_test, y_train, y_test = common_library.train_test_split(self.features, self.transformed_labels, test_size=0.3)
-                self.model=self.Model()
+                self.model=self.Model(iloss_function)
                 self.model.compile(optimizer='adam', loss=iloss_function, metrics=['binary_accuracy'])
                 history=self.model.fit(X_train,y_train, epochs=100, batch_size=10, validation_split=0.3)
                 history_list.append(history)
@@ -64,7 +72,7 @@ class CNN:
         if number_loss==False:
            print("Normal Traing whit one loss function ")
            X_train, X_test, y_train, y_test = common_library.train_test_split(self.features, self.transformed_labels, test_size=0.3)
-           self.model=self.Model()
+           self.model=self.Model(loss_function)
            self.model.compile(optimizer='adam', loss=loss_function, metrics=['binary_accuracy'])
            history=self.model.fit(X_train,y_train, epochs=100, batch_size=10, validation_split=0.3)
            self.accuracy=self.model.evaluate(X_test,y_test)[1]
@@ -85,7 +93,7 @@ class CNN:
             for train_index, val_index in skf.split(self.features, self.transformed_labels):
               X_train, X_val = self.features[train_index], self.features[val_index]
               y_train, y_val = self.transformed_labels[train_index], self.transformed_labels[val_index]
-              model = self.Model()
+              model = self.Model(loss_function)
               model.compile(optimizer='adam', loss=loss_function, metrics=['binary_accuracy'])
               history = model.fit(X_train, y_train, epochs=100, batch_size=32, validation_data=(X_val, y_val))
               accuracy = model.evaluate(X_val, y_val, verbose=0)[1]
@@ -106,7 +114,7 @@ class CNN:
                 for train_index, val_index in skf.split(self.features, self.transformed_labels):
                  X_train, X_val = self.features[train_index], self.features[val_index]
                  y_train, y_val = self.transformed_labels[train_index], self.transformed_labels[val_index]
-                 model = self.Model()
+                 model = self.Model(iloss_function)
                  model.compile(optimizer='adam', loss=iloss_function, metrics=['binary_accuracy'])
                  history = model.fit(X_train, y_train, epochs=100, batch_size=32, validation_data=(X_val, y_val))
                  accuracy = model.evaluate(X_val, y_val, verbose=0)[1]
@@ -137,7 +145,7 @@ class CNN:
                  for train_index, val_index in skf.split(self.features, self.transformed_labels):
                   X_train, X_val = self.features[train_index], self.features[val_index]
                   y_train, y_val = self.transformed_labels[train_index], self.transformed_labels[val_index]
-                  model = self.Model()
+                  model = self.Model(loss_function)
                   model.compile(optimizer='adam', loss=loss_function, metrics=['binary_accuracy'])
                   history = model.fit(X_train, y_train, epochs=100, batch_size=32, validation_data=(X_val, y_val))
                   accuracy = model.evaluate(X_val, y_val, verbose=0)[1]
@@ -179,7 +187,7 @@ class CNN:
                   for train_index, val_index in skf.split(self.features, self.transformed_labels):
                    X_train, X_val = self.features[train_index], self.features[val_index]
                    y_train, y_val = self.transformed_labels[train_index], self.transformed_labels[val_index]
-                   model = self.Model()
+                   model = self.Model(iloss_function)
                    model.compile(optimizer='adam', loss=iloss_function, metrics=['binary_accuracy'])
                    history = model.fit(X_train, y_train, epochs=100, batch_size=32, validation_data=(X_val, y_val))
                    accuracy = model.evaluate(X_val, y_val, verbose=0)[1]
@@ -204,4 +212,3 @@ class CNN:
     def Test(self):
          print(f"Neuronal model acuracy is :{self.accuracy}")
          return 0
-

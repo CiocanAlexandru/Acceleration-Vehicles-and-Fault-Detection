@@ -28,7 +28,7 @@ def Initialize():
     Extractor=header.Extract_Features_Augmentation.Features_Augmentation()
     return 0
 def Load_data_set_exel():
-     global data_set,FFT_exel,MFCC_exel,PSD_exel,Extractor
+     global data_set,FFT_exel,MFCC_exel,PSD_exel,Extractor  
      wav_root="./wav_"
      for root,dir,files in header.common_library.os.walk(wav_root):
         for  file in files :
@@ -89,6 +89,8 @@ def Load_FFT_exel():
      for i in FFT_data_augmanted:
          FFT_exel.Add_Instance(i)
          print(f"Pas k={k}")
+         if k==1001:
+             break
          k+=1
      print("Finish adding element")
      return 0
@@ -147,9 +149,9 @@ def Load_MFCC_exel():
      for i in MFCC_data_augmanted:
          i[0]=Extractor.padding_data(i[0],row,colum)
          print(f"Pass k={k} shape={i[0].shape}")
+         if k==1001:
+             break
          k+=1
-         if(k==500):
-            break
          MFCC_exel.Add_Instance(i)
      print("Finish adding element")
      return 0
@@ -208,6 +210,8 @@ def Load_PSD_exel():
      for i in PSD_data_augmanted:
          i[0]=Extractor.padding_data(i[0],row,colum)
          print(f"Pass k={k}")
+         if k==1001:
+             break
          k+=1
          PSD_exel.Add_Instance(i)
   
