@@ -158,7 +158,7 @@ class CNN:
                  'val_binary_accuracy': common_library.np.mean([h.history['val_binary_accuracy'] for h in history_list], axis=0)
                  })
                 accuracy_mean.append(common_library.np.mean(accuracy_list,axis=0))
-                self.accuracy=common_library.np.mean(accuracy_mean,axis=0)    
+            self.accuracy=accuracy_mean    
             self.diagrams.Accuracy_Diagrams_Nkfold(history_mean,loss_function,False,self.features_name,self.model_name,True,accuracy_mean,n_splits)
             self.diagrams.Loss_Diagrams_Nkfold(history_mean,loss_function,False,self.features_name,self.model_name,True,n_splits)
         if number_loss==True and cycles_nkfold==True:       ## Diagram for more cycles each [1,3,5,7]
@@ -202,10 +202,7 @@ class CNN:
                  accuracy_mean.append(common_library.np.mean(accuracy_list,axis=0))
              history_all.append(history_mean)
              accuracy_all.append(accuracy_mean)
-            print(f"Elemente histori all{len(history_all)}")
-            print(f"Eelemente in fisrt element{len(history_all[0])} and second {len(history_all[1])}")
-            print(f"Elemente acuracy all{len(accuracy_all)}")
-            print(f"Eelemente in fisrt element{len(accuracy_all[0])} and second {len(accuracy_all[1])}")
+            self.accuracy=accuracy_all
             self.diagrams.Accuracy_Diagrams_Nkfold(history_all,loss_functions,True,self.features_name,self.model_name,True,accuracy_all,n_splits)
             self.diagrams.Loss_Diagrams_Nkfold(history_all,loss_functions,True,self.features_name,self.model_name,True,n_splits)
         return 0
