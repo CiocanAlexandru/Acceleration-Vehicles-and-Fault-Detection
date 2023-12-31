@@ -73,10 +73,11 @@ class SVN:
         return model
     def Training(self,features_extraction_method):
         title='Average Confusion Matrix SVM whit '+features_extraction_method+' kerne='+str(self.Kernel)+' gamma='+str(self.Gamma)+' C='+str(self.C)
+        path="./Models/model_"
         if self.features[0].shape[0]==40:
             #Train_confusion_matrix(content,title,test)
             flattened_features = common_library.np.array(self.features)
-
+            
             num_samples, num_features, num_values = flattened_features.shape
 
             flattened_features = flattened_features.reshape((num_samples * num_features, num_values))
@@ -84,24 +85,24 @@ class SVN:
             adjusted_transformed_labels = common_library.np.repeat(self.transformed_labels, num_features, axis=0)
 
             X_train, X_test, y_train, y_test = common_library.train_test_split(flattened_features[:100], adjusted_transformed_labels[:100], test_size=0.2)
-            self.model=self.Model()
-            self.model.fit(X_train, y_train)
+            model=self.Model()
+            model.fit(X_train, y_train)
             y_pred = self.model.predict(X_test)
-
+            
             self.accuracy = common_library.accuracy_score(y_test, y_pred)
-           
+            
             conf_matrix = common_library.multilabel_confusion_matrix(y_test, y_pred)
     
            
             average_conf_matrix=common_library.np.mean(conf_matrix,axis=0)
-
+                
             
             self.diagrams.Train_confusion_matrix(average_conf_matrix,title,y_test)
         else:
             
             X_train, X_test, y_train, y_test = common_library.train_test_split(self.features[:100], self.transformed_labels[:100], test_size=0.2)
-            self.model=self.Model()
-            self.model.fit(X_train, y_train)
+            model=self.Model()
+            model.fit(X_train, y_train)
             y_pred = self.model.predict(X_test)
             
             self.accuracy = common_library.accuracy_score(y_test, y_pred)
@@ -113,7 +114,8 @@ class SVN:
 
             
             self.diagrams.Train_confusion_matrix(average_conf_matrix,title,y_test)
-                
+        path+=self.model_name+"_"+self.features_name+"_"+"normaltraining"+".pkl"
+        common_library.joblib.dump(model,path)       
         return 0
     def Vizualize_GridShearch(self,X_train,y_train):
         #def Vizualize_GridShearch(gamma_values,C_values,cv_results):
@@ -140,7 +142,10 @@ class SVN:
         
     def Nk_Fold_Traning(self,features_extraction_method,cycles_nkfold=False):
         #def NkFlold_train_SVM(cycles_nkfold=False,shape=None,accuracy=None):
+        path="./Models/model_"
         if cycles_nkfold==False:
+            best_model=None 
+            max_accuracy=0
             if self.features[0].shape[0]==40:
                 n_splits=5
                 skf = common_library.KFold(n_splits=n_splits, shuffle=True)
@@ -154,15 +159,18 @@ class SVN:
                      print(f"Kfold pas {k}")
                      X_train, X_test = flattened_features[train_index], flattened_features[val_index]
                      y_train, y_test = adjusted_transformed_labels[train_index], adjusted_transformed_labels[val_index]
-                     self.model=self.Model()
-                     self.model.fit(X_train, y_train)
+                     model=self.Model()
+                     model.fit(X_train, y_train)
                      y_pred = self.model.predict(X_test)
                      accuracy = common_library.accuracy_score(y_test, y_pred)
+                     if accuracy>=max_accuracy:
+                         best_model=model
+                         max_accuracy=accuracy
                      list_accuracy.append(accuracy)
                      k+=1
                 print("My acyraces:",list_accuracy)
                 self.accuracy=common_library.np.mean(list_accuracy,axis=0)
-                title='SVM whit kfold no cycles'+features_extraction_method+' kerne='+str(self.Kernel)+' gamma='+str(self.Gamma)+' C='+str(self.C)
+                title='SVM whit kfold no cycles '+features_extraction_method+' kerne='+str(self.Kernel)+' gamma='+str(self.Gamma)+' C='+str(self.C)
                 self.diagrams.NkFlold_train_SVM(False,self.features.shape,list_accuracy,title)
             else:
                 n_splits=5
@@ -172,17 +180,24 @@ class SVN:
                 for train_index, val_index in skf.split(self.features[:20], self.transformed_labels[:20]):
                      X_train, X_test = self.features[train_index], self.features[val_index]
                      y_train, y_test = self.transformed_labels[train_index], self.transformed_labels[val_index]
-                     self.model=self.Model()
-                     self.model.fit(X_train, y_train)
+                     model=self.Model()
+                     model.fit(X_train, y_train)
                      y_pred = self.model.predict(X_test)
                      accuracy = common_library.accuracy_score(y_test, y_pred)
+                     if accuracy>=max_accuracy:
+                         best_model=model
+                         max_accuracy=accuracy
                      list_accuracy.append(accuracy)
                      k+=1
                 print("My acyraces:",list_accuracy)
                 self.accuracy=common_library.np.mean(list_accuracy,axis=0)
-                title='SVM whit kfold no cycles'+features_extraction_method+' kerne='+str(self.Kernel)+' gamma='+str(self.Gamma)+' C='+str(self.C)
+                title='SVM whit kfold no cycles '+features_extraction_method+' kerne='+str(self.Kernel)+' gamma='+str(self.Gamma)+' C='+str(self.C)
                 self.diagrams.NkFlold_train_SVM(False,self.features.shape,list_accuracy,title)
+            path+=self.model_name+"_"+self.features_name+"_"+"kfold_nocycles"+".pkl"
+            common_library.joblib.dump(best_model,path) 
         if cycles_nkfold==True:
+            best_model=None 
+            max_accuracy=0
             if self.features[0].shape[0]==40:
                 cycles=[1,3,5,7]
                 n_splits=5
@@ -208,11 +223,14 @@ class SVN:
                       self.model.fit(X_train, y_train)
                       y_pred = self.model.predict(X_test)
                       accuracy = common_library.accuracy_score(y_test, y_pred)
+                      if accuracy>=max_accuracy:
+                         best_model=model
+                         max_accuracy=accuracy
                       accuracy_list.append(accuracy)
                     accuracy_mean.append(common_library.np.mean(accuracy_list,axis=0))
                 self.accuracy=common_library.np.mean(accuracy_mean,axis=0)
                 print("My acyraces:",accuracy_mean)
-                title='SVM whit kfold yes cycles'+features_extraction_method+' kerne='+str(self.Kernel)+' gamma='+str(self.Gamma)+' C='+str(self.C)
+                title='SVM whit kfold yes cycles '+features_extraction_method+' kerne='+str(self.Kernel)+' gamma='+str(self.Gamma)+' C='+str(self.C)
                 self.diagrams.NkFlold_train_SVM(True,self.features.shape,accuracy_mean,title)
             else:
                 cycles=[1,3,5,7]
@@ -235,13 +253,17 @@ class SVN:
                       self.model.fit(X_train, y_train)
                       y_pred = self.model.predict(X_test)
                       accuracy = common_library.accuracy_score(y_test, y_pred)
+                      if accuracy>=max_accuracy:
+                         best_model=model
+                         max_accuracy=accuracy
                       accuracy_list.append(accuracy)
                     accuracy_mean.append(common_library.np.mean(accuracy_list,axis=0))
                 self.accuracy=common_library.np.mean(accuracy_mean,axis=0)
                 print("My acyraces:",accuracy_mean)
-                title='SVM whit kfold yes cycles'+features_extraction_method+' kerne='+str(self.Kernel)+' gamma='+str(self.Gamma)+' C='+str(self.C)
+                title='SVM whit kfold yes cycles '+features_extraction_method+' kerne='+str(self.Kernel)+' gamma='+str(self.Gamma)+' C='+str(self.C)
                 self.diagrams.NkFlold_train_SVM(True,self.features.shape,accuracy_mean,title)
-        
+            path+=self.model_name+"_"+self.features_name+"_"+"kfold_yescycles"+".pkl"
+            common_library.joblib.dump(best_model,path) 
         return 0
     def Test(self):
          print(f"Suport Vector Machine acuracy is :{self.accuracy}")

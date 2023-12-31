@@ -109,6 +109,7 @@ Model_SVN_ok=input("Use SVM model?(Yes/No)")
 Model_FCNN_ok=input("USE FCNN model?(Yes/No)")
 
 encoded_data,class_index=Extractor.hot_encoding(data)
+
 normal_traing=input("Do you want normal training or nk-fold training?(Yes normal traing /No kfold traning)")
 cycles_nkfold=""
 ok_normal_traing=False
@@ -138,6 +139,7 @@ if Model_CNN_ok.lower()=="yes":
    Exemplu.Test()
    print(f"Model_CNN whit {features_extraction_method} features extraction method")
 elif Model_SVN_ok.lower()=="yes":
+   encoded_data=Extractor.random_SVM(encoded_data,class_index,encoded_data.shape[0])
    Exemplu=header.SVN.SVN(class_index,encoded_data,Diagrams_analisys,features_extraction_method)
    if ok_normal_traing==True : 
       Exemplu.Training(features_extraction_method) 

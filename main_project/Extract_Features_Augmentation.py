@@ -39,6 +39,24 @@ class Features_Augmentation:
        except ValueError:
           print("File dosen't exist")
        return new_data,only_class_index
+    
+    def random_SVM(self,data=None,only_class_index=None,number=2):
+     good_data=[i for i in data  if i[1][only_class_index['good']]==1]
+     common_library.random.shuffle(good_data)
+     bad_data=[i for i in data  if i[1][only_class_index['bad']]==1]
+     common_library.random.shuffle(bad_data)
+     random_data=good_data[0:number//2]
+     for i in bad_data[0:number//2]:
+        random_data.append(i)
+     common_library.random.shuffle(random_data)
+     return common_library.np.array(random_data)
+    
+    def index_class_from_file(self):
+       file_path="./exel/index.txt"
+       file=open(file_path,"r")
+       only_class_index= common_library.ast.literal_eval(file.read())
+       return only_class_index
+    
     def DR_MaxInt_Var(self,vehicle_audio):
       vehicle_audio = common_library.np.abs(vehicle_audio)
       vehicle_audio = sorted(vehicle_audio)
@@ -114,7 +132,7 @@ class Features_Augmentation:
         data=self.FFT_Matrix(freq,spect)
         return common_library.np.array(data)
     
-        
+
 
 
  
