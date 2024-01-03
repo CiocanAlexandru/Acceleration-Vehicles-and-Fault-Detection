@@ -269,3 +269,4 @@ class SVN:
          print(f"Suport Vector Machine acuracy is :{self.accuracy}")
          return 0
     
+ 
