@@ -28,22 +28,21 @@
     <section>
         <div class="content">
         <h1>About us</h1>
-        <p>Some content</p>
-        <p>Some content</p>
-        <p>Some content</p>
-        <p>Some content</p>
-        <p>Some content</p>
-        <p>Some content</p>
-        <p>Some content</p>
-        <p>Some content</p>
-        <p>Some content</p>
-        <p>Some content</p>
-        <p>Some content</p>
-        <p>Some content</p>
-        <p>Some content</p>
-        <p>Some content</p>
-        <p>Some content</p>
-        <p>Some content</p>
+          <p>
+    Welcome to my website! Here, I present a personal project dedicated to leveraging information from audio recordings. I focus on maximizing their utility through various feature extraction methods, including FFT (Fast Fourier Transformation), MFFC (Mell Frequency), and PSD (Power Sound Density).
+
+    Our goal is to predict the type of vehicle (brand) and identify any potential defects using audio data. Our navigation menu offers the following options:
+    <ol>
+    <li><strong>Predict:</strong> by proveding a WAV recording and  choose the model, number of features, and feature extraction method will be show a prediction of the car caractersitics.</li>
+    <li><strong>Graphics:</strong> by choosing the model, number of features, and extraction method, will be display a graph of the model's performance.</li>
+    <li><strong>Audio:</strong>  a list of recordings used in the model training process.</li>
+    </ol>
+    </p>
+    <p>
+    The project code can be found <a href="link_to_code">here</a>, where you'll also find additional information about execution, UML diagrams, web interface details, and much more.
+
+    <br>We appreciate your interest!.
+    </p>
         </div>
     </section>
     <footer>

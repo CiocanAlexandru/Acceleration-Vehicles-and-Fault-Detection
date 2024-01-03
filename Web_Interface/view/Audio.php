@@ -4,6 +4,7 @@
     <title>
          Acceleration Vehicles
     </title>
+    <meta HTTP-EQUIV=”CACHE-CONTROL” CONTENT=”NO-CACHE”>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -28,34 +29,18 @@
     <section>
         <div class="content">
         <h1>Audio</h1>
-        <p>Some content</p>
-        <p>Some content</p>
-        <p>Some content</p>
-        <audio controls>
-            <source src="C:\Users\alexc\OneDrive\Desktop\Acceleration-Vehicles-and-Fault-Detection\wav_\BadBrake,bad,1.wav" type="audio/wav"/>
-        </audio>
-        <audio controls autoplay>
-            <source src="../../wav_/BadLinkBar,bad,1.wav" type="audio/wav">
-        </audio>
-        <audio controls>
-            <source src="../../wav_/BadLinkBar,bad,1.wav" type="audio/wav">
-        </audio>
-        <p>Some content</p>
-        <p>Some content</p>
-        <p>Some content</p>
-        <p>Some content</p>
-        <audio controls>
-            <source src="../../wav_/BadLinkBar,bad,1.wav" type="audio/wav">
-        </audio>
-        <p>Some content</p>
-        <p>Some content</p>
-        <p>Some content</p>
-        <p>Some content</p>
-        <p>Some content</p>
-        <p>Some content</p>
-        <p>Some content</p>
-        <p>Some content</p>
-        <p>Some content</p>
+        <div class="audio-item">
+            <p>Some content</p>
+            <audio controls>
+            <source src="../../wav_/BadBrake,bad,1.wav" type="audio/wav">
+            </audio>
+        </div>
+        <div class="audio-item">
+            <p>Some content</p>
+            <audio controls>
+            <source src="../../wav_/BadBrake,bad,1.wav" type="audio/wav">
+            </audio>
+        </div>
         </div>
     </section>
     <footer>
