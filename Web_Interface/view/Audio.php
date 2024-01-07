@@ -9,12 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" type="image/x-icon" href="../images/favicon.png">
-    <link rel="stylesheet" href="../styles/style.css">
-    <link rel="stylesheet" href="../styles/Audio.css">
+    <link rel="stylesheet" href="../Web_Interface/styles/style.css">
+    <link rel="stylesheet" href="../Web_Interface/styles/Audio.css">
     </head>
     <body>
      <div class="upper">
-        <img src="../images/Above Image.jpg">
+        <img src="../Web_Interface/images/Above Image.jpg">
         <p><a href="Home">Acceleration Vehicles and Fault Detection</a></p>
     </div>
     <div>
@@ -39,6 +39,24 @@
             <p>Some content</p>
             <audio controls>
             <source src="../../wav_/BadBrake,bad,1.wav" type="audio/wav">
+            </audio>
+        </div>
+        <div class="audio-item">
+            <p>Some content</p>
+            <audio controls>
+            <source src="../../wav_/Commercial,Iveco,good,1.wav" type="audio/wav">
+            </audio>
+        </div>
+        <div class="audio-item">
+            <p>Some content</p>
+            <audio controls>
+            <source src="../../wav_/Commercial,Volvo,good,1.wav" type="audio/wav">
+            </audio>
+        </div>
+        <div class="audio-item">
+            <p>Some content</p>
+            <audio controls>
+            <source src="../../wav_/BeltChirping,bad,1.wav" type="audio/wav">
             </audio>
         </div>
         </div>

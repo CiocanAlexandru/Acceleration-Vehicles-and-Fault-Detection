@@ -8,12 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" type="image/x-icon" href="../images/favicon.png">
-    <link rel="stylesheet" href="../styles/style.css">
-    <link rel="stylesheet" href="../styles/About_us.css">
+    <link rel="stylesheet" href="../Web_Interface/styles/style.css">
+    <link rel="stylesheet" href="../Web_Interface/styles/About_us.css">
     </head>
     <body>
      <div class="upper">
-        <img src="../images/Above Image.jpg">
+        <img src="../Web_Interface/images/Above Image.jpg">
         <p><a href="Home">Acceleration Vehicles and Fault Detection</a></p>
     </div>
     <div>

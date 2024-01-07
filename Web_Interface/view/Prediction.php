@@ -8,12 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" type="image/x-icon" href="../images/favicon.png">
-    <link rel="stylesheet" href="../styles/style.css">
-    <link rel="stylesheet" href="../styles/Prediction.css">
+    <link rel="stylesheet" href="../Web_Interface/styles/style.css">
+    <link rel="stylesheet" href="../Web_Interface/styles/Prediction.css">
     </head>
     <body>
      <div class="upper">
-        <img src="../images/Above Image.jpg">
+        <img src="../Web_Interface/images/Above Image.jpg">
         <p><a href="Home">Acceleration Vehicles and Fault Detection</a></p>
     </div>
     <div>
@@ -30,7 +30,7 @@
         <div class="content">
             <h1>Prediction</h1>
             <p><strong>Note :The file you upload must be wav!!</strong></p>
-            <form action="" method="Post">
+            <form action="../Web_Interface/view/Prediction.php" method="GET">
             <div class="file-upload" accept=".wav">
             <input class="audio-file" type="file" name="fileToUpload" id="fileToUpload" accept=".txt, .pdf, .doc, .docx">
             <label class="label-file" for="fileToUpload" data-file-name="No file chosen">Upload File</label>
@@ -69,8 +69,6 @@
             <button type="submit" class="submit-button">Submit</button>
             </div>
             </form>
-           
-
         </div>
     </section>
     <footer>

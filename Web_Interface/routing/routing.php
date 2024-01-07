@@ -1,42 +1,28 @@
 <?php
-/*
 function CheckURL($Features,$Project_Name,$arr)
 {
-    $poz1=0;$poz2=0;$coun=0;$k=0;
-    foreach($arr as $i)
-    {
-        if ($i===$Project_Name)
-        {
-            $count=$count+1;
-            $poz1=$k;
-        }
-        if ($i===$Features)
-        {
-            $count=$count-1;
-            $poz2=$k;
-        }  
-        if ($i!=$Features && $i!=$Project_Name && $i!="localhost")
-          echo "Difreant";
-        $k=$k+1;  
-    }
-    if ($count!=0)
-      return false;
-    if ($poz1>$poz2)
-      return false;
+    if ($arr[0]!="")
+       return false;
+    if ($arr[1]!=$Project_Name)
+       return false;
+    if ($arr[2]!=$Features)
+       return false;
+    if (count($arr)>=4)
+       return false;
+    
     return true;
-};
-*/
+}
 $arr= explode("/", $_SERVER['REQUEST_URI'] );
 
-if (in_array("Home", $arr))
+if (CheckURL("Home","Web_Interface",$arr) )
     require '../controllers/controller_index.php';
-elseif (in_array("About", $arr))
+elseif (CheckURL("About","Web_Interface",$arr))
     require "../controllers/controller_About_us.php";
-elseif (in_array("Audio", $arr))
+elseif (CheckURL("Audio","Web_Interface",$arr))
     require "../controllers/controller_Audio.php";
-elseif (in_array("Prediction", $arr))
+elseif (CheckURL("Prediction","Web_Interface",$arr))
     require "../controllers/controller_Prediction.php";
-elseif (in_array("Graphics", $arr))
+elseif (CheckURL("Graphics","Web_Interface",$arr))
     require "../controllers/controller_Graphics.php";
 else 
  echo "Wrong Adrres";
