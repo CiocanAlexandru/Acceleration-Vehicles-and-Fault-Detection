@@ -32,6 +32,10 @@ def Get_Result(audio,path_file,feature_method):
       data=Extractor.PSD_Features(audio_data,sample_rate)
    return result
 
+
+mod=header.common_library.sys.argv[1]
+print(mod)
+'''
 Initialize()
 if site_mod_type.lower=="Predict":
    path_file="./Models/model_"
@@ -54,3 +58,4 @@ if number_of_cycles:
    path_file+=number_of_cycles
 
 print(Get_Result(audio,path_file,feature_method))
+'''

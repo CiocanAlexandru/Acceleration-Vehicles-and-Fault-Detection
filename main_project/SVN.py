@@ -72,7 +72,7 @@ class SVN:
         model=common_library.OneVsRestClassifier(common_library.SVC(C=self.C, kernel=self.Kernel, gamma=self.Gamma))
         return model
     def Training(self,features_extraction_method):
-        title='Average Confusion Matrix SVM whit '+features_extraction_method+' kerne='+str(self.Kernel)+' gamma='+str(self.Gamma)+' C='+str(self.C)
+        title='Average_Confusion_Matrix_SVM_whit_'+features_extraction_method
         path="./Models/model_"
         if self.features[0].shape[0]==40:
             #Train_confusion_matrix(content,title,test)
@@ -115,7 +115,7 @@ class SVN:
             
             self.diagrams.Train_confusion_matrix(average_conf_matrix,title,y_test)
         path+=self.model_name+"_"+self.features_name+"_"+"normaltraining"+".pkl"
-        common_library.joblib.dump(model,path)       
+        common_library.pickle.dump(model,path)       
         return 0
     def Vizualize_GridShearch(self,X_train,y_train):
         #def Vizualize_GridShearch(gamma_values,C_values,cv_results):
@@ -170,7 +170,7 @@ class SVN:
                      k+=1
                 print("My acyraces:",list_accuracy)
                 self.accuracy=common_library.np.mean(list_accuracy,axis=0)
-                title='SVM whit kfold no cycles '+features_extraction_method+' kerne='+str(self.Kernel)+' gamma='+str(self.Gamma)+' C='+str(self.C)
+                title='SVM_whit_kfold_no cycles_'+features_extraction_method
                 self.diagrams.NkFlold_train_SVM(False,self.features.shape,list_accuracy,title)
             else:
                 n_splits=5
@@ -191,10 +191,10 @@ class SVN:
                      k+=1
                 print("My acyraces:",list_accuracy)
                 self.accuracy=common_library.np.mean(list_accuracy,axis=0)
-                title='SVM whit kfold no cycles '+features_extraction_method+' kerne='+str(self.Kernel)+' gamma='+str(self.Gamma)+' C='+str(self.C)
+                title='SVM_whit_kfold_no_cycles_'+features_extraction_method
                 self.diagrams.NkFlold_train_SVM(False,self.features.shape,list_accuracy,title)
             path+=self.model_name+"_"+self.features_name+"_"+"kfold_nocycles"+".pkl"
-            common_library.joblib.dump(best_model,path) 
+            common_library.pickle.dump(best_model,path) 
         if cycles_nkfold==True:
             best_model=None 
             max_accuracy=0
@@ -263,7 +263,7 @@ class SVN:
                 title='SVM whit kfold yes cycles '+features_extraction_method+' kerne='+str(self.Kernel)+' gamma='+str(self.Gamma)+' C='+str(self.C)
                 self.diagrams.NkFlold_train_SVM(True,self.features.shape,accuracy_mean,title)
             path+=self.model_name+"_"+self.features_name+"_"+"kfold_yescycles"+".pkl"
-            common_library.joblib.dump(best_model,path) 
+            common_library.pickle.dump(best_model,path) 
         return 0
     def Test(self):
          print(f"Suport Vector Machine acuracy is :{self.accuracy}")

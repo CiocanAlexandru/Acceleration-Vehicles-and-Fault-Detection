@@ -65,7 +65,7 @@ class Data_Statistic:
        common_library.plt.xlabel('Predicted labels')
        common_library.plt.ylabel('True labels')
        common_library.plt.title(title)
-       save=path+"Normal Training "+title+".jpg"
+       save=path+"Normal_Training_"+title+".jpg"
        common_library.plt.savefig(save,format="jpg")
        common_library.plt.show()
     def Vizualize_GridShearch(self,gamma_values,C_values,cv_results,title):
