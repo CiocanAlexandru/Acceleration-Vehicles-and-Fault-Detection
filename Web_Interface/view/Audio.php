@@ -29,36 +29,19 @@
     <section>
         <div class="content">
         <h1>Audio</h1>
-        <div class="audio-item">
-            <p>Some content</p>
-            <audio controls>
-            <source src="../../wav_/BadBrake,bad,1.wav" type="audio/wav">
-            </audio>
-        </div>
-        <div class="audio-item">
-            <p>Some content</p>
-            <audio controls>
-            <source src="../../wav_/BadBrake,bad,1.wav" type="audio/wav">
-            </audio>
-        </div>
-        <div class="audio-item">
-            <p>Some content</p>
-            <audio controls>
-            <source src="../../wav_/Commercial,Iveco,good,1.wav" type="audio/wav">
-            </audio>
-        </div>
-        <div class="audio-item">
-            <p>Some content</p>
-            <audio controls>
-            <source src="../../wav_/Commercial,Volvo,good,1.wav" type="audio/wav">
-            </audio>
-        </div>
-        <div class="audio-item">
-            <p>Some content</p>
-            <audio controls>
-            <source src="../../wav_/BeltChirping,bad,1.wav" type="audio/wav">
-            </audio>
-        </div>
+        <?php
+        foreach ($content as $element)
+         {
+            $text=$element["name"];
+            $file=$element["path"];
+        echo "<div class='audio-item'>
+         <p>$text</p>
+         <audio controls>
+         <source src='$file' type='audio/wav'>
+         </audio>
+         </div>";
+         }
+        ?>
         </div>
     </section>
     <footer>
