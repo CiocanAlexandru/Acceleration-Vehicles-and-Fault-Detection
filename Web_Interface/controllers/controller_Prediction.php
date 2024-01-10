@@ -32,11 +32,18 @@ if (isset($_POST["model"])==false )
  {
     $checking=false;
  }
- 
- if ($checking==false)
-  echo "Not set";
-else 
-  GetPrediction();
+ //if(isset($_FILES["fileToUpload"])!=true || $_FILES["fileToUpload"]["error"] != 0) 
+ //{
+ //  $checking=false;
+ //}
+if ($checking==true) 
+{
+   $model=GetPrediction($_POST["model"],$_POST["features"],$_POST["train"],$_POST["lost-function"],$_POST["number_of_cycel"]);
+   $file_path=SedUploadFile($_FILES["fileToUpload"]);
+   //function Prediction($features,$model_name,$audiofile)
+   $content=Prediction($_POST["features"],$model,$file_path,$_POST["model"]);
+
+}
  
  /*$_POST["model"]=null;
  $_POST["train"]=null;

@@ -1,22 +1,85 @@
 <?php
 
-function GetPrediction()
+function GetPrediction($model,$features,$train,$lost_function,$cycles)
 {
-    exec("python ../../main_project/main.py  value",$output,$ok_status);
-    if ($ok_status===0)
+   $content="";
+   if ($model!="SVM")
+   { 
+     if ($train==="Normal" && $lost_function==="One function")
+      {
+        $content="../../Models/model_".$model."_".$features."_normaltraining_one_lost_function.h5";
+      }
+     if($train==="Normal" && $lost_function!="One function")
+       {
+        $content="../../Models/model_".$model."_".$features."_normaltraining_multi_lost_function.h5";
+       }
+
+     if ($train==="Nkfold" && $lost_function==="One function" && $cycles==="One cycle")
+       {
+        $content="../../Models/model_".$model."_".$features."_kfold_one_lost_function_nocycles.h5";
+       }
+     if ($train==="Nkfold" && $lost_function==="One function" && $cycles!="One cycle")
+       {
+        $content="../../Models/model_".$model."_".$features."_kfold_one_lost_function_yescycles.h5";
+       }
+     if ($train==="Nkfold" && $lost_function!="One function" && $cycles==="One cycle")
+      {
+       $content="../../Models/model_".$model."_".$features."_kfold_multi_lost_function_categorical_crossentropy_nocycles.h5";
+       $content=$content."|"."../../Models/model_".$model."_".$features."_kfold_multi_lost_function_binary_crossentropy_nocycles.h5";
+      }
+     if ($train==="Nkfold" && $lost_function!="One function" && $cycles!="One cycle")
+      {
+        $content="../../Models/model_".$model."_".$features."_kfold_multi_lost_function_categorical_crossentropy_yescycles.h5";
+        $content=$content."|"."../../Models/model_".$model."_".$features."_kfold_multi_lost_function_binary_crossentropy_yescycles.h5";
+      }
+   }
+   if($model==="SVM")
+   {
+    if ($train==="Normal")
+      {
+        $content="../../Models/model_".$model."_".$features."_normaltraining.pkl";
+      }
+    if ($train==="Nkfold" && $cycles==="One cycle")
+      {
+        $content="../../Models/model_".$model."_".$features."_kfold_nocycles.pkl";
+      }
+    if ($train==="Nkfold" && $cycles!="One cycle")
+      {
+        $content="../../Models/model_".$model."_".$features."_kfold_yescycles.pkl";
+      }
+
+   }
+   return $content;
+}
+
+function SedUploadFile($File)
+{
+  $targetDir = "../UploadFile";
+  $originalFileName = $File["name"];
+    $extension = pathinfo($originalFileName, PATHINFO_EXTENSION);
+    $newFileName = time() . '_' . uniqid() . '.' . $extension;
+    $targetFile = $targetDir . DIRECTORY_SEPARATOR . $newFileName;
+
+    // Muta fișierul încărcat în directorul dorit
+    if (move_uploaded_file($File["tmp_name"], $targetFile)) {
+        //echo "Fișierul " . basename($newFileName) . " a fost încărcat cu succes.";
+    } else {
+        echo "Eroare la încărcarea fișierului.";
+    }
+    return $newFileName; 
+}
+
+function Prediction($features,$model_name,$audiofile,$typeof_model)
+{
+  exec("python ../../main_project/main.py  $features $model_name $audiofile $typeof_model",$output,$ok_status);
+  if ($ok_status===0)
     {
-        foreach ($output as $i)
-        {
-            echo $i;
-        }
+       return $output; 
     }
     else {
         echo "Execution error";
     }
-
-    return "";
+  var_dump($output);
+  return "Erorr";
 }
-$ceva=1;
-echo "";
-
 ?>
