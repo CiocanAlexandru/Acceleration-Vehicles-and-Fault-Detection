@@ -41,13 +41,14 @@ class FCNN:
            print("Normal training whit multi loss function")
            history_list=[]
            accuracy_list=[]
+           value=[]
            for iloss_function in loss_functions:
                 X_train, X_test, y_train, y_test = common_library.train_test_split(self.features, self.transformed_labels, test_size=0.3)
                 model=self.Model(iloss_function)
                 model.compile(optimizer='adam', loss=iloss_function, metrics=['binary_accuracy'])
                 history=model.fit(X_train,y_train, epochs=100, batch_size=10, validation_split=0.3)
                 history_list.append(history)
-                accuracy_list.append(self.model.evaluate(X_test,y_test)[1])
+                accuracy_list.append(model.evaluate(X_test,y_test)[1])
                 path+=self.model_name+"_"+self.features_name+"_"+"normaltraining_multi_lost_function_"+iloss_function+".h5"
                 model.save(path)
            self.accuracy={loss_functions[i]:accuracy_list[i] for i in range(0,len(loss_functions))}
@@ -55,13 +56,14 @@ class FCNN:
            #self.accuracy=common_library.np.mean(accuracy_list,axis=0)
            self.diagrams.Accuracy_Diagrams(history_list,loss_functions,True,self.features_name,self.model_name,self.accuracy)
            self.diagrams.Loss_Diagrams(history_list,loss_functions,True,self.features_name,self.model_name)
+
         if number_loss==False:
            print("Normal Traing whit one loss function ")
            X_train, X_test, y_train, y_test = common_library.train_test_split(self.features, self.transformed_labels, test_size=0.3)
            model=self.Model(loss_function)
            model.compile(optimizer='adam', loss=loss_function, metrics=['binary_accuracy'])
-           history=self.model.fit(X_train,y_train, epochs=100, batch_size=10, validation_split=0.3)
-           self.accuracy=self.model.evaluate(X_test,y_test)[1]
+           history=model.fit(X_train,y_train, epochs=100, batch_size=10, validation_split=0.3)
+           self.accuracy=model.evaluate(X_test,y_test)[1]
            self.diagrams.Accuracy_Diagrams(history,loss_function,False,self.features_name,self.model_name,self.accuracy)
            self.diagrams.Loss_Diagrams(history,loss_function,False,self.features_name,self.model_name)
            path+=self.model_name+"_"+self.features_name+"_"+"normaltraining_one_lost_function.h5"

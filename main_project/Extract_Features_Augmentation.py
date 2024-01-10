@@ -51,8 +51,8 @@ class Features_Augmentation:
      common_library.random.shuffle(random_data)
      return common_library.np.array(random_data)
     
-    def index_class_from_file(self):
-       file_path="./exel/index.txt"
+    def index_class_from_file(self,file_path):
+       #file_path="./exel/index.txt"
        file=open(file_path,"r")
        only_class_index= common_library.ast.literal_eval(file.read())
        return only_class_index
@@ -116,19 +116,19 @@ class Features_Augmentation:
     def MFFC_Features(self,vehicle_audio,sample_rate):
         mffc=common_library.librosa.feature.mfcc(y=vehicle_audio,sr=sample_rate,n_mfcc=40)
         mffc=common_library.librosa.util.normalize(mffc,axis=None)
-        print(mffc)
+        ##print(mffc)
         return common_library.np.array(mffc)
     
     def PSD_Features(self,vehicle_audio,sample_rate):
         spectrogram=common_library.librosa.feature.melspectrogram(y=vehicle_audio,sr=sample_rate)
         PSD1=common_library.np.sum(spectrogram,axis=0)
         PSD1=self.normelized_data(PSD1)
-        print(PSD1)
+        ##print(PSD1)
         return common_library.np.array(PSD1)
     def FFT_Futures(self,vehicle_audio,sample_rate):     
         spect=common_library.np.fft.fft(vehicle_audio, n=sample_rate)
         freq = common_library.np.abs(common_library.np.fft.fftfreq(len(spect)))
-        print(freq,spect)
+        ##print(freq,spect)
         data=self.FFT_Matrix(freq,spect)
         return common_library.np.array(data)
     

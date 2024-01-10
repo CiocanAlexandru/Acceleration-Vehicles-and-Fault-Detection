@@ -98,7 +98,7 @@ if FFT_ok.lower()=="yes":
 elif MFFC_ok.lower()=="yes":
     data1=MFCC_exel.Get_Instances()
     data=MFCC_string_convertor(data1)
-    features_extraction_method="MFFC"
+    features_extraction_method="MFCC"
 elif PSD_ok.lower()=="yes":
      data1=PSD_exel.Get_Instances()
      data=FFT_PSD_string_convertor(data1)

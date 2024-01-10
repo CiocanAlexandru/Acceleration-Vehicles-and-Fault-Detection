@@ -170,7 +170,7 @@ class SVN:
                      k+=1
                 print("My acyraces:",list_accuracy)
                 self.accuracy=common_library.np.mean(list_accuracy,axis=0)
-                title='SVM_whit_kfold_no cycles_'+features_extraction_method
+                title='SVM_whit_kfold_no_cycles_'+features_extraction_method
                 self.diagrams.NkFlold_train_SVM(False,self.features.shape,list_accuracy,title)
             else:
                 n_splits=5
@@ -230,7 +230,7 @@ class SVN:
                     accuracy_mean.append(common_library.np.mean(accuracy_list,axis=0))
                 self.accuracy=common_library.np.mean(accuracy_mean,axis=0)
                 print("My acyraces:",accuracy_mean)
-                title='SVM whit kfold yes cycles '+features_extraction_method+' kerne='+str(self.Kernel)+' gamma='+str(self.Gamma)+' C='+str(self.C)
+                title='SVM_whit_kfold_yes_cycles_'+features_extraction_method
                 self.diagrams.NkFlold_train_SVM(True,self.features.shape,accuracy_mean,title)
             else:
                 cycles=[1,3,5,7]
@@ -260,7 +260,7 @@ class SVN:
                     accuracy_mean.append(common_library.np.mean(accuracy_list,axis=0))
                 self.accuracy=common_library.np.mean(accuracy_mean,axis=0)
                 print("My acyraces:",accuracy_mean)
-                title='SVM whit kfold yes cycles '+features_extraction_method+' kerne='+str(self.Kernel)+' gamma='+str(self.Gamma)+' C='+str(self.C)
+                title='SVM_whit_kfold_yes_cycles_'+features_extraction_method
                 self.diagrams.NkFlold_train_SVM(True,self.features.shape,accuracy_mean,title)
             path+=self.model_name+"_"+self.features_name+"_"+"kfold_yescycles"+".pkl"
             common_library.pickle.dump(best_model,path) 

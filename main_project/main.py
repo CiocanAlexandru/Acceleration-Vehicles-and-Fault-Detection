@@ -1,61 +1,82 @@
 import header 
+def best_three(array):
+    indexs_sort = header.common_library.np.argsort(-array)
 
-path_file=None
-model=None
-feature_method=None
-number_loss_function=None
-type_of_training=None
-number_of_cycles=None
-site_mod_type=None
-audio=None
-Extractor=None
-def Initialize():
-  global model,feature_method,number_loss_function,type_of_training,number_of_cycles,site_mod_type,Extractor,audio
-  model=header.common_library.sys.argv[1]
-  feature_method=header.common_library.sys.argv[2]
-  number_loss_function=header.common_library.sys.argv[3]
-  type_of_training=header.common_library.sys.argv[4]
-  number_of_cycles=header.common_library.sys.argv[5]
-  site_mod_type=header.common_library.sys.argv[6]
-  audio=header.common_library.sys.argv[7]
-  Extractor=header.Extract_Features_Augmentation.Features_Augmentation()
-##Where i predict using the models saves 
-def Get_Result(audio,path_file,feature_method):
-   result=None
-   class_index_only=Extractor.index_class_from_file()
-   sample_rate,audio_data=Extractor.read_data(audio)
-   if feature_method.lower()=='ftt':
-      data=Extractor.FFT_Futures(audio_data,sample_rate)
-   if feature_method.lower()=='mfcc':
-      data=Extractor.MFFC_Features(audio_data,sample_rate)
-   if feature_method.lower()=='psd':
-      data=Extractor.PSD_Features(audio_data,sample_rate)
-   return result
+    best_three = indexs_sort[0][:3]
+
+    return best_three
+Extractor=header.Extract_Features_Augmentation.Features_Augmentation()
+features=header.common_library.sys.argv[1]
+model=header.common_library.sys.argv[2]
+file=header.common_library.sys.argv[3]
+model_type=header.common_library.sys.argv[4]
+path_file="../UploadFile/"+file
+sample_rate,audio=Extractor.read_data(path_file)
+index_class = {v: k for k, v in Extractor.index_class_from_file("../../exel/index.txt").items()}
+if features.lower()=="fft":
+    features_extraction=Extractor.FFT_Futures(audio,sample_rate)
+    features_extraction=features_extraction[:-1]
+    features_extraction=features_extraction.reshape(1,624)
+if features.lower()=="mfcc":
+    features_extraction=Extractor.MFFC_Features(audio,sample_rate)
+    dimensiune_dorita = 3035
+    padding_zero = max(0, dimensiune_dorita - features_extraction.shape[1])
+    features_extraction= header.common_library.np.pad(features_extraction, ((0, 0), (0, padding_zero)), 'constant', constant_values=(0, 0))
+    features_extraction=features_extraction.reshape((1,40,3035))
+    ##print(features_extraction.shape)
+if features.lower()=="psd":
+   features_extraction=Extractor.PSD_Features(audio,sample_rate)
+   padding_zero = max(0, 3034 - features_extraction.shape[0])
+   features_extraction= header.common_library.np.pad(features_extraction, (0, padding_zero), 'constant', constant_values=(0, 0))
+   print(features_extraction.shape)
+   features_extraction=features_extraction.reshape(1,3034)
+result=""
+if model_type.lower()!="svm":
+   model_extraction=header.common_library.load_model(model)
+   prediction=model_extraction.predict(features_extraction)
+   top_3_indices = header.common_library.np.argsort(prediction[0])[-3:]
+   for i in top_3_indices:
+       result+=index_class[i]+","
+   print(result)
+else:
+   print("Somthing else")
 
 
-mod=header.common_library.sys.argv[1]
-print(mod)
+
 '''
-Initialize()
-if site_mod_type.lower=="Predict":
-   path_file="./Models/model_"
-result=None
-if model:
-   path_file+=model
+import header 
+Extractor=header.Extract_Features_Augmentation.Features_Augmentation()
+#features=header.common_library.sys.argv[1]
+#model=header.common_library.sys.argv[2]
+#file=header.common_library.sys.argv[3]
+model_type=header.common_library.sys.argv[4]
+#path_file="../UploadFile/"+file
+sample_rate,audio=Extractor.read_data("./Web_Interface/UploadFile/1704848321_659debc18654a.wav")
+features='MFFC'
+if features.lower()=="fft":
+    features_extraction=Extractor.FFT_Futures(audio,sample_rate)
+    features_extraction=features_extraction[:-1]
+    features_extraction=features_extraction.reshape(1,624)
+if features.lower()=="mffc":
+    features_extraction=Extractor.MFFC_Features(audio,sample_rate)
+    dimensiune_dorita = 3035
+    padding_zero = max(0, dimensiune_dorita - features_extraction.shape[1])
+    features_extraction= header.common_library.np.pad(features_extraction, ((0, 0), (0, padding_zero)), 'constant', constant_values=(0, 0))
+    features_extraction=features_extraction.reshape((1,40,3035))
+    print(features_extraction.shape)
+if features.lower()=="psd":
+   features_extraction=Extractor.PSD_Features(audio,sample_rate)
+   padding_zero = max(0, 3034 - features_extraction.shape[0])
+   features_extraction= header.common_library.np.pad(features_extraction, (0, padding_zero), 'constant', constant_values=(0, 0))
+   print(features_extraction.shape)
+   features_extraction=features_extraction.reshape(1,3034)
+model="./Models/model_FCNN_MFFC_normaltraining_one_lost_function.h5"
+if model.lower()!="svm":
+   print("____________________________________________")
+   model_extraction=header.common_library.load_model(model)
+   prediction=model_extraction.predict(features_extraction)
+   print(prediction)
+else:
+   print()
 
-if feature_method:
-   path_file+=feature_method
-
-if number_loss_function:
-   path_file+=number_loss_function
-
-if type_of_training:
-   path_file+=type_of_training
-
-if number_of_cycles:
-   ## model whit multiple loss functions
-   loss_functions=[]
-   path_file+=number_of_cycles
-
-print(Get_Result(audio,path_file,feature_method))
 '''
