@@ -21,8 +21,7 @@ class Data_Statistic:
     def Dsitribution_Data_Base(self,info):
         if (self.data!=None):
             common_library.plt.style.use('seaborn')
-            common_library.sns.displot(self.data_frame,x=info)
-            common_library.plt.title('Distribution Plot '+info)
+            common_library.sns.displot(self.data_frame,x=info,height=4, aspect=2)
             common_library.plt.xticks(rotation=45)
             common_library.plt.subplots_adjust(bottom=0.2)
             common_library.plt.savefig("./DiagramsWav/Distribution dataset by "+info+".jpg",format='jpg')
@@ -30,6 +29,40 @@ class Data_Statistic:
             
         else:
             print("Operation not working")
+
+    def Diagram_FTT(self,info):
+       path="./DiagramsWav/FFT_Transformation.jpg"
+       common_library.plt.figure(figsize=(10, 6))
+       common_library.plt.plot(common_library.np.abs(info))
+       common_library.plt.title('Transformare FFT')
+       common_library.plt.xlabel('Frecvență')
+       common_library.plt.ylabel('Magnitudine')
+       common_library.plt.savefig(path,format='jpg')
+       common_library.plt.show()
+       return 0
+    
+    def Diagram_PSD(self,info):
+       path="./DiagramsWav/PSD_Transformation.jpg"
+       common_library.plt.figure(figsize=(10, 6))
+       common_library.plt.plot(common_library.np.abs(info))
+       common_library.plt.title('Transformare PSD')
+       common_library.plt.xlabel('Frecvență')
+       common_library.plt.ylabel('Magnitudine')
+       common_library.plt.savefig(path,format='jpg')
+       common_library.plt.show()
+       return 0
+    
+    def Diagram_MFCC(self,info):
+       path="./DiagramsWav/MFCC_Transformation.jpg"
+       common_library.plt.figure(figsize=(10, 6))
+       common_library.plt.plot(common_library.np.mean(info,axis=0))
+       common_library.plt.title('Transformare MFCC')
+       common_library.plt.xlabel('Cadru Temporal')
+       common_library.plt.ylabel('Magnitudine Medie a Coeficienților MFCC')
+       common_library.plt.savefig(path,format='jpg')
+       common_library.plt.show()
+       return 0
+
     def Data_Frame_Diagram_WAV(self,data_frame,sample_rate,file_name,modified=None):
         if (self.data!=None):
             if (modified==None):
