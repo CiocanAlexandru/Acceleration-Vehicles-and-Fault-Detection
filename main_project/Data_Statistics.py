@@ -404,7 +404,7 @@ class Data_Statistic:
                p=0
                for j in i:
                 label='Cycle-'+str(p*2+1)
-                common_library.plt.plot(j['val_binary_accuracy'],label=label) 
+                common_library.plt.plot(j['val_loss'],label=label) 
                 p+=1
                common_library.plt.plot([],[],' ',label='loss_function='+function[k-1])
                common_library.plt.title(model_name+' whit '+features_name+'acuracy for the '+str(nkfold)+'-fold whit cycle')
