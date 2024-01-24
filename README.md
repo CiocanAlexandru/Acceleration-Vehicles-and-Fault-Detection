@@ -11,7 +11,7 @@ Scopul acestui proiect este  să exploreze utilizarea analizei semnalelor audio 
 <a href="https://cs229.stanford.edu/proj2019aut/data/assignment_308875_raw/26504237.pdf">Poster</a>
 <hr>
 <a href="https://github.com/CiocanAlexandru/Licenta">Old project</a>
-<h1>Structura folder</h1>
+<h1>Structura Proiect</h1>
 <p>Din cate se poate observa proiectul contine mai multe foldere care detin informati de interas ca o scurta prezentare ce contine fiecare avem urmatoarele :</p>
 <ul>
 <li>DiagramsWav= contine diagrame cu reprezentarea inregistrailor ,diagrame de distributie,digrame cu transformari</li>
