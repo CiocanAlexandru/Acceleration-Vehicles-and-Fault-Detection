@@ -62,8 +62,17 @@ pip install openpyxl
  <p>Daca se vrea o vizualizare a bazei de date sau generare si reprezentare a unei transformari sau inregistrai se va folosi scriptul  <strong>Statistic_Wave_Diagram.py</strong> tot asa cu optiuni specifice </p>
 
 <h2>Pas2-Utilizarea Interfetei Web</h2>
-<img src="https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/txtFiles/Change%20location%20dorectory%20XAMPP.jpg" alt="Change location dorectory XAMPP" />
+<h3>Pas 2.1</h3>
+Deschidem XAMPP
 <img src="https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/txtFiles/Deschidere%20XAMPP.jpg" alt="Deschidere XAMPP" />
+<h3>Pas 2.2</h3>
+Deschidem ca sa modificam calea in care xampul va gasi implementarea pentru site 
+<img src="https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/txtFiles/XAMP%20open%20httpconf.jpg" alt="XAMP httdoc">
+<h3>Pas 2.3</h3>
+Modificam cum este in imagine cu calea catre director si comentarea setarilor vechi 
+<img src="https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/txtFiles/Change%20location%20dorectory%20XAMPP.jpg" alt="Change location dorectory XAMPP" />
+<h3>Pas 2.4</h3>
+Pornim XAMPP
 <img src="https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/txtFiles/Start%20XAMPP.jpg" alt="Start XAMPP" />
 </body>
 
