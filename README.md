@@ -9,9 +9,7 @@ Acest repository conține implementarea modelelor, generarea de noi instanțe de
 </p>
 <a href="https://cs229.stanford.edu/proj2019aut/data/assignment_308832_raw/26646848.pdf">Documentatie</a>
 <hr>
-<a href="https://cs229.stanford.edu/proj2019aut/data/assignment_308875_raw/26504237.pdf">Poster</a>
-<hr>
-<a href="https://github.com/CiocanAlexandru/Licenta">Old project</a>
+<a href="https://drive.google.com/file/d/1uf3u_AKhHbqa1vMWmgxLbZOqRguZOSxT/view?usp=sharing">Diagrama UML</a>
 <h1>Structura Proiect</h1>
 <p>
 Din câte se poate observa, proiectul conține mai multe foldere care dețin informații de interes. Iată o scurtă prezentare a conținutului fiecăreia:</p>
