@@ -63,9 +63,9 @@ pip install openpyxl
 
 <h2>Pas2-Utilizarea Interfetei Web</h2>
 </body>
-![Change location dorectory XAMPP](https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/assets/79212626/d77724bc-a2fd-490a-aebc-3f88ee914b9d.jpg)
-![Deschidere XAMPP](https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/assets/79212626/c16e6032-c810-4f56-9406-3e33a8c79dc1.jpg)
-![httoc XAMPP open](https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/assets/79212626/be035bff-db1d-48df-afd5-b8e6b7767eb8.jpg)
-![Start XAMPP](https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/assets/79212626/a9605d9b-f67b-45c4-b60a-4248a7731a12.jpg)
+![Change location dorectory XAMPP](https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/assets/79212626/d77724bc-a2fd-490a-aebc-3f88ee914b9d)
+![Deschidere XAMPP](https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/assets/79212626/c16e6032-c810-4f56-9406-3e33a8c79dc1)
+![httoc XAMPP open](https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/assets/79212626/be035bff-db1d-48df-afd5-b8e6b7767eb8)
+![Start XAMPP](https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/assets/79212626/a9605d9b-f67b-45c4-b60a-4248a7731a12)
 
 
