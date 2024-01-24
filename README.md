@@ -62,19 +62,19 @@ pip install openpyxl
 <h2>Pas2-Utilizarea Interfetei Web</h2>
 <h3>Pas 2.1</h3>
 Deschidem XAMPP
-<img src="https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/txtFiles/Deschidere%20XAMPP.jpg" alt="Deschidere XAMPP" />
+<img src="https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/ReadmeContent/Deschidere%20XAMPP.jpg" alt="Deschidere XAMPP" />
 <h3>Pas 2.2</h3>
 Deschidem ca să modificăm calea in care xampul va gasi implementarea pentru site 
-<img src="https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/txtFiles/XAMP%20open%20httpconf.jpg" alt="XAMP httdoc">
+<img src="https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/ReadmeContent/XAMP%20open%20httpconf.jpg" alt="XAMP httdoc">
 <h3>Pas 2.3</h3>
 Modificăm cum este in imagine cu calea câtre director si comentarea setărilor vechi 
-<img src="https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/txtFiles/Change%20location%20dorectory%20XAMPP.jpg" alt="Change location dorectory XAMPP" />
+<img src="https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/ReadmeContent/Change%20location%20dorectory%20XAMPP.jpg" alt="Change location dorectory XAMPP" />
 <h3>Pas 2.4</h3>
 Pornim XAMPP
-<img src="https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/txtFiles/Start%20XAMPP.jpg" alt="Start XAMPP" />
+<img src="https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/ReadmeContent/Start%20XAMPP.jpg" alt="Start XAMPP" />
 <h3>Pas 2.5</h3>
 Dacă totul a mers cum trebuie atunci dacă scrii in url in browser de evitat internet explore adresa asta <strong>http://localhost/Web_Interface/Home</strong>  (rutare costumizată gasesti in implementare in folderul routing)
-<img src="https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/txtFiles/Site.jpg" alt="Site">
+<img src="https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/ReadmeContent/Site.jpg" alt="Site">
 </body>
 
 
