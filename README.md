@@ -34,7 +34,6 @@ Ca sa poata fi utilizata aplicatia trebuie sa fie instalate urmatoarele :
 <li>XAMPP un tool pentru server local</li>
 <li>Librari pentru modele si date</li>
 </ul>
-<div style="background-color: #f0f0f0; border: 1px solid #d1d1d1; padding: 10px;">
 <p>Note!!
 Pentru  a fii mai usor instalarea bibliotecilor  pentru python aveti comenzile de instalare mai jos care trebuie date in terminalul proiectului unde este codul:</br>
 pip install numpy</br>
@@ -50,7 +49,6 @@ pip install scipy</br>
 pip install libsvm</br>
 pip install openpyxl
 </p>
-</div>
 <h2>Pas1- Generarea de date noi, antrenare,si rulare</h2>
 
  <h3>Pas 1.1</h3> <p>Daca se doreste adaugarea de inregistrai noi se dauga in dorectorul specific indicat mai sus inregitrarea sau inregistraile trebuie dupa sa fie generate
