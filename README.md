@@ -62,9 +62,10 @@ pip install openpyxl
  <p>Daca se vrea o vizualizare a bazei de date sau generare si reprezentare a unei transformari sau inregistrai se va folosi scriptul  <strong>Statistic_Wave_Diagram.py</strong> tot asa cu optiuni specifice </p>
 
 <h2>Pas2-Utilizarea Interfetei Web</h2>
+<img src="https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/txtFiles/Change%20location%20dorectory%20XAMPP.jpg" alt="Change location dorectory XAMPP" />
+<img src="https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/txtFiles/Deschidere%20XAMPP.jpg" alt="Deschidere XAMPP" />
+<img src="https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/txtFiles/Start%20XAMPP.jpg" alt="Start XAMPP" />
 </body>
-![Change location dorectory XAMPP](https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/txtFiles/Change%20location%20dorectory%20XAMPP.JPG)
-![Deschidere XAMPP](https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/txtFiles/Deschidere%20XAMPP.jpg)
-![Start XAMPP](https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/txtFiles/Start%20XAMPP.jpg)
+
 
 
