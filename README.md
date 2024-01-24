@@ -63,7 +63,7 @@ pip install openpyxl
 
 <h2>Pas2-Utilizarea Interfetei Web</h2>
 </body>
-![Change location dorectory XAMPP](https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/txtFiles/Change%20location%20dorectory%20XAMPP.jpg)
+![Change location dorectory XAMPP](https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/txtFiles/Change%20location%20dorectory%20XAMPP.JPG)
 ![Deschidere XAMPP](https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/txtFiles/Deschidere%20XAMPP.jpg)
 ![Start XAMPP](https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/txtFiles/Start%20XAMPP.jpg)
 
