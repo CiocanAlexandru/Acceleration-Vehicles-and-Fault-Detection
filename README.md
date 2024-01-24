@@ -75,7 +75,7 @@ Modificam cum este in imagine cu calea catre director si comentarea setarilor ve
 Pornim XAMPP
 <img src="https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/txtFiles/Start%20XAMPP.jpg" alt="Start XAMPP" />
 <h3>Pas 2.5</h3>
-Daca totul a mers cum trebuie atunci daca scrii in url in browser de evitat internet explore adresa asta <strong>http://localhost/Web_Interface/Home<strong>  (routare custom gasesti in implementare in folderul routing)
+Daca totul a mers cum trebuie atunci daca scrii in url in browser de evitat internet explore adresa asta <strong>http://localhost/Web_Interface/Home</strong>  (routare custom gasesti in implementare in folderul routing)
 <img src="https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection/blob/main/txtFiles/Site.jpg" alt="Site">
 </body>
 
