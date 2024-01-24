@@ -12,7 +12,7 @@ Scopul acestui proiect este  să exploreze utilizarea analizei semnalelor audio 
 <hr>
 <a href="https://github.com/CiocanAlexandru/Licenta">Old project</a>
 <h1>Structura Proiect</h1>
-<p>Din cate se poate observa proiectul contine mai multe foldere care detin informati de interas ca o scurta prezentare ce contine fiecare avem urmatoarele :</p>
+<p>Din cate se poate observa proiectul contine mai multe foldere care detin informati de interes ca o scurta prezentare ce contine fiecare avem urmatoarele :</p>
 <ul>
 <li>DiagramsWav= contine diagrame cu reprezentarea inregistrailor ,diagrame de distributie,digrame cu transformari</li>
 <li>Diagrams_Accuracy_Loss=contine diagrame cu evolutie a antrenari modelelor cu diferite metode de caracteristici si diferite metode de antrenare</li>
