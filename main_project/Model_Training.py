@@ -104,7 +104,7 @@ elif PSD_ok.lower()=="yes":
      data=FFT_PSD_string_convertor(data1)
      features_extraction_method="PSD"
 
-Model_CNN_ok=input("Use CNN model?(Yes/No)")
+Model_CNN_ok=input("Use CNN model?(Yes/No)") 
 Model_SVN_ok=input("Use SVM model?(Yes/No)")
 Model_FCNN_ok=input("USE FCNN model?(Yes/No)")
 

@@ -89,8 +89,8 @@ def Load_FFT_exel():
      for i in FFT_data_augmanted:
          FFT_exel.Add_Instance(i)
          print(f"Pas k={k}")
-         if k==1001:
-             break
+         #if k==1001:
+         #    break
          k+=1
      print("Finish adding element")
      return 0
@@ -149,8 +149,8 @@ def Load_MFCC_exel():
      for i in MFCC_data_augmanted:
          i[0]=Extractor.padding_data(i[0],row,colum)
          print(f"Pass k={k} shape={i[0].shape}")
-         if k==1001:
-             break
+         #if k==1001:
+         #    break
          k+=1
          MFCC_exel.Add_Instance(i)
      print("Finish adding element")
@@ -171,7 +171,7 @@ def Load_PSD_exel():
              k=0
              if row<Feature.shape[0]:
                  row=Feature.shape[0]
-             for j in range(0,5):
+             for j in range(0,15):
                  k+=0.1
                  vehicle_audio_aug=Extractor.addNoise(vehicle_audio,k)
                  Feature=Extractor.PSD_Features(vehicle_audio_aug,sample_rate)
@@ -210,8 +210,8 @@ def Load_PSD_exel():
      for i in PSD_data_augmanted:
          i[0]=Extractor.padding_data(i[0],row,colum)
          print(f"Pass k={k}")
-         if k==1001:
-             break
+         #if k==1001:
+         #    break
          k+=1
          PSD_exel.Add_Instance(i)
   
