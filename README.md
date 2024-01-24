@@ -24,6 +24,45 @@ Scopul acestui proiect este  să exploreze utilizarea analizei semnalelor audio 
 <li>main_project=implemnetarea propriuzisa  proiectului </li>
 <li>wav_=cintine inregistraile audio cu etichete [tip,brand,state]</li>
 </ul>
+<h1>Scenari de utilizare</h1>
+Pentru ca componenta web sa functioneze cum trebuie este indicat sa fie folositi pasi de mai jos  asta daca se adauga inregistrai noi la baza de date 
+<h2>Mediu de lucru</h2>
+Ca sa poata fi utilizata aplicatia trebuie sa fie instalate urmatoarele :
+<ul>
+<li>Python veriune 3.10.11 sau mai noua </li>
+<li>Un IDE de exemplu am folosit Visual Studio Code</li>
+<li>XAMPP un tool pentru server local</li>
+<li>Librari pentru modele si date</li>
+</ul>
+
+<p>Note!!
+Pentru  a fii mai usor instalarea bibliotecilor  pentru python aveti comenzile de instalare mai jos care trebuie date in terminalul proiectului unde este codul:
+pip install numpy
+pip install keras
+pip install librosa
+pip install pandas
+pip install seaborn
+pip install tensorflow
+pip install matplotlib
+pip install scikit-learn
+pip install joblib
+pip install scipy
+pip install libsvm
+pip install openpyxl
+</p>
+<h2>Pas1- Generarea de date noi, antrenare,si rulare</h2>
+
+ <h3>Pas 1.1</h3> <p>Daca se doreste adaugarea de inregistrai noi se dauga in dorectorul specific indicat mai sus inregitrarea sau inregistraile trebuie dupa sa fie generate
+ exelurile specifice cu ajutorul scriputul <strong>Data_Load_Augmentation.py</strong>strong> unde in consola se dau optiuni si se poate genera in functie de preferinte care metoda de extragere se doreste
+ </p>
+ <h3>Pas 1.2</h3>
+ <p>Dupa ce sau generat noile exeluri sau se vrea antrenarea si salvarea noilor modele si diagrame se va face cu ajutorul scriptului <strong>Model_Training.py<</strong> care tot in consola vor fi date optiuni de la metode de extragere 
+ pana la ce fel de antrenare se vrea normala nkfold cu una sau mai multe functi de pierdere sau un singur ciclu sau mia multe la nkfold 
+ </p>
+ <h3>Pas 1.3(Optional!)</h3> 
+ <p>Daca se vrea o vizualizare a bazei de date sau generare si reprezentare a unei transformari sau inregistrai se va folosi scriptul  Statistic_Wave_Diagram.py tot asa cu optiuni specifice </p>
+
+<h2>Pas2-Utilizarea Interfetei Web</h2>
 </body>
 
 
