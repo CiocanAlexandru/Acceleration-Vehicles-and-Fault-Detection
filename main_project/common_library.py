@@ -29,3 +29,4 @@ from datetime import datetime
 from sklearn.svm import SVC
 from sklearn.utils import shuffle
 from sklearn.datasets import make_classification
+from sklearn.preprocessing import label_binarize

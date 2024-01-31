@@ -11,11 +11,10 @@ class SVN:
         print(class_index)
         print("SVN model initialiezed ")
         self.features_name=features_name
-        self.name="SVN"
+        self.model_name="SVN"
         self.C=None
         self.Gamma=None
         self.Kernel=None
-        self.model=None
         self.GridShearch()
     def GridShearch(self):
         if self.features[0].shape[0]==40:
@@ -28,12 +27,12 @@ class SVN:
 
           adjusted_transformed_labels = common_library.np.repeat(self.transformed_labels, num_features, axis=0)
 
-          X_train, X_test, y_train, y_test = common_library.train_test_split(flattened_features[:300], adjusted_transformed_labels[:300], test_size=0.3)
+          X_train, X_test, y_train, y_test = common_library.train_test_split(flattened_features, adjusted_transformed_labels, test_size=0.3)
           svm_model = common_library.OneVsRestClassifier(common_library.SVC())
           param_grid = {
               'estimator__C': [0.1, 1, 10, 100],        
               'estimator__kernel': ['linear', 'rbf'],   
-              'estimator__gamma': [1, 0.1, 0.01, 0.001, 0.0001] 
+              'estimator__gamma': [1, 0.1, 0.01] 
           }
           grid_search = common_library.GridSearchCV(svm_model, param_grid, cv=2, scoring='accuracy', n_jobs=-1, error_score='raise')
           
@@ -44,19 +43,20 @@ class SVN:
           self.C= grid_search.best_params_['estimator__C']
           self.Kernel = grid_search.best_params_['estimator__kernel']
           self.Gamma = grid_search.best_params_['estimator__gamma']
+          print("Finalized GreadSherach")
           self.Vizualize_GridShearch(X_train,y_train)
         else:
            #FFT or PSD
            
-           X_train, X_test, y_train, y_test=common_library.train_test_split(self.features[0:10],self.transformed_labels[0:10],test_size=0.3)
+           X_train, X_test, y_train, y_test=common_library.train_test_split(self.features,self.transformed_labels,test_size=0.3)
            svm_model = common_library.OneVsRestClassifier(common_library.SVC())
            param_grid = {
            'estimator__C': [0.1, 1, 10, 100],         
            'estimator__kernel': ['linear', 'rbf'],   
-           'estimator__gamma': [1, 0.1, 0.01, 0.001,0.0001] 
+           'estimator__gamma': [1, 0.1, 0.01, 0.001,] 
            }
            
-           grid_search = common_library.GridSearchCV(svm_model, param_grid, cv=None, scoring='accuracy', n_jobs=-1)
+           grid_search = common_library.GridSearchCV(svm_model, param_grid, cv=2, scoring='accuracy', n_jobs=-1)
 
            grid_search.fit(X_train, y_train)
 
@@ -66,10 +66,12 @@ class SVN:
            self.C= grid_search.best_params_['estimator__C']
            self.Kernel = grid_search.best_params_['estimator__kernel']
            self.Gamma = grid_search.best_params_['estimator__gamma']
+           print("Finalized GreadSherach")
            self.Vizualize_GridShearch(X_train,y_train)
+        
             
     def Model(self):
-        model=common_library.OneVsRestClassifier(common_library.SVC(C=self.C, kernel=self.Kernel, gamma=self.Gamma))
+        model=common_library.OneVsRestClassifier(common_library.SVC(C=self.C, kernel=self.Kernel, gamma=self.Gamma,probability=True))
         return model
     def Training(self,features_extraction_method):
         title='Average_Confusion_Matrix_SVM_whit_'+features_extraction_method
@@ -84,11 +86,12 @@ class SVN:
 
             adjusted_transformed_labels = common_library.np.repeat(self.transformed_labels, num_features, axis=0)
 
-            X_train, X_test, y_train, y_test = common_library.train_test_split(flattened_features[:100], adjusted_transformed_labels[:100], test_size=0.2)
+            X_train, X_test, y_train, y_test = common_library.train_test_split(flattened_features, adjusted_transformed_labels, test_size=0.3)
             model=self.Model()
             model.fit(X_train, y_train)
-            y_pred = self.model.predict(X_test)
-            
+
+            y_pred = model.predict(X_test)
+
             self.accuracy = common_library.accuracy_score(y_test, y_pred)
             
             conf_matrix = common_library.multilabel_confusion_matrix(y_test, y_pred)
@@ -100,11 +103,12 @@ class SVN:
             self.diagrams.Train_confusion_matrix(average_conf_matrix,title,y_test)
         else:
             
-            X_train, X_test, y_train, y_test = common_library.train_test_split(self.features[:100], self.transformed_labels[:100], test_size=0.2)
+            X_train, X_test, y_train, y_test = common_library.train_test_split(self.features, self.transformed_labels, test_size=0.3)
             model=self.Model()
             model.fit(X_train, y_train)
-            y_pred = self.model.predict(X_test)
             
+            y_pred = model.predict(X_test)
+
             self.accuracy = common_library.accuracy_score(y_test, y_pred)
             
             conf_matrix = common_library.multilabel_confusion_matrix(y_test, y_pred)
@@ -115,7 +119,9 @@ class SVN:
             
             self.diagrams.Train_confusion_matrix(average_conf_matrix,title,y_test)
         path+=self.model_name+"_"+self.features_name+"_"+"normaltraining"+".pkl"
-        common_library.pickle.dump(model,path)       
+        print(path)
+        with open(path,"wb") as f:
+            common_library.pickle.dump(model,f)       
         return 0
     def Vizualize_GridShearch(self,X_train,y_train):
         #def Vizualize_GridShearch(gamma_values,C_values,cv_results):
@@ -161,7 +167,7 @@ class SVN:
                      y_train, y_test = adjusted_transformed_labels[train_index], adjusted_transformed_labels[val_index]
                      model=self.Model()
                      model.fit(X_train, y_train)
-                     y_pred = self.model.predict(X_test)
+                     y_pred = model.predict(X_test)
                      accuracy = common_library.accuracy_score(y_test, y_pred)
                      if accuracy>=max_accuracy:
                          best_model=model
@@ -182,7 +188,7 @@ class SVN:
                      y_train, y_test = self.transformed_labels[train_index], self.transformed_labels[val_index]
                      model=self.Model()
                      model.fit(X_train, y_train)
-                     y_pred = self.model.predict(X_test)
+                     y_pred = model.predict(X_test)
                      accuracy = common_library.accuracy_score(y_test, y_pred)
                      if accuracy>=max_accuracy:
                          best_model=model
@@ -196,6 +202,7 @@ class SVN:
             path+=self.model_name+"_"+self.features_name+"_"+"kfold_nocycles"+".pkl"
             common_library.pickle.dump(best_model,path) 
         if cycles_nkfold==True:
+            print("Cycles NKfold")
             best_model=None 
             max_accuracy=0
             if self.features[0].shape[0]==40:
@@ -208,6 +215,7 @@ class SVN:
                 adjusted_transformed_labels = common_library.np.repeat(self.transformed_labels, num_features, axis=0)
                 accuracy_mean=[]
                 for cycle in cycles:
+                    print("yes")
                     print("----------------------------")
                     print(f"Number of the cycle {cycle}")
                     print("-----------------------------")
@@ -219,10 +227,11 @@ class SVN:
                      for train_index, val_index in skf.split(flattened_features[:20], adjusted_transformed_labels[:20]):
                       X_train, X_test = flattened_features[train_index], flattened_features[val_index]
                       y_train, y_test = adjusted_transformed_labels[train_index], adjusted_transformed_labels[val_index]
-                      self.model = self.Model()
-                      self.model.fit(X_train, y_train)
-                      y_pred = self.model.predict(X_test)
+                      model = self.Model()
+                      model.fit(X_train, y_train)
+                      y_pred = model.predict(X_test)
                       accuracy = common_library.accuracy_score(y_test, y_pred)
+                      print("yes")
                       if accuracy>=max_accuracy:
                          best_model=model
                          max_accuracy=accuracy
@@ -238,6 +247,7 @@ class SVN:
                 skf = common_library.KFold(n_splits=n_splits, shuffle=True)
                 accuracy_mean=[]
                 for cycle in cycles:
+                    print("yes")
                     print("----------------------------")
                     print(f"Number of the cycle {cycle}")
                     print("-----------------------------")
@@ -249,21 +259,23 @@ class SVN:
                      for train_index, val_index in skf.split(self.features[:20], self.transformed_labels[:20]):
                       X_train, X_test = self.features[train_index], self.features[val_index]
                       y_train, y_test = self.transformed_labels[train_index], self.transformed_labels[val_index]
-                      self.model = self.Model()
-                      self.model.fit(X_train, y_train)
-                      y_pred = self.model.predict(X_test)
+                      model = self.Model()
+                      model.fit(X_train, y_train)
+                      y_pred = model.predict(X_test)
                       accuracy = common_library.accuracy_score(y_test, y_pred)
                       if accuracy>=max_accuracy:
                          best_model=model
                          max_accuracy=accuracy
                       accuracy_list.append(accuracy)
                     accuracy_mean.append(common_library.np.mean(accuracy_list,axis=0))
+                    print("yes")
                 self.accuracy=common_library.np.mean(accuracy_mean,axis=0)
                 print("My acyraces:",accuracy_mean)
                 title='SVM_whit_kfold_yes_cycles_'+features_extraction_method
                 self.diagrams.NkFlold_train_SVM(True,self.features.shape,accuracy_mean,title)
             path+=self.model_name+"_"+self.features_name+"_"+"kfold_yescycles"+".pkl"
-            common_library.pickle.dump(best_model,path) 
+            with open(path,"wb") as f:
+             common_library.pickle.dump(model,f)
         return 0
     def Test(self):
          print(f"Suport Vector Machine acuracy is :{self.accuracy}")

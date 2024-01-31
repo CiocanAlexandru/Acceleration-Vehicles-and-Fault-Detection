@@ -1,5 +1,11 @@
 import common_library
 class Features_Augmentation:
+
+    def __init__(self):
+       self.new_data=None
+       self.max_colum=None
+       self.max_row=None
+
     def read_data(self,vehicle_audio):
         sample_rate , audio_data=common_library.read(vehicle_audio)
         audio_data=self.normelized_data(audio_data)
@@ -85,22 +91,31 @@ class Features_Augmentation:
                 chunk_matrix[i, j] = chunk_spectrum[i] / chunk_spectrum[j]
         chunk_matrix = chunk_matrix.reshape(25 * 25)
         return chunk_matrix
-    def padding_data(self,data,max_row,max_colum):
+    
+    def Set_Colum_Row(self,max_row,max_colum):
+       self.max_colum=max_colum
+       self.max_row=max_row
+
+    def padding_data(self,data):
         ## new matricx
-        new_data=[]
         if data.shape==(data.shape[0],):
            print("Vector")
-           new_data=[0 for i in range(0,max_row)]
+           self.new_data=[0 for i in range(0,self.max_row)]
            for i in range(0,len(data)):
-               new_data[i]=data[i]
-               
+               self.new_data[i]=data[i]   
         else:
-            new_data=[[0 for i in range(0,max_colum)] for j in range(0,max_row)]
+            print(f"Shape[0]= {data.shape[0]} and row={self.max_row} Shape[1]={data.shape[1]} and colum={self.max_colum}")
+            if data.shape[0]==self.max_row and data.shape[1]==self.max_colum :
+               return data
+            self.new_data=common_library.np.zeros((self.max_row,self.max_colum))
+            self.new_data[:data.shape[0],:data.shape[1]]=data
+            '''self.new_data=[[0 for i in range(0,self.max_colum)] for j in range(0,self.max_row)]
             for i in range(0,len(data)):
                for j in range(0,len(data[0])):
-                 new_data[i][j]=data[i][j]
-            
-        return common_library.np.array(new_data)
+                 self.new_data[i][j]=data[i][j]
+            '''
+            print(self.new_data)
+        return common_library.np.array(self.new_data)
     def addNoise(self,vehicle_audio, noise_factor):
         noise = common_library.np.random.randn(len(vehicle_audio))
         print(noise)

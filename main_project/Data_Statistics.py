@@ -114,7 +114,7 @@ class Data_Statistic:
         common_library.plt.title('Efectul parametrului gamma în căutarea pe grilă')
         save=path+title+".jpg"
         common_library.plt.savefig(save,format='jpg')
-        common_library.plt.show()
+        #common_library.plt.show()
         # Afișare diagramă
     
     def NkFlold_train_SVM(self,cycles_nkfold=False,shape=None,accuracy=None,title=None):

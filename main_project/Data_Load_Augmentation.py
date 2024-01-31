@@ -86,6 +86,7 @@ def Load_FFT_exel():
                       FFT_data_augmanted.append(content)
      FFT_data_augmanted=header.common_library.np.array(FFT_data_augmanted)   
      k=1
+     Extractor.Set_Colum_Row(625,0)
      for i in FFT_data_augmanted:
          FFT_exel.Add_Instance(i)
          print(f"Pas k={k}")
@@ -145,9 +146,10 @@ def Load_MFCC_exel():
      MFCC_data_augmanted=header.common_library.np.array(MFCC_data_augmanted)
      print(len(MFCC_data_augmanted))
      print(f"row={row} and colum={colum}")
+     Extractor.Set_Colum_Row(row,colum)
      k=1 
      for i in MFCC_data_augmanted:
-         i[0]=Extractor.padding_data(i[0],row,colum)
+         i[0]=Extractor.padding_data(i[0])
          print(f"Pass k={k} shape={i[0].shape}")
          #if k==1001:
          #    break
@@ -205,10 +207,11 @@ def Load_PSD_exel():
      PSD_data_augmanted=header.common_library.np.array(PSD_data_augmanted)
      print(len(PSD_data_augmanted))
      print(f"row={row} and colum={colum}")   
+     Extractor.Set_Colum_Row(row,colum)
      ## Add in exel
      k=1 
      for i in PSD_data_augmanted:
-         i[0]=Extractor.padding_data(i[0],row,colum)
+         i[0]=Extractor.padding_data(i[0])
          print(f"Pass k={k}")
          #if k==1001:
          #    break
