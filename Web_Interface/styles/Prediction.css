@@ -70,3 +70,48 @@
     cursor: pointer;
     margin-top: 1em; /* Ajustează spațiul între opțiuni și buton */
 }
+
+.content label.label-file {
+    border: 2px solid #3498db;
+    cursor: pointer;
+    background-color: none;
+    color: #fff;
+    display: inline-block;
+    margin-top: 10px; /* Adjust as needed */
+    font-size: 3em;
+    color: black;
+    border: 15px dashed #999;
+    border-radius: 1em;
+}
+
+.label-file::after {
+    content: attr(data-file-name); /* Afiseaza numele fisierului */
+}
+
+.file-name {
+    display: inline-block;
+    font-size: inherit;
+    margin-top: 10px; /* Ajusteaza daca e nevoie */
+}
+
+/*Buton reset*/
+.result{
+  margin-top: 100px;
+  text-align: center;
+  margin-bottom: 100px;
+  
+  
+}
+.reset {
+  margin-top: 100px;
+  background-color: #3498db;
+  color: white;
+  width: 10px;
+  padding-left: 20px;
+  padding-right:20px ;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom:100px ;
+  
+}
+

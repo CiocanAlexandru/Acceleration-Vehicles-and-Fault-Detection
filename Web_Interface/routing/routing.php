@@ -24,7 +24,10 @@ elseif (CheckURL("Prediction","Web_Interface",$arr))
     require "../controllers/controller_Prediction.php";
 elseif (CheckURL("Graphics","Web_Interface",$arr))
     require "../controllers/controller_Graphics.php";
+elseif(in_array("github.com",$arr))
+    echo "";
 else 
  echo "Wrong Adrres";
+
 
 ?>

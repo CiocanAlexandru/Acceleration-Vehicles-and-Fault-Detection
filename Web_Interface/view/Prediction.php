@@ -29,14 +29,28 @@
         
         <div class="content">
             <h1>Prediction</h1>
-            <p><strong>Note :The file you upload must be wav!!</strong></p>
             <?php
-             $content=$content[count([$content])];
-             echo "<p class='result'> $content</p>"; 
-             echo" <form action='Prediction' method='POST' enctype='multipart/form-data'>
+            if (isset($content))
+            {
+                echo"<p><strong>Your car shoud be and the currebt state is  !!</strong></p>";
+            }
+            else 
+            {
+               echo"<p><strong>Note :The file you upload must be wav!!</strong></p>";
+            }
+            ?>
+            <?php
+             if (isset($content))
+             {
+              $content=$content[count([$content])];
+              echo "<p class='result'> <strong>$content</strong> <br> <br> <br> <br><a class='reset' href='Prediction'>Reset</a></p>";
+             
+             } 
+             else 
+              echo" <form action='Prediction' method='POST' enctype='multipart/form-data'>
             <div class='file-upload'>
             <input class='audio-file' type='file' name='fileToUpload' id='fileToUpload' accept='.wav'>
-            <label class='label-file' for='fileToUpload' data-file-name='No file chosen'>Upload File</label>
+            <label class='label-file' for='fileToUpload' data-file-name='No file chosen'></label>
             </div>
             <div class='options'>
             <label for='model'>Model</label>

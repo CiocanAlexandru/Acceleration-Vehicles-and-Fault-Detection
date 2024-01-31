@@ -2,7 +2,6 @@
 require '../models/models_Prediction.php';
 $mod=1;
 $checking=true;
-$checking=true;
 if (isset($_POST["model"])==false )
  {
     $checking=false;

@@ -39,7 +39,7 @@
     </ol>
     </p>
     <p>
-    The project code can be found <a href="link_to_code">here</a>, where you'll also find additional information about execution, UML diagrams, web interface details, and much more.
+    The project code can be found <a href="https://github.com/CiocanAlexandru/Acceleration-Vehicles-and-Fault-Detection">here</a>, where you'll also find additional information about execution, UML diagrams, web interface details, and much more.
 
     <br>We appreciate your interest!.
     </p>
