@@ -7,7 +7,7 @@ Scopul acestui proiect este să exploreze utilizarea analizei semnalelor audio p
 
 Acest repository conține implementarea modelelor, generarea de noi instanțe de antrenare, baza de date în sine (înregistrările audio) și implementarea pentru interfața web. Pentru cei care apreciază partea mai tehnică și matematică și sunt dorniți să cunoască mai bine lucrurile, este atașat mai jos un link către documentația și o diagramă UML a interacțiunii componentelor, implementarea fiind bazată pe paradigma programării orientate pe obiect respectând pe cât posibil principiile SOLID.
 </p>
-<a href="https://cs229.stanford.edu/proj2019aut/data/assignment_308832_raw/26646848.pdf">Documentatie</a>
+<a href="https://drive.google.com/file/d/1eboQ01KhszxmFfHys9NVOR6ys5fD11QC/view?usp=sharing">Documentatie</a>
 <hr>
 <a href="https://drive.google.com/file/d/1uf3u_AKhHbqa1vMWmgxLbZOqRguZOSxT/view?usp=sharing">Diagrama UML</a>
 <h1>Structura Proiect</h1>
