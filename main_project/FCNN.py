@@ -1,6 +1,4 @@
 import common_library
-import tensorflow as tf
-from keras import backend as K
 class FCNN:  
     def __init__(self,class_index,encoded_data=None,diagrams=None,features_name=None):
         self.encoded_data=encoded_data
@@ -25,12 +23,12 @@ class FCNN:
             activation_function='sigmoid'
             other_function='relu'   
             
-        model = common_library.tf.keras.Sequential([common_library.tf.keras.layers.Flatten(input_shape=self.features[0].shape),  # Aplatizează intrarea
+        model = common_library.tf.keras.Sequential([common_library.tf.keras.layers.Flatten(input_shape=self.features[0].shape),  
          common_library.tf.keras.layers.Dense(64, activation=other_function),
-        common_library.tf.keras.layers.Dense(128, activation='linear'),  # Stratul ascuns cu 128 de neuroni și activare liniară
-        common_library.tf.keras.layers.Dense(64, activation=other_function    ),  # Al doilea strat ascuns cu 64 de neuroni și activare ReLU
+        common_library.tf.keras.layers.Dense(128, activation='linear'),  
+        common_library.tf.keras.layers.Dense(64, activation=other_function    ),  
         common_library.tf.keras.layers.Dense(num_classes, activation=activation_function)])
-        return model  # Stratul de ieșire cu 3 neuroni și activare Softmax])
+        return model 
     def Training(self,number_loss=False):
         # def Accuracy_Diagrams(self,history,function,function_number=False,features_name=None,model_name=None):
         # def Loss_Diagrams(self,history,function,function_number=False,features_name=None,model_name=None):
@@ -53,7 +51,6 @@ class FCNN:
                 model.save(path)
            self.accuracy={loss_functions[i]:accuracy_list[i] for i in range(0,len(loss_functions))}
            print(self.accuracy)
-           #self.accuracy=common_library.np.mean(accuracy_list,axis=0)
            self.diagrams.Accuracy_Diagrams(history_list,loss_functions,True,self.features_name,self.model_name,self.accuracy)
            self.diagrams.Loss_Diagrams(history_list,loss_functions,True,self.features_name,self.model_name)
 
@@ -75,7 +72,7 @@ class FCNN:
         loss_functions=['categorical_crossentropy','binary_crossentropy']
         loss_function='binary_crossentropy'
         path="./Models/model_"
-        if number_loss==False and cycles_nkfold==False:     ## Diagrams for every fold  each 
+        if number_loss==False and cycles_nkfold==False:     
             print("Nkfold whit one lost function and no cycles")
             n_splits=5
             skf = common_library.KFold(n_splits=n_splits, shuffle=True)
@@ -100,7 +97,7 @@ class FCNN:
             self.diagrams.Loss_Diagrams_Nkfold(history_list,loss_function,False,self.features_name,self.model_name,False)
             path+=self.model_name+"_"+self.features_name+"_"+"kfold_one_lost_function_nocycles.h5"
             best_model.save(path)
-        if number_loss==True and cycles_nkfold==False:      ## Diagram for every fold  each
+        if number_loss==True and cycles_nkfold==False:      
             print("Nkfold whit multi lost function and no cycles")
             n_splits=5
             skf = common_library.KFold(n_splits=n_splits, shuffle=True)
@@ -130,7 +127,7 @@ class FCNN:
             self.accuracy={loss_functions[i]:common_library.np.mean(accuracy_list[i]) for i in range(0,len(accuracy_list))}
             self.diagrams.Accuracy_Diagrams_Nkfold(history_list,loss_functions,True,self.features_name,self.model_name,False,self.accuracy)
             self.diagrams.Loss_Diagrams_Nkfold(history_list,loss_functions,True,self.features_name,self.model_name,False)
-        if number_loss==False and cycles_nkfold==True:      ## Diagrams for more cycles each [1,3,5,7]
+        if number_loss==False and cycles_nkfold==True:      
             print("Nkfold whit one lost function and cycles")
             cycles=[1,3,5,7]
             n_splits=5
@@ -173,7 +170,7 @@ class FCNN:
             self.diagrams.Loss_Diagrams_Nkfold(history_mean,loss_function,False,self.features_name,self.model_name,True,n_splits)
             path+=self.model_name+"_"+self.features_name+"_"+"kfold_one_lost_function_"+iloss_function+"_"+"yescycles"+".h5"
             best_model.save(path)
-        if number_loss==True and cycles_nkfold==True:       ## Diagram for more cycles each [1,3,5,7]
+        if number_loss==True and cycles_nkfold==True:      
             print("Nkfold whit multi lost function and cycles") 
             cycles=[1,3,5,7]
             n_splits=5

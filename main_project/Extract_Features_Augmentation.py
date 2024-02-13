@@ -97,7 +97,6 @@ class Features_Augmentation:
        self.max_row=max_row
 
     def padding_data(self,data):
-        ## new matricx
         if data.shape==(data.shape[0],):
            print("Vector")
            self.new_data=[0 for i in range(0,self.max_row)]
@@ -109,18 +108,13 @@ class Features_Augmentation:
                return data
             self.new_data=common_library.np.zeros((self.max_row,self.max_colum))
             self.new_data[:data.shape[0],:data.shape[1]]=data
-            '''self.new_data=[[0 for i in range(0,self.max_colum)] for j in range(0,self.max_row)]
-            for i in range(0,len(data)):
-               for j in range(0,len(data[0])):
-                 self.new_data[i][j]=data[i][j]
-            '''
             print(self.new_data)
         return common_library.np.array(self.new_data)
+    
     def addNoise(self,vehicle_audio, noise_factor):
         noise = common_library.np.random.randn(len(vehicle_audio))
         print(noise)
         augmented_data = vehicle_audio + noise_factor * noise
-        # Cast back to same data type
         augmented_data = augmented_data.astype(type(vehicle_audio[0]))
         return augmented_data
 
@@ -131,19 +125,17 @@ class Features_Augmentation:
     def MFFC_Features(self,vehicle_audio,sample_rate):
         mffc=common_library.librosa.feature.mfcc(y=vehicle_audio,sr=sample_rate,n_mfcc=40)
         mffc=common_library.librosa.util.normalize(mffc,axis=None)
-        ##print(mffc)
         return common_library.np.array(mffc)
     
     def PSD_Features(self,vehicle_audio,sample_rate):
         spectrogram=common_library.librosa.feature.melspectrogram(y=vehicle_audio,sr=sample_rate)
         PSD1=common_library.np.sum(spectrogram,axis=0)
         PSD1=self.normelized_data(PSD1)
-        ##print(PSD1)
         return common_library.np.array(PSD1)
+    
     def FFT_Futures(self,vehicle_audio,sample_rate):     
         spect=common_library.np.fft.fft(vehicle_audio, n=sample_rate)
         freq = common_library.np.abs(common_library.np.fft.fftfreq(len(spect)))
-        ##print(freq,spect)
         data=self.FFT_Matrix(freq,spect)
         return common_library.np.array(data)
     

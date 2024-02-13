@@ -97,7 +97,6 @@ def Load_FFT_exel():
      return 0
 def Load_MFCC_exel():
      global data_set,FFT_exel,MFCC_exel,PSD_exel,Extractor
-     print("\n-----------------------------------------------\n")
      MFCC_data_augmanted=[]
      data=data_set.Get_Instances()
      data_only_good_instance=[data[i][1:4] for i in range (0,data_set.Get_number_of_instance()) if data[i][3]=='good']
@@ -142,7 +141,6 @@ def Load_MFCC_exel():
                       Feature=Extractor.MFFC_Features(vehicle_audio_aug,sample_rate)
                       content=[Feature,state]
                       MFCC_data_augmanted.append(content)
-     print(MFCC_data_augmanted)
      MFCC_data_augmanted=header.common_library.np.array(MFCC_data_augmanted)
      print(len(MFCC_data_augmanted))
      print(f"row={row} and colum={colum}")
@@ -151,8 +149,6 @@ def Load_MFCC_exel():
      for i in MFCC_data_augmanted:
          i[0]=Extractor.padding_data(i[0])
          print(f"Pass k={k} shape={i[0].shape}")
-         #if k==1001:
-         #    break
          k+=1
          MFCC_exel.Add_Instance(i)
      print("Finish adding element")
@@ -203,18 +199,14 @@ def Load_PSD_exel():
                       Feature=Extractor.PSD_Features(vehicle_audio_aug,sample_rate)
                       content=[Feature,state]
                       PSD_data_augmanted.append(content)
-     print(PSD_data_augmanted)
      PSD_data_augmanted=header.common_library.np.array(PSD_data_augmanted)
      print(len(PSD_data_augmanted))
      print(f"row={row} and colum={colum}")   
      Extractor.Set_Colum_Row(row,colum)
-     ## Add in exel
      k=1 
      for i in PSD_data_augmanted:
          i[0]=Extractor.padding_data(i[0])
          print(f"Pass k={k}")
-         #if k==1001:
-         #    break
          k+=1
          PSD_exel.Add_Instance(i)
   
@@ -271,6 +263,3 @@ if ok_model.lower()=="no":
                Load_PSD_exel()
     else:
         print("No i do somethig diffrente")
-
-
-

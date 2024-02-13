@@ -1,4 +1,11 @@
 import common_library
+'''
+
+This one need some adaptation whit categorial entropy lost function 
+
+model seems to overffit or be a deep diffirenc beetwen instamcee
+
+'''
 class RNN:  
     def __init__(self,class_index,encoded_data=None,diagrams=None,features_name=None):
         self.encoded_data=encoded_data
@@ -24,7 +31,7 @@ class RNN:
         if self.features[0].shape==(self.features[0].shape[0],):
             model=common_library.tf.keras.Sequential([
             common_library.tf.keras.layers.Reshape((1, self.features[0].shape[0])),
-            common_library.tf.keras.layers.LSTM(units=32),
+            common_library.tf.keras.layers.LSTM(units=128),
             common_library.tf.keras.layers.Dense(units=64, activation=other_function),
             common_library.tf.keras.layers.Dense(units=128, activation='linear'),
             common_library.tf.keras.layers.Dense(units=64, activation=other_function),

@@ -1,7 +1,3 @@
-## O clasa care contine functiile urmatoare
-##  ai doua cazuri daca fisierul ramane cel de data_set  inseamnca ca la info vei primi un strig de forma nume:marca:ceva:etc
-##  daca nu doar adaug elementul 
-## Instaleaza pip install openpyxl
 import common_library
 class Manipulation_Data_set:
     def __init__(self,file_name): #Merge
@@ -20,7 +16,7 @@ class Manipulation_Data_set:
             print(common_library.os.path.getsize(self.file_name))
             print(common_library.os.stat(self.file_name).st_size)
             if  len(self.info)==0:
-                 print(f"\n Header added :{file_name}") ## Adauga coloanele de care ziceam 
+                 print(f"\n Header added :{file_name}")  
                  self.info ["Root"]=None
                  self.info ["Tip"]=None
                  self.info ["Brand"]=None
@@ -48,7 +44,7 @@ class Manipulation_Data_set:
         if len([ i  for i in exel_files[0:4] if self.file_name==i  ])==0:
            self.ok=0
                 
-    def Delete_All(self,header=0): ## Merge 
+    def Delete_All(self,header=0):  
         if (self.ok==1):
           if (header==0):
             self.info=self.info.iloc[0:0,:]
@@ -58,13 +54,13 @@ class Manipulation_Data_set:
             self.info.to_excel(self.file_name,index=False,header=True)
         else:
             print("Operation not working")
-    def Delete_Instance(self,number): #Merge
+    def Delete_Instance(self,number): 
         if(self.ok==1):
           self.info=self.info.drop(number)
           self.info.to_excel(self.file_name,index=False,header=True)
         else:
             print("Operation not working")
-    def Add_Instance (self,Info): ## Merge 
+    def Add_Instance (self,Info): 
         if(self.ok==1):
          new_Info=[]
          max_number_of_caracters=32767
@@ -114,20 +110,20 @@ class Manipulation_Data_set:
                  self.info.to_excel(self.file_name, index=False, engine="openpyxl", header=True)
         else:
             print("Operation not working")
-    def Show_Content (self): ## Merge
+    def Show_Content (self): 
         if(self.ok==1):
          print (self.info)
         else:
           print("Operation not working")
-    def Get_Instances(self): ## In caz in care vreau so folosesc pentru ceva mai complicat 
+    def Get_Instances(self): 
         if(self.ok==1):
           return [self.info.iloc[i].to_list() for i in range (0,len(self.info))]
         return "Operation not working"
-    def Get_One_Instance(self,number): # Returnez o lista merge
+    def Get_One_Instance(self,number): 
          if(self.ok==1):
            return self.info.iloc[number].to_list()
          return "Operation not working"
-    def Get_number_of_instance(self): #Merge
+    def Get_number_of_instance(self): 
         return len(self.info)-2 
     
     def Get_DataFrame(self):

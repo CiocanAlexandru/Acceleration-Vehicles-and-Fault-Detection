@@ -101,10 +101,29 @@ class Data_Statistic:
        save=path+"Normal_Training_"+title+".jpg"
        common_library.plt.savefig(save,format="jpg")
        common_library.plt.show()
+    def Vizualize_GridShearch1(self,data_info,title,features_name):
+       path="./Diagrams_Accuracy_Loss/"
+       print(data_info)
+       common_library.plt.style.use('seaborn')
+       common_library.plt.figure(figsize=(10, 8))
+       for C, gamma_scores in data_info.items():
+        gammas = list(gamma_scores.keys())
+        scores = list(gamma_scores.values())
+        common_library.plt.plot(gammas, scores, marker='o', markersize=5, linewidth=2, label=f"C={C}")
+       common_library.plt.title("GridSearch")
+       common_library.plt.xlabel("gamma")
+       common_library.plt.ylabel("score")
+       common_library.plt.legend()
+       save=path+title+' '+features_name+".jpg"
+       common_library.plt.savefig(save,format='jpg')
+       common_library.plt.show()
+       print(title)
+       return 0
+    
     def Vizualize_GridShearch(self,gamma_values,C_values,cv_results,title):
         path="./Diagrams_Accuracy_Loss/"
         contour = common_library.plt.contour(common_library.np.log10(gamma_values), common_library.np.log10(C_values), cv_results.reshape(3, -1), cmap='viridis')
-        
+        common_library.plt.figure(figsize=(10, 8))
         # Adăugare bară de culoare
         common_library.plt.colorbar(contour, label='Mean Test Score')
         

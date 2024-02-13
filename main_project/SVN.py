@@ -1,5 +1,10 @@
 import common_library 
 common_library.warnings.filterwarnings("ignore")
+'''
+Seemse to be a a problemm for kfold  whit data set the data is to complex 
+ or the problem 
+
+'''
 class SVN:
     def __init__(self,class_index,encoded_data=None,diagrams=None,features_name=None):
         self.encoded_data=encoded_data
@@ -14,9 +19,26 @@ class SVN:
         self.model_name="SVN"
         self.C=None
         self.Gamma=None
-        self.Kernel=None
+        self.Kernel='rbf'
+        self.normal_label=[]
+        for i in self.transformed_labels:
+            self.normal_label.append(common_library.np.array([j for j in range(0,i.shape[0]) if i[j]!=0]))
+        print(common_library.np.array(self.normal_label))
+        print('-----------------------------------------------')
+        self.normal_label=common_library.np.array(self.normal_label)
+        mlb=common_library.MultiLabelBinarizer()
+        self.normal_label=mlb.fit_transform(self.normal_label)
+        print(self.normal_label)
+        print("---------------------------------")
+        print(self.class_index)
         self.GridShearch()
+    def custom_binary_accuracy(self,y_true, y_pred):
+      # Conversia probabilităților în etichete binare
+      y_pred_binary = (y_pred > 0.5).astype(int)
+      # Calculăm acuratețea binară
+      return common_library.accuracy_score(y_true, y_pred_binary)
     def GridShearch(self):
+        print("Grid Shearche")
         if self.features[0].shape[0]==40:
           print("Shape features: ",self.features.shape)
           flattened_features = common_library.np.array(self.features)
@@ -28,50 +50,164 @@ class SVN:
           adjusted_transformed_labels = common_library.np.repeat(self.transformed_labels, num_features, axis=0)
 
           X_train, X_test, y_train, y_test = common_library.train_test_split(flattened_features, adjusted_transformed_labels, test_size=0.3)
-          svm_model = common_library.OneVsRestClassifier(common_library.SVC())
-          param_grid = {
-              'estimator__C': [0.1, 1, 10, 100],        
-              'estimator__kernel': ['linear', 'rbf'],   
-              'estimator__gamma': [1, 0.1, 0.01] 
-          }
-          grid_search = common_library.GridSearchCV(svm_model, param_grid, cv=2, scoring='accuracy', n_jobs=-1, error_score='raise')
+          svc = common_library.SVC(kernel='linear')
+           
+          multi_target_svc =common_library.OneVsRestClassifier(svc)
+  
+          param_grid = {'estimator__C': [0.1,0.5,1,10,100,150,200,250,500,1000],
+              'estimator__gamma': [0.001,0.1,0.01,0.02,0.03,0.04,0.05,0.06,0.07,0.08,0.09]}
           
+          grid_search = common_library.GridSearchCV(multi_target_svc, param_grid, cv=5,n_jobs=-1,scoring='accuracy',error_score='raise')
           grid_search.fit(X_train, y_train)
-          print("Shape features: ",self.features.shape)
-          best_params = grid_search.best_params_
-          print("Best Hyperparameters:", best_params)
+          data_info={}
+          for i in param_grid['estimator__C']:
+                  data_info[i]={}
+                  for j in param_grid['estimator__gamma']:
+                      data_info[i][j]=None
+          print(data_info)
+          print(grid_search.cv_results_.keys())
+          gamma_values = grid_search.cv_results_['param_estimator__gamma']
+          C_values = grid_search.cv_results_['param_estimator__C']
+          scores = grid_search.cv_results_['mean_test_score']
+          
           self.C= grid_search.best_params_['estimator__C']
-          self.Kernel = grid_search.best_params_['estimator__kernel']
           self.Gamma = grid_search.best_params_['estimator__gamma']
-          print("Finalized GreadSherach")
-          self.Vizualize_GridShearch(X_train,y_train)
+  
+          print("Combinatiile de parametri si scorurile lor:")
+          for gamma, C, score in zip(gamma_values, C_values, scores):
+              print("Gamma:", gamma, "C:", C, "Score:", score)
+              data_info[C][gamma]=score
+          title="GridShearch"+"SVM whit kerne="+str(self.Kernel)+' gamma='+str(self.Gamma)+' C='+str(self.C)
+          self.diagrams.Vizualize_GridShearch1(data_info,title,self.features_name)
+          print(self.features_name)
         else:
-           #FFT or PSD
+            svc=common_library.SVC(kernel='poly')
+            multi_target_svc =common_library.OneVsRestClassifier(svc)
+  
+            param_grid = {'estimator__C': [0.1,0.5,1,10,100,150,200,250,500,1000],
+                'estimator__gamma': [0.001,0.1,0.01,0.02,0.03,0.04,0.05,0.06,0.07,0.08,0.09]}
+            
+            grid_search = common_library.GridSearchCV(multi_target_svc, param_grid, cv=2,n_jobs=-1,scoring='accuracy',error_score='raise')
+            grid_search.fit(self.features,self.normal_label)
+            data_info={}
+            for i in param_grid['estimator__C']:
+                    data_info[i]={}
+                    for j in param_grid['estimator__gamma']:
+                        data_info[i][j]=None
+            print(data_info)
+            print(grid_search.cv_results_.keys())
+            gamma_values = grid_search.cv_results_['param_estimator__gamma']
+            C_values = grid_search.cv_results_['param_estimator__C']
+            scores = grid_search.cv_results_['mean_test_score']
+            
+            self.C= grid_search.best_params_['estimator__C']
+            self.Gamma = grid_search.best_params_['estimator__gamma']
+    
+            print("Combinatiile de parametri si scorurile lor:")
+            for gamma, C, score in zip(gamma_values, C_values, scores):
+                print("Gamma:", gamma, "C:", C, "Score:", score)
+                data_info[C][gamma]=score
+            title="GridShearch"+"SVM whit kerne="+str(self.Kernel)+' gamma='+str(self.Gamma)+' C='+str(self.C)
+            self.diagrams.Vizualize_GridShearch1(data_info,title,self.features_name)
+            print(self.features_name)
+            '''
            
-           X_train, X_test, y_train, y_test=common_library.train_test_split(self.features,self.transformed_labels,test_size=0.3)
-           svm_model = common_library.OneVsRestClassifier(common_library.SVC())
-           param_grid = {
-           'estimator__C': [0.1, 1, 10, 100],         
-           'estimator__kernel': ['linear', 'rbf'],   
-           'estimator__gamma': [1, 0.1, 0.01, 0.001,] 
-           }
+            data_info={}
+            for i in param_grid['estimator__C']:
+                 data_info[i]={}   
+                 for j in param_grid['estimator__gamma']:
+                       data_info[i][j]=None
+            print(data_info)
            
-           grid_search = common_library.GridSearchCV(svm_model, param_grid, cv=2, scoring='accuracy', n_jobs=-1)
 
-           grid_search.fit(X_train, y_train)
+            max_accuracy=0
+            best_gamma=None
+            best_C=None
 
-           best_params = grid_search.best_params_
+            for i in param_grid['estimator__C']:  
+                 for j in param_grid['estimator__gamma']:
+                     X_train, X_test, y_train, y_test = common_library.train_test_split(self.features,self.normal_label, test_size=0.2
+                                                                               ,shuffle=True,stratify=self.normal_label)
+                     print(f"Modelul se antreneaza cu C={i} si Gamma={j}  ")
+                     svc = common_library.SVC(kernel='rbf',probability=True,C=i,gamma=j)
+                     multi_target_svc =common_library.OneVsRestClassifier(svc)
+                     multi_target_svc.fit(X_train,y_train)
+                     predictions=multi_target_svc.predict(X_test)
+                     binary_predictions = (predictions > 0.5).astype(int)
+                     precision = common_library.precision_score(y_test, predictions, average='samples')
+                     jaccard_score_value = common_library.jaccard_score(y_test, binary_predictions, average='samples')
+                     hamming_loss_value = common_library.hamming_loss(y_test,binary_predictions)
+                     data_info[i][j]=precision
+                     if max_accuracy<precision:
+                         max_accuracy=precision
+                         best_C=i
+                         best_gamma=j
+                     print(f"Modelul sa antrenat cu C={i} si Gamma={j} si are scorul  {precision} si jaccard {jaccard_score_value} si hammming {hamming_loss_value} ")
+            
+            print(data_info)
 
-           print("Best Hyperparameters:", best_params)
-           self.C= grid_search.best_params_['estimator__C']
-           self.Kernel = grid_search.best_params_['estimator__kernel']
-           self.Gamma = grid_search.best_params_['estimator__gamma']
-           print("Finalized GreadSherach")
-           self.Vizualize_GridShearch(X_train,y_train)
-        
+            self.C=best_C
+            self.Gamma=best_gamma
+
+            title="GridShearch"+"SVM whit kerne="+str(self.Kernel)+' gamma='+str(self.Gamma)+' C='+str(self.C)
+            self.diagrams.Vizualize_GridShearch1(data_info,title,self.features_name)
+            print(self.features_name)
+            '''
+            
+            '''
+            multi_target_svc.fit(X_train,y_train)
+
+            predictions=multi_target_svc.predict(X_test)
+            
+            accuracy = common_library.accuracy_score(y_test, predictions)
+            precision = common_library.precision_score(y_test, predictions, average='weighted')
+            recall = common_library.recall_score(y_test, predictions, average='weighted')
+            f1 = common_library.f1_score(y_test, predictions, average='weighted')
+            
+            # Afișarea rezultatelor
+            print("Acuratețe:", accuracy)
+            print("Precizie:", precision)
+            print("Revocare:", recall)
+            print("Scor F1:", f1)
+            '''
+    
+            #param_grid ={'estimator__C': common_library.loguniform(1e0, 1e3).rvs(size=15),
+            #  'estimator__gamma': common_library.loguniform(1e-4, 1e-3).rvs(size=15)}
+            '''
+            param_grid = {'estimator__C': [100],
+              'estimator__gamma': [0.1]}
+            
+            #custom_binary_scorer = common_library.make_scorer(self.custom_binary_accuracy)
+            grid_search = common_library.GridSearchCV(multi_target_svc, param_grid, cv=2,n_jobs=-1 ,scoring='precision',error_score='raise')
+            grid_search.fit(self.features, self.normal_label)
+            data_info={}
+            for i in param_grid['estimator__C']:
+                 data_info[i]={}   
+                 for j in param_grid['estimator__gamma']:
+                       data_info[i][j]=None
+            print(data_info)
+            print(grid_search.cv_results_.keys())
+            gamma_values = grid_search.cv_results_['param_estimator__gamma']
+            C_values = grid_search.cv_results_['param_estimator__C']
+            scores = grid_search.cv_results_['mean_test_score']
+            
+            self.C= grid_search.best_params_['estimator__C']
+            self.Gamma = grid_search.best_params_['estimator__gamma']
+
+            print("Combinatiile de parametri si scorurile lor:")
+            for gamma, C, score in zip(gamma_values, C_values, scores):
+                print("Gamma:", gamma, "C:", C, "Score:", score)
+                data_info[C][gamma]=score
+            print(data_info)
+            
+            
+            title="GridShearch"+"SVM whit kerne="+str(self.Kernel)+' gamma='+str(self.Gamma)+' C='+str(self.C)
+            self.diagrams.Vizualize_GridShearch1(data_info,title,self.features_name)
+            print(self.features_name)
+            '''
             
     def Model(self):
-        model=common_library.OneVsRestClassifier(common_library.SVC(C=self.C, kernel=self.Kernel, gamma=self.Gamma,probability=True))
+        model=common_library.MultiOutputClassifier(common_library.SVC(C=self.C, kernel=self.Kernel, gamma=self.Gamma,probability=True))
         return model
     def Training(self,features_extraction_method):
         title='Average_Confusion_Matrix_SVM_whit_'+features_extraction_method
@@ -103,7 +239,7 @@ class SVN:
             self.diagrams.Train_confusion_matrix(average_conf_matrix,title,y_test)
         else:
             
-            X_train, X_test, y_train, y_test = common_library.train_test_split(self.features, self.transformed_labels, test_size=0.3)
+            X_train, X_test, y_train, y_test = common_library.train_test_split(self.features,self.normal_label, test_size=0.3)
             model=self.Model()
             model.fit(X_train, y_train)
             
@@ -122,28 +258,6 @@ class SVN:
         print(path)
         with open(path,"wb") as f:
             common_library.pickle.dump(model,f)       
-        return 0
-    def Vizualize_GridShearch(self,X_train,y_train):
-        #def Vizualize_GridShearch(gamma_values,C_values,cv_results):
-        param_grid = {'estimator__C': [1, 10, 100], 'estimator__gamma': [0.1, 0.01, 0.001,0.0001]}
-        svm =  common_library.OneVsRestClassifier(common_library.SVC(kernel=self.Kernel))
-        grid_search =common_library.GridSearchCV(svm, param_grid, cv=5)
-        grid_search.fit(X_train[:500], y_train[:500])
-        
-        # Extrage rezultatele
-        cv_results = grid_search.cv_results_
-        
-        # Vizualizare diagramă de contur pentru parametrul gamma
-        common_library.plt.figure(figsize=(10, 8))
-        
-        # Creare grid pentru gamma și C
-        gamma_values = common_library.np.array(param_grid['estimator__gamma'])
-        C_values = common_library.np.array(param_grid['estimator__C'])
-        gamma_values, C_values = common_library.np.meshgrid(gamma_values, C_values)
-        
-        # Plasare diagramă de contur în funcție de performanța modelului pentru fiecare combinație gamma-C
-        title="GridShearch"+"SVM whit kerne="+str(self.Kernel)+' gamma='+str(self.Gamma)+' C='+str(self.C)
-        self.diagrams.Vizualize_GridShearch(gamma_values,C_values,cv_results['mean_test_score'],title)                              
         return 0
         
     def Nk_Fold_Traning(self,features_extraction_method,cycles_nkfold=False):
@@ -282,3 +396,35 @@ class SVN:
          return 0
     
  
+
+'''
+  #FFT or PSD
+           X,y=common_library.make_multilabel_classification(n_samples=1000, n_features=20, n_classes=3, n_labels=32)
+           X_train, X_test, y_train, y_test=common_library.train_test_split(X,y,test_size=0.3)#common_library.train_test_split(self.features,self.transformed_labels,test_size=0.3)
+           svm_=common_library.SVC(kernel=self.Kernel)
+           print(self.Kernel)
+           svm_model = common_library.MultiOutputClassifier(svm_,n_jobs=-1)
+           param_grid = {
+           'estimator__C': [0.1, 1, 10, 100,0.01],            
+           'estimator__gamma': [1, 0.1, 0.01, 0.001] 
+           }
+           
+           grid_search = common_library.GridSearchCV(svm_model, param_grid, cv=3, scoring='accuracy', n_jobs=-1)
+           print(X_train[0])
+           print(y_train[0])
+           print(y_train[1])
+           print(y_train[2])
+           print(X_train.shape)
+           print(y_train.shape)
+           print(type(X_train))
+           print(type(y_train))
+           grid_search.fit(X_train[0:10], y_train[0:10])
+
+           best_params = grid_search.best_params_
+
+           print("Best Hyperparameters:", best_params)
+           self.C= grid_search.best_params_['estimator__C']
+           self.Gamma = grid_search.best_params_['estimator__gamma']
+           print("Finalized GreadSherach")
+           self.Vizualize_GridShearch(X_train,y_train)
+ '''
