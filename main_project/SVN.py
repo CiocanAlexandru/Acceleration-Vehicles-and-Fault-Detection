@@ -81,7 +81,7 @@ class SVN:
           self.diagrams.Vizualize_GridShearch1(data_info,title,self.features_name)
           print(self.features_name)
         else:
-            svc=common_library.SVC(kernel='poly')
+            svc=common_library.SVC(kernel='rbf')
             multi_target_svc =common_library.OneVsRestClassifier(svc)
   
             param_grid = {'estimator__C': [0.1,0.5,1,10,100,150,200,250,500,1000],

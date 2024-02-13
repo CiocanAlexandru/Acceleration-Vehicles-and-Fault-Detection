@@ -1,10 +1,4 @@
 import header 
-def best_three(array):
-    indexs_sort = header.common_library.np.argsort(-array)
-
-    best_three = indexs_sort[0][:3]
-
-    return best_three
 Extractor=header.Extract_Features_Augmentation.Features_Augmentation()
 features=header.common_library.sys.argv[1]
 model=header.common_library.sys.argv[2]
