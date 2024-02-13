@@ -1,5 +1,4 @@
 <?php
-
 function GetPath($model,$features,$train,$lost_function,$cycles)
 {
    $content="";
@@ -10,6 +9,7 @@ function GetPath($model,$features,$train,$lost_function,$cycles)
      if ($train==="Normal" && $lost_function==="One function")
       {
         $content="../../Diagrams_Accuracy_Loss/Accuracy_".$model."_".$features."_"."normaltrainng_one_lost_function.jpg";
+        $cycles=null;
       }
      if($train==="Normal" && $lost_function!="One function")
        {
@@ -38,21 +38,40 @@ function GetPath($model,$features,$train,$lost_function,$cycles)
    }
    if($model==="SVM")
    {
-
+    $lost_function=null;
     if ($train==="Normal")
       {
-        $content="../../Diagrams_Accuracy/Normal_Training_Average_Confusion_Matrix_SVM_whit_".$features.".jpg";
-      }
+        $content="../../Diagrams_Accuracy_Loss/Normal_Training_Average_Confusion_Matrix_SVM_whit_".$features.".jpg";
+        $cycles=null;
+      } 
     if ($train==="Nkfold" && $cycles==="One cycle")
       {
         $content="../../Diagrams_Accuracy/SVM_whit_kfold_no_cycles_".$features.".jpg";
+        $cycles=null;
       }
     if ($train==="Nkfold" && $cycles!="One cycle")
       {
        $content="../../Diagrams_Accuracy/SVM_whit_kfold_yes_cycles_".$features.".jpg";
+       $cycles=null;
       }
 
    }
+  if (!file_exists($content)) 
+  {
+     return false;
+  }
+  if($train==="Normal" && $cycles!=null)
+  {
+    return false;
+  }
+  if($model==="SVM" && $train != "Normal")
+  {
+    return false;
+  }
+  if($model==="SVM" && $lost_function!=null)
+  {
+    return false;
+  }
    $result=[];
    array_push($result,$content);
    array_push($result,$height);

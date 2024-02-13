@@ -7,13 +7,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="icon" type="image/x-icon" href="../images/favicon.png">
+    <link rel="icon" type="image/x-icon" href="../Web_Interface/images/favicon.png">
     <link rel="stylesheet" href="../Web_Interface/styles/style.css">
     <link rel="stylesheet" href="../Web_Interface/styles/Prediction.css">
     </head>
     <body>
      <div class="upper">
-        <img src="../Web_Interface/images/Above Image.jpg">
+        <img src="../Web_Interface/images/Above Image New .png">
         <p><a href="Home">Acceleration Vehicles and Fault Detection</a></p>
     </div>
     <div>
@@ -32,7 +32,7 @@
             <?php
             if (isset($content))
             {
-                echo"<p><strong>Your car shoud be and the currebt state is  !!</strong></p>";
+                echo"<p><strong>Your car shoud be and the curret state is  !!</strong></p>";
             }
             else 
             {
@@ -40,14 +40,19 @@
             }
             ?>
             <?php
-             if (isset($content))
-             {
+            if ($content==="I don't have the model ready" && isset($content))
+            {
+                echo "2";
+                echo "<p class='result'> <strong>$content</strong> <br> <br> <br> <br><a class='reset' href='Prediction'>Reset</a></p>";
+            }
+            if (is_array($content))
+            {
               $content=$content[count([$content])];
               echo "<p class='result'> <strong>$content</strong> <br> <br> <br> <br><a class='reset' href='Prediction'>Reset</a></p>";
              
-             } 
-             else 
-              echo" <form action='Prediction' method='POST' enctype='multipart/form-data'>
+            } 
+            if(isset($content)==false)
+               echo" <form action='Prediction' method='POST' enctype='multipart/form-data'>
             <div class='file-upload'>
             <input class='audio-file' type='file' name='fileToUpload' id='fileToUpload' accept='.wav'>
             <label class='label-file' for='fileToUpload' data-file-name='No file chosen'></label>

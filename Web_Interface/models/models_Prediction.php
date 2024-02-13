@@ -8,6 +8,7 @@ function GetPrediction($model,$features,$train,$lost_function,$cycles)
      if ($train==="Normal" && $lost_function==="One function")
       {
         $content="../../Models/model_".$model."_".$features."_normaltraining_one_lost_function.h5";
+        $cycles=null;
       }
      if($train==="Normal" && $lost_function!="One function")
        {
@@ -35,19 +36,39 @@ function GetPrediction($model,$features,$train,$lost_function,$cycles)
    }
    if($model==="SVM")
    {
+    $lost_function=null;
     if ($train==="Normal")
-      {
+    {
         $content="../../Models/model_".$model."_".$features."_normaltraining.pkl";
-      }
+        $cycles=null;
+    }
     if ($train==="Nkfold" && $cycles==="One cycle")
-      {
+    {
         $content="../../Models/model_".$model."_".$features."_kfold_nocycles.pkl";
-      }
+        $cycles=null;
+    }
     if ($train==="Nkfold" && $cycles!="One cycle")
-      {
+    {
         $content="../../Models/model_".$model."_".$features."_kfold_yescycles.pkl";
-      }
+        $cycles=null;
+    }
 
+   }
+   if (!file_exists($content)) 
+   {
+      return false;
+   }
+   if($train==="Normal" && $cycles!=null)
+   {
+     return false;
+   }
+   if($model==="SVM" && $train != "Normal")
+   {
+     return false;
+   }
+   if($model==="SVM" && $lost_function!=null)
+   {
+     return false;
    }
    return $content;
 }

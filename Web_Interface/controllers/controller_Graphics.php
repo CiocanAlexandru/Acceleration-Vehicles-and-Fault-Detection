@@ -30,20 +30,29 @@ if (isset($_POST["model"])==false )
     $checking=false;
  }
  if ($checking==false)
-  {
+ {
    //Default
    $path="../Web_Interface/images/Fundal Image.jpeg";
    $height=300;
    $width=325;
-  }
+ }
 else
   //function GetPath($model,$features,$train,$lost_function,$cycles)
   {
    //custom
    $content=GetPath($_POST["model"],$_POST["features"],$_POST["train"],$_POST["lost-function"],$_POST["number_of_cycel"]);
-   $path=$content[0];
-   $height=$content[1];
-   $width=$content[2];
+   if ($content!=false)
+   {
+    $path=$content[0];
+    $height=$content[1];
+    $width=$content[2];
+   }
+   else
+   {
+    $path="../Web_Interface/images/Fundal Image.jpeg";
+    $height=300;
+    $width=325;
+   }
   }
  /*$_POST["model"]=null;
  $_POST["train"]=null;
