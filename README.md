@@ -53,7 +53,7 @@ pip install openpyxl
  exelurile specifice cu ajutorul scriputul <strong>Data_Load_Augmentation.py</strong> unde in consola se dau opțiuni si se poate genera in functie de preferinte care metodă de extragere se doreste
  </p>
  <h3>Pas 1.2</h3>
- <p>După ce sau generat noile exeluri sau se vrea antrenarea si salvarea noilor modele si diagrame se va face cu ajutorul scriptului <strong>Model_Training.py</strong> care tot in consolă vor fi date opțiuni de la metode de extragere 
+ <p>După ce sau generat noile exeluri sau se vrea antrenarea și salvarea noilor modele si diagrame se va face cu ajutorul scriptului <strong>Model_Training.py</strong> care tot in consolă vor fi date opțiuni de la metode de extragere 
  păna la ce fel de antrenare se vrea normală nkfold cu una sau mai multe functi de pierdere sau un singur ciclu sau m-ai multe la nkfold 
  </p>
  <h3>Pas 1.3(Optional!)</h3> 
